@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+const userModel = require("../models/userModel");
 /* GET home page. */
 
 router.get("/", async function (req, res, next) {
