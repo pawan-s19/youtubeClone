@@ -13,8 +13,8 @@ videoInput.addEventListener("change", (e) => {
 
     // The blob gives us a URL to the video file:
     let url = window.URL.createObjectURL(videoBlob);
-    // let video = document.querySelector(".video-tag");
-    // video.src = url;
+    let video = document.querySelector(".video-tag");
+    video.src = url;
     console.log(url);
   };
 });
