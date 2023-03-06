@@ -11,5 +11,13 @@ router.get("/", async function (req, res, next) {
   }
 });
 
+router.get('/home', async (req, res) => {
+  try {
+    res.render('home');
+  } catch (error) {
+    return res.json(err);
+  }
+})
+
 router.get("/upload/video", async (req, res) => {});
 module.exports = router;
