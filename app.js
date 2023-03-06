@@ -3,15 +3,51 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var expressSession = require('express-session')
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var usersRouter = require('./models/userModel');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth2').Strategy;
+
+const GOOGLE_CLIENT_ID = '878196794158-vcb4b4spdjdk39ofgui12uqquoir6pl8.apps.googleusercontent.com';
+const GOOGLE_CLIENT_SECRET = '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';
+
+passport.use(new GoogleStrategy({
+  clientID: GOOGLE_CLIENT_ID,
+  clientSecret: GOOGLE_CLIENT_SECRET,
+  callbackURL: "http://localhost:3000/new/google/callback",
+  passReqToCallback: true,
+},
+function(request, accessToken, refreshToken, profile, done) {
+  return done(null, profile);
+}));
+
+passport.serializeUser(function(user, done) {
+  // console.log(user)
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  // console.log(user)
+  done(null, user);
+});
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+app.use(expressSession({
+  resave: false,
+  saveUninitialized: false,
+  secret : "humara app"
+}))
+app.use(passport.initialize())
+app.use(passport.session())
+passport.serializeUser(usersRouter.serializeUser())
+passport.deserializeUser(usersRouter.deserializeUser())
 
 app.use(logger('dev'));
 app.use(express.json());
