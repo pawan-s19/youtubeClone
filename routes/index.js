@@ -131,7 +131,6 @@ router.get("/auth/google/failure", (req, res) => {
 router.post("/upload/video", upload().single("file"), async (req, res) => {
   try {
     // const fileContent = req.file.contentType;
-
     // if (
     //   fileContent == "video/mp4" ||
     //   fileContent == "video/x-ms-wmv" ||
@@ -152,7 +151,6 @@ router.post("/upload/video", upload().single("file"), async (req, res) => {
 
 router.get("/videos", async (req, res, next) => {
   const videos = await bucket.find({}).toArray();
-  console.log(videos);
   res.render("videos", { videos });
 });
 
@@ -180,4 +178,9 @@ router.get("/play/:id", async (req, res) => {
   // pipe the stream to the response
   readStream.pipe(res);
 });
+
+router.get("/uploadPage", (req, res, next) => {
+  res.render("uploadPage");
+});
+
 module.exports = router;
