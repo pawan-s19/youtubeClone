@@ -1,24 +1,7 @@
 const mongoose = require("mongoose");
-<<<<<<<<< Temporary merge branch 1
+const plm = require("passport-local-mongoose");
 const Schema = mongoose.Schema;
 
-=========
-const plm = require("passport-local-mongoose")
-const Schema = mongoose.Schema;
-
-mongoose.set('strictQuery', false)
->>>>>>>>> Temporary merge branch 2
-mongoose
-  .connect(
-    "mongodb+srv://wetube:Suvidha@yt-cluster.rwwtlgg.mongodb.net/?retryWrites=true&w=majority"
-  )
-  .then(function () {
-    console.log("database connected!!");
-  })
-  .catch(function (err) {
-    console.log(err);
-  });
-  
 const UserSchema = new Schema({
   channelName: {
     type: String,
@@ -53,8 +36,5 @@ const UserSchema = new Schema({
   },
 });
 
-<<<<<<<<< Temporary merge branch 1
-=========
-UserSchema.plugin(plm)
->>>>>>>>> Temporary merge branch 2
+UserSchema.plugin(plm);
 module.exports = mongoose.model("userModel", UserSchema);
