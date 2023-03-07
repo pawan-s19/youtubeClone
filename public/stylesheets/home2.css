@@ -1,0 +1,95 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+.nav {
+    height: 60px;
+    background-color: #212121;
+}
+
+.nav-searchbox {
+    width: 100%;
+}
+
+.nav-searchbox form {
+    width: 55%;
+    position: relative;
+}
+
+.nav-searchbox input {
+    border-top-left-radius: 100px !important;
+    border-bottom-left-radius: 100px !important;
+}
+
+.nav-searchbox button {
+    width: 60px;
+    color: white;
+    border-top-right-radius: 100px !important;
+    border-bottom-right-radius: 100px !important;
+    background-color: rgba(221, 160, 221, 0.194);
+}
+
+.right-icons{
+    gap: .7rem !important;
+}
+
+.Navicon {
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+}
+
+.Navicon:hover {
+    cursor: pointer;
+    background-color: rgba(221, 160, 221, 0.484);
+}
+
+.filled-icon {
+    background-color: rgba(221, 160, 221, 0.194);
+}
+.small-screen-icon{
+    display: none;
+}
+.small-screen-search{
+    width: 100%;
+    position: absolute;
+    top: -60px;
+    left: 0;
+    z-index: 99999;
+    transition: all .5s cubic-bezier(0.19, 1, 0.22, 1);
+    will-change: top;
+    opacity: 0;
+}
+.sm-nav-center .nav-searchbox form{
+    width: 90%;
+}
+/* For screens smaller than 630px */
+@media only screen and (max-width: 630px) {
+    .nav-center{
+        display: none;
+    }
+    .small-screen-icon{
+        display: flex;
+    }
+    .right-icons{
+        gap: 0rem !important;
+    }
+    .right-icons i{
+        width: 35px;
+        height: 35px;
+        font-size: 15px;
+    }
+}
