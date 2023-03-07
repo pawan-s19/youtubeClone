@@ -1,8 +1,13 @@
 const mongoose = require("mongoose");
+<<<<<<<<< Temporary merge branch 1
+const Schema = mongoose.Schema;
+
+=========
 const plm = require("passport-local-mongoose")
 const Schema = mongoose.Schema;
 
 mongoose.set('strictQuery', false)
+>>>>>>>>> Temporary merge branch 2
 mongoose
   .connect(
     "mongodb+srv://wetube:Suvidha@yt-cluster.rwwtlgg.mongodb.net/?retryWrites=true&w=majority"
@@ -48,5 +53,8 @@ const UserSchema = new Schema({
   },
 });
 
+<<<<<<<<< Temporary merge branch 1
+=========
 UserSchema.plugin(plm)
+>>>>>>>>> Temporary merge branch 2
 module.exports = mongoose.model("userModel", UserSchema);

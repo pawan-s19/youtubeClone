@@ -14,19 +14,26 @@
         <a href="/home2">HOME2</a>
       </h1>
       <form action="/upload/video">
+      <form
+        class="video-form"
+        action="/upload/video"
+        enctype="multipart/form-data"
+        method="post"
+      >
         <input
           type="file"
-          name="video"
+          name="file"
           placeholder="upload a video"
           class="video"
         />
         <input type="submit" value="upload" />
       </form>
-      <video height="400" src="" class="video-tag" controls></video>
+      <h2>preview</h2>
+      <video height="350" src="" class="video-tag" controls></video>
+      <a href="/videos"><h1>All Videos</h1></a>
     </div>
     <a href="/signup">click to signup</a>
     <a href="/auth/google">signup with google</a>
-
   </body>
   <script src="javascripts//script.js"></script>
 </html>
