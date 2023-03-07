@@ -7,7 +7,7 @@ videoInput.addEventListener("change", (e) => {
 
   reader.onload = function (e) {
     let buffer = e.target.result;
-
+    console.log(buffer);
     // We have to convert the buffer to a blob:
     let videoBlob = new Blob([new Uint8Array(buffer)], { type: "video/mp4" });
 
@@ -15,6 +15,5 @@ videoInput.addEventListener("change", (e) => {
     let url = window.URL.createObjectURL(videoBlob);
     let video = document.querySelector(".video-tag");
     video.src = url;
-    console.log(url);
   };
 });

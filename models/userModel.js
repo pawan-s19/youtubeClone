@@ -1,19 +1,7 @@
 const mongoose = require("mongoose");
-const plm = require("passport-local-mongoose")
+const plm = require("passport-local-mongoose");
 const Schema = mongoose.Schema;
 
-mongoose.set('strictQuery', false)
-mongoose
-  .connect(
-    "mongodb+srv://wetube:Suvidha@yt-cluster.rwwtlgg.mongodb.net/?retryWrites=true&w=majority"
-  )
-  .then(function () {
-    console.log("database connected!!");
-  })
-  .catch(function (err) {
-    console.log(err);
-  });
-  
 const UserSchema = new Schema({
   channelName: {
     type: String,
@@ -48,5 +36,5 @@ const UserSchema = new Schema({
   },
 });
 
-UserSchema.plugin(plm)
+UserSchema.plugin(plm);
 module.exports = mongoose.model("userModel", UserSchema);

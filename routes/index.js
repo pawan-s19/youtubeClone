@@ -1,10 +1,23 @@
 var express = require("express");
 var router = express.Router();
 const userModel = require("../models/userModel");
-var passport = require("passport")
-var notifire = require("node-notifier")
-const localStrategy=require('passport-local').Strategy;
+var passport = require("passport");
+var notifire = require("node-notifier");
+const { upload } = require("../utils/upload");
+const mongoose = require("mongoose");
+const localStrategy = require("passport-local").Strategy;
 passport.use(new localStrategy(userModel.authenticate()));
+
+//initializing bucket for gridfs
+let bucket;
+(() => {
+  mongoose.connection.on("connected", () => {
+    bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+      bucketName: "uploads",
+    });
+  });
+})();
+
 /* GET home page. */
 
 router.get("/", async function (req, res, next) {
@@ -15,8 +28,8 @@ router.get("/", async function (req, res, next) {
   }
 });
 
-router.get('/signup', function(req, res, next) {
-  res.render('register');
+router.get("/signup", function (req, res, next) {
+  res.render("register");
 });
 
 router.post("/register", async function (req, res, next) {
@@ -54,8 +67,8 @@ router.post("/register", async function (req, res, next) {
         .register(newUser, req.body.password)
         .then(function (registereduser) {
           passport.authenticate("local")(req, res, function () {
-            console.log(registereduser)
-            res.send(registereduser)
+            console.log(registereduser);
+            res.send(registereduser);
           });
         });
     }
@@ -64,14 +77,17 @@ router.post("/register", async function (req, res, next) {
   }
 });
 
-router.get('/login', function(req, res, next) {
-  res.render('login');
+router.get("/login", function (req, res, next) {
+  res.render("login");
 });
 
-router.post('/login' , passport.authenticate('local',{
-  successRedirect: '/signup',
-  failureRedirect : '/'
-}))
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/signup",
+    failureRedirect: "/",
+  })
+);
 
 router.get("/logout", function (req, res, next) {
   req.logout(function (err) {
@@ -112,5 +128,56 @@ router.get("/auth/google/failure", (req, res) => {
   res.send("Failed to authenticate..");
 });
 
-router.get("/upload/video", async (req, res) => {});
+router.post("/upload/video", upload().single("file"), async (req, res) => {
+  try {
+    // const fileContent = req.file.contentType;
+
+    // if (
+    //   fileContent == "video/mp4" ||
+    //   fileContent == "video/x-ms-wmv" ||
+    //   fileContent == "video/x-matroska"
+    // ) {
+    //   res.status(201).json({ text: "File uploaded successfully !" });
+    // } else {
+    //   res.json({ message: "sorry ! Invalid mime type !!" });
+    // }
+    res.status(201).json({ message: "file uploaded successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      error: { text: "Unable to upload the file", error },
+    });
+  }
+});
+
+router.get("/videos", async (req, res, next) => {
+  const videos = await bucket.find({}).toArray();
+  console.log(videos);
+  res.render("videos", { videos });
+});
+
+router.get("/single/:id", async (req, res, next) => {
+  const video = await bucket
+    .find({
+      _id: new mongoose.Types.ObjectId(req.params.id),
+    })
+    .toArray();
+  res.render("single", {
+    path: `/play/${req.params.id}`,
+    videoName: video[0].filename,
+  });
+});
+
+router.get("/play/:id", async (req, res) => {
+  const video = await bucket
+    .find({
+      _id: new mongoose.Types.ObjectId(req.params.id),
+    })
+    .toArray();
+  // create a stream to read from the bucket
+  const readStream = bucket.openDownloadStream(video[0]._id);
+
+  // pipe the stream to the response
+  readStream.pipe(res);
+});
 module.exports = router;
