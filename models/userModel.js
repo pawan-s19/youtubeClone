@@ -15,11 +15,12 @@ mongoose
   });
   
 const UserSchema = new Schema({
+  name:{
+    type:String
+  },
   channelName: {
     type: String,
-    // required: [true, "Please add a channel name"],
-    // unique: true,
-    // uniqueCaseInsensitive: true,
+    default : ""
   },
   username: {
     type: String,
@@ -46,6 +47,9 @@ const UserSchema = new Schema({
   password: {
     type: String,
   },
+  discription: {
+    type: String,
+  }
 });
 
 UserSchema.plugin(plm)

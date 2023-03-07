@@ -55,7 +55,7 @@ router.post("/register", async function (req, res, next) {
         .then(function (registereduser) {
           passport.authenticate("local")(req, res, function () {
             console.log(registereduser)
-            res.send(registereduser)
+            res.redirect('/')
           });
         });
     }
@@ -69,8 +69,8 @@ router.get('/login', function(req, res, next) {
 });
 
 router.post('/login' , passport.authenticate('local',{
-  successRedirect: '/signup',
-  failureRedirect : '/'
+  successRedirect: '/',
+  failureRedirect : '/404'
 }))
 
 router.get("/logout", function (req, res, next) {
@@ -110,6 +110,12 @@ router.get(
 
 router.get("/auth/google/failure", (req, res) => {
   res.send("Failed to authenticate..");
+});
+
+router.get("/createChannel", async(req, res) => {
+  user = await userModel.findOne({_id : req.session.passport.user._id})
+  res.render('channel',{data:user})
+  // res.send(user)
 });
 
 router.get("/upload/video", async (req, res) => {});
