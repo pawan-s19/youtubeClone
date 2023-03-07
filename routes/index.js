@@ -28,6 +28,22 @@ router.get("/", async function (req, res, next) {
   }
 });
 
+router.get('/home', async (req, res) => {
+  try {
+    res.render('home');
+  } catch (error) {
+    return res.json(err);
+  }
+})
+
+router.get('/home2', async (req, res) => {
+  try {
+    res.render('home2');
+  } catch (error) {
+    return res.json(err);
+  }
+})
+
 router.get("/signup", function (req, res, next) {
   res.render("register");
 });

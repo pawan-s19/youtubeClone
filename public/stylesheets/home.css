@@ -1,0 +1,17 @@
+.Navicon{
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+}
+.Navicon:hover{
+    cursor: pointer;
+    background-color: rgba(221, 160, 221, 0.484);
+}
+.ri-mic-line{
+    background-color: rgba(221, 160, 221, 0.194);   
+}
