@@ -10,8 +10,7 @@ exports.upload = () => {
     url: mongodbUrl,
     file: (req, file) => {
       return new Promise((resolve, _reject) => {
-      
-       const fileInfo = {
+        const fileInfo = {
           filename: file.originalname,
           bucketName: "uploads",
         };

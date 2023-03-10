@@ -1,10 +1,14 @@
 var express = require("express");
 var router = express.Router();
 const userModel = require("../models/userModel");
+const videoModel = require("../models/videoModels");
 var passport = require("passport");
 var notifire = require("node-notifier");
 const { upload } = require("../utils/upload");
 const mongoose = require("mongoose");
+const cloudinary = require("cloudinary");
+const formidable = require("formidable");
+const moment = require("moment");
 const localStrategy = require("passport-local").Strategy;
 passport.use(new localStrategy(userModel.authenticate()));
 
@@ -28,21 +32,21 @@ router.get("/", async function (req, res, next) {
   }
 });
 
-router.get('/home', async (req, res) => {
+router.get("/home", async (req, res) => {
   try {
-    res.render('home');
+    res.render("home");
   } catch (error) {
     return res.json(err);
   }
-})
+});
 
-router.get('/home2', async (req, res) => {
+router.get("/home2", async (req, res) => {
   try {
-    res.render('home2');
+    res.render("home2");
   } catch (error) {
     return res.json(err);
   }
-})
+});
 
 router.get("/signup", function (req, res, next) {
   res.render("register");
@@ -146,7 +150,9 @@ router.get("/auth/google/failure", (req, res) => {
 
 router.post("/upload/video", upload().single("file"), async (req, res) => {
   try {
-    // const fileContent = req.file.contentType;
+    let video = await videoModel.create({
+      video_id: req.file.id,
+    });
     // if (
     //   fileContent == "video/mp4" ||
     //   fileContent == "video/x-ms-wmv" ||
@@ -156,18 +162,50 @@ router.post("/upload/video", upload().single("file"), async (req, res) => {
     // } else {
     //   res.json({ message: "sorry ! Invalid mime type !!" });
     // }
-    res.status(201).json({ message: "file uploaded successfully" });
+    res.redirect(`/redirect/video/dets/${video._id}`);
   } catch (error) {
-    console.log(error);
     res.status(400).json({
       error: { text: "Unable to upload the file", error },
     });
   }
 });
 
+router.get("/redirect/video/dets/:id", async (req, res, next) => {
+  let video = await videoModel.findOne({ _id: req.params.id });
+  res.render("uploadPageSecond", {
+    id: req.params.id,
+    vidGridFs: video.video_id,
+  });
+});
+
+router.post("/upload/video/dets/:id", async (req, res, next) => {
+  const form = formidable({ multiples: true });
+
+  form.parse(req, async (err, fields, files) => {
+    console.log(fields);
+    const { title, description, status } = fields;
+    const { secure_url, public_id } = await cloudinary.v2.uploader.upload(
+      files.thumbnail.filepath,
+      {
+        folder: `youtubethumbnails`,
+        fetch_format: "webp",
+      }
+    );
+    await videoModel.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        title,
+        description,
+        status,
+        thumbnail: { secure_url, public_id },
+      }
+    );
+  });
+  res.redirect("/uploadPage");
+});
 router.get("/videos", async (req, res, next) => {
-  const videos = await bucket.find({}).toArray();
-  res.render("videos", { videos });
+  const videos = await videoModel.find({});
+  res.render("videos", { videos, moment });
 });
 
 router.get("/single/:id", async (req, res, next) => {

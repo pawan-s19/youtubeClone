@@ -1,29 +1,35 @@
 const mongoose = require("mongoose");
 
-const videoModel = new mongoose.Schema({
-  title: {
-    type: String,
-  },
-  description: {
-    type: String,
-    default: null,
-  },
-  thumbnailUrl: {
-    type: String,
-    default: "no-photo.jpg",
-  },
-  views: [{ type: mongoose.Schema.Types.ObjectId, ref: "userModel" }],
-  
-  status: {
-    type: String,
-    enum: ["private", "public"],
-    default: "public",
-  },
+const videoModel = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+    },
+    description: {
+      type: String,
+      default: null,
+    },
+    thumbnail: {
+      secure_url: { type: String },
+      public_id: { type: String },
+    },
+    views: [{ type: mongoose.Schema.Types.ObjectId, ref: "userModel" }],
 
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "userModel",
-  },
-});
+    status: {
+      type: String,
+      enum: ["private", "public"],
+      default: "public",
+    },
 
-module.exports = mongoose.model("videoModel",videoModel);
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "userModel",
+    },
+    video_id: { type: mongoose.Schema.Types.ObjectId },
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "userModel" }],
+    disLikes: [{ type: mongoose.Schema.Types.ObjectId, ref: "userModel" }],
+  },
+  { timestamps: true }
+);
+
+module.exports = mongoose.model("videoModel", videoModel);

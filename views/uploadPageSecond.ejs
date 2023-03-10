@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form
+      action="/upload/video/dets/<%=id%>"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <input type="text" placeholder="title" name="title" />
+      <input type="text" placeholder="demscription" name="description" />
+      <span>Thumbnail:</span>
+      <input
+        type="file"
+        placeholder="thumbnail"
+        name="thumbnail"
+        class="thumbnail"
+      />
+      <span>visibility:</span>
+      <input type="radio" id="html" name="status" checked value="public" />
+      <label for="html">Public</label>
+      <input type="radio" id="css" name="status" value="private" />
+      <label for="css">Private</label><br />
+      <input type="submit" value="upload" />
+    </form>
+    <h2>preview</h2>
+    <video
+      height="250"
+      width="300"
+      src="/play/<%=vidGridFs%>"
+      class="video-tag"
+      controls
+      poster=""
+    ></video>
+  </body>
+  <script src="/javascripts/uploadPageSecond.js"></script>
+</html>
