@@ -1,9 +1,17 @@
 var express = require("express");
 var router = express.Router();
 const userModel = require("../models/userModel");
-var passport = require("passport")
-var notifire = require("node-notifier")
-const localStrategy=require('passport-local').Strategy;
+const videoModel = require("../models/videoModels");
+var passport = require("passport");
+var notifire = require("node-notifier");
+const { upload } = require("../utils/upload");
+const mongoose = require("mongoose");
+const cloudinary = require("cloudinary");
+const formidable = require("formidable");
+const moment = require("moment");
+const channelModel = require('../models/channelModel')
+const localStrategy=require('passport-local');
+const { json } = require("express");
 passport.use(new localStrategy(userModel.authenticate()));
 
 //initializing bucket for gridfs
@@ -88,7 +96,7 @@ router.post("/register", async function (req, res, next) {
         .then(function (registereduser) {
           passport.authenticate("local")(req, res, function () {
             console.log(registereduser)
-            res.send(registereduser)
+            res.redirect('/')
           });
         });
     }
@@ -102,8 +110,8 @@ router.get("/login", function (req, res, next) {
 });
 
 router.post('/login' , passport.authenticate('local',{
-  successRedirect: '/signup',
-  failureRedirect : '/'
+  successRedirect: '/',
+  failureRedirect : '/404'
 }))
 
 router.get("/logout", function (req, res, next) {
@@ -144,23 +152,6 @@ router.get(
 router.get("/auth/google/failure", (req, res) => {
   res.send("Failed to authenticate..");
 });
-
-router.post("/createChannel" , async function(req,res){
-  let user = await userModel.findOne({_id: req.session.passport.user._id})
-  channelModel.create({
-    channelName : req.body.cname,
-    username : req.body.username,
-    channelOwner : user._id
-  })
-  .then(function(createdChannel){
-    user.channel=createdChannel._id;
-    user.save()
-    .then(function(updatedUser){
-      res.send(updatedUser)
-    })
-  })
-})
-
 
 router.post("/upload/video", upload().single("file"), async (req, res) => {
   try {
@@ -251,4 +242,22 @@ router.get("/uploadPage", (req, res, next) => {
   res.render("uploadPage");
 });
 
+router.post("/createChannel" , async function(req,res){
+  let user = await userModel.findOne({_id: req.session.passport.user._id})
+  channelModel.create({
+    channelName : req.body.cname,
+    username : req.body.username,
+    channelOwner : user._id
+  })
+  .then(function(createdChannel){
+    user.channel=createdChannel._id;
+    user.save()
+    .then(function(updatedUser){
+      res.send(updatedUser)
+    })
+  })
+})
+
+
+router.get("/upload/video", async (req, res) => {});
 module.exports = router;
