@@ -1,18 +1,25 @@
 var express = require("express");
 var router = express.Router();
 const userModel = require("../models/userModel");
+const channelModel = require('../models/channelModel')
 var passport = require("passport")
 var notifire = require("node-notifier")
-const localStrategy=require('passport-local').Strategy;
+const localStrategy=require('passport-local');
+const { json } = require("express");
 passport.use(new localStrategy(userModel.authenticate()));
 /* GET home page. */
 
 router.get("/", async function (req, res, next) {
-  try {
-    res.render("index");
-  } catch (err) {
-    return res.json(err);
-  }
+   try{
+     // let user = await userModel.findOne({_id:req.session.passport.user._id})
+    // res.render("index",{user:user});
+    let user = req.session.passport?.user
+    res.render('index', {user})
+   }
+   catch(err){
+    res.send(err)
+   }
+  
 });
 
 router.get('/signup', function(req, res, next) {
@@ -49,6 +56,7 @@ router.post("/register", async function (req, res, next) {
       var newUser = new userModel({
         username: req.body.username,
         email: req.body.email,
+        name : req.body.name
       });
       userModel
         .register(newUser, req.body.password)
@@ -112,11 +120,22 @@ router.get("/auth/google/failure", (req, res) => {
   res.send("Failed to authenticate..");
 });
 
-router.get("/createChannel", async(req, res) => {
-  user = await userModel.findOne({_id : req.session.passport.user._id})
-  res.render('channel',{data:user})
-  // res.send(user)
-});
+router.post("/createChannel" , async function(req,res){
+  let user = await userModel.findOne({_id: req.session.passport.user._id})
+  channelModel.create({
+    channelName : req.body.cname,
+    username : req.body.username,
+    channelOwner : user._id
+  })
+  .then(function(createdChannel){
+    user.channel=createdChannel._id;
+    user.save()
+    .then(function(updatedUser){
+      res.send(updatedUser)
+    })
+  })
+})
+
 
 router.get("/upload/video", async (req, res) => {});
 module.exports = router;

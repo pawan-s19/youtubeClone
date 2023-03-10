@@ -18,10 +18,13 @@ const UserSchema = new Schema({
   name:{
     type:String
   },
-  channelName: {
-    type: String,
-    default : ""
-  },
+  channel: 
+    {
+      type:mongoose.Schema.Types.ObjectId,
+      ref:'channelModel',
+      default: null
+    }
+  ,
   username: {
     type: String,
   },
@@ -47,9 +50,6 @@ const UserSchema = new Schema({
   password: {
     type: String,
   },
-  discription: {
-    type: String,
-  }
 });
 
 UserSchema.plugin(plm)
