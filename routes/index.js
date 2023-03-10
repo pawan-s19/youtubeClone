@@ -1,11 +1,17 @@
 var express = require("express");
 var router = express.Router();
 const userModel = require("../models/userModel");
+const videoModel = require("../models/videoModels");
 var passport = require("passport");
 var notifire = require("node-notifier");
 const { upload } = require("../utils/upload");
 const mongoose = require("mongoose");
-const localStrategy = require("passport-local").Strategy;
+const cloudinary = require("cloudinary");
+const formidable = require("formidable");
+const moment = require("moment");
+const channelModel = require('../models/channelModel')
+const localStrategy=require('passport-local');
+const { json } = require("express");
 passport.use(new localStrategy(userModel.authenticate()));
 
 //initializing bucket for gridfs
@@ -21,28 +27,33 @@ let bucket;
 /* GET home page. */
 
 router.get("/", async function (req, res, next) {
+   try{
+     // let user = await userModel.findOne({_id:req.session.passport.user._id})
+    // res.render("index",{user:user});
+    let user = req.session.passport?.user
+    res.render('index', {user})
+   }
+   catch(err){
+    res.send(err)
+   }
+  
+});
+
+router.get("/home", async (req, res) => {
   try {
-    res.render("index");
-  } catch (err) {
+    res.render("home");
+  } catch (error) {
     return res.json(err);
   }
 });
 
-router.get('/home', async (req, res) => {
+router.get("/home2", async (req, res) => {
   try {
-    res.render('home');
+    res.render("home2");
   } catch (error) {
     return res.json(err);
   }
-})
-
-router.get('/home2', async (req, res) => {
-  try {
-    res.render('home2');
-  } catch (error) {
-    return res.json(err);
-  }
-})
+});
 
 router.get("/signup", function (req, res, next) {
   res.render("register");
@@ -78,13 +89,14 @@ router.post("/register", async function (req, res, next) {
       var newUser = new userModel({
         username: req.body.username,
         email: req.body.email,
+        name : req.body.name
       });
       userModel
         .register(newUser, req.body.password)
         .then(function (registereduser) {
           passport.authenticate("local")(req, res, function () {
-            console.log(registereduser);
-            res.send(registereduser);
+            console.log(registereduser)
+            res.redirect('/')
           });
         });
     }
@@ -97,13 +109,10 @@ router.get("/login", function (req, res, next) {
   res.render("login");
 });
 
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/signup",
-    failureRedirect: "/",
-  })
-);
+router.post('/login' , passport.authenticate('local',{
+  successRedirect: '/',
+  failureRedirect : '/404'
+}))
 
 router.get("/logout", function (req, res, next) {
   req.logout(function (err) {
@@ -146,8 +155,9 @@ router.get("/auth/google/failure", (req, res) => {
 
 router.post("/upload/video", upload().single("file"), async (req, res) => {
   try {
-    // const fileContent = req.file.contentType;
-
+    let video = await videoModel.create({
+      video_id: req.file.id,
+    });
     // if (
     //   fileContent == "video/mp4" ||
     //   fileContent == "video/x-ms-wmv" ||
@@ -157,19 +167,50 @@ router.post("/upload/video", upload().single("file"), async (req, res) => {
     // } else {
     //   res.json({ message: "sorry ! Invalid mime type !!" });
     // }
-    res.status(201).json({ message: "file uploaded successfully" });
+    res.redirect(`/redirect/video/dets/${video._id}`);
   } catch (error) {
-    console.log(error);
     res.status(400).json({
       error: { text: "Unable to upload the file", error },
     });
   }
 });
 
+router.get("/redirect/video/dets/:id", async (req, res, next) => {
+  let video = await videoModel.findOne({ _id: req.params.id });
+  res.render("uploadPageSecond", {
+    id: req.params.id,
+    vidGridFs: video.video_id,
+  });
+});
+
+router.post("/upload/video/dets/:id", async (req, res, next) => {
+  const form = formidable({ multiples: true });
+
+  form.parse(req, async (err, fields, files) => {
+    console.log(fields);
+    const { title, description, status } = fields;
+    const { secure_url, public_id } = await cloudinary.v2.uploader.upload(
+      files.thumbnail.filepath,
+      {
+        folder: `youtubethumbnails`,
+        fetch_format: "webp",
+      }
+    );
+    await videoModel.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        title,
+        description,
+        status,
+        thumbnail: { secure_url, public_id },
+      }
+    );
+  });
+  res.redirect("/uploadPage");
+});
 router.get("/videos", async (req, res, next) => {
-  const videos = await bucket.find({}).toArray();
-  console.log(videos);
-  res.render("videos", { videos });
+  const videos = await videoModel.find({});
+  res.render("videos", { videos, moment });
 });
 
 router.get("/single/:id", async (req, res, next) => {
@@ -196,4 +237,27 @@ router.get("/play/:id", async (req, res) => {
   // pipe the stream to the response
   readStream.pipe(res);
 });
+
+router.get("/uploadPage", (req, res, next) => {
+  res.render("uploadPage");
+});
+
+router.post("/createChannel" , async function(req,res){
+  let user = await userModel.findOne({_id: req.session.passport.user._id})
+  channelModel.create({
+    channelName : req.body.cname,
+    username : req.body.username,
+    channelOwner : user._id
+  })
+  .then(function(createdChannel){
+    user.channel=createdChannel._id;
+    user.save()
+    .then(function(updatedUser){
+      res.send(updatedUser)
+    })
+  })
+})
+
+
+router.get("/upload/video", async (req, res) => {});
 module.exports = router;
