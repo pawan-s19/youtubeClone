@@ -1,15 +1,9 @@
 var express = require("express");
 var router = express.Router();
 const userModel = require("../models/userModel");
-const videoModel = require("../models/videoModels");
-var passport = require("passport");
-var notifire = require("node-notifier");
-const { upload } = require("../utils/upload");
-const mongoose = require("mongoose");
-const cloudinary = require("cloudinary");
-const formidable = require("formidable");
-const moment = require("moment");
-const localStrategy = require("passport-local").Strategy;
+var passport = require("passport")
+var notifire = require("node-notifier")
+const localStrategy=require('passport-local').Strategy;
 passport.use(new localStrategy(userModel.authenticate()));
 
 //initializing bucket for gridfs
@@ -25,11 +19,16 @@ let bucket;
 /* GET home page. */
 
 router.get("/", async function (req, res, next) {
-  try {
-    res.render("index");
-  } catch (err) {
-    return res.json(err);
-  }
+   try{
+     // let user = await userModel.findOne({_id:req.session.passport.user._id})
+    // res.render("index",{user:user});
+    let user = req.session.passport?.user
+    res.render('index', {user})
+   }
+   catch(err){
+    res.send(err)
+   }
+  
 });
 
 router.get("/home", async (req, res) => {
@@ -82,13 +81,14 @@ router.post("/register", async function (req, res, next) {
       var newUser = new userModel({
         username: req.body.username,
         email: req.body.email,
+        name : req.body.name
       });
       userModel
         .register(newUser, req.body.password)
         .then(function (registereduser) {
           passport.authenticate("local")(req, res, function () {
-            console.log(registereduser);
-            res.send(registereduser);
+            console.log(registereduser)
+            res.send(registereduser)
           });
         });
     }
@@ -101,13 +101,10 @@ router.get("/login", function (req, res, next) {
   res.render("login");
 });
 
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/signup",
-    failureRedirect: "/",
-  })
-);
+router.post('/login' , passport.authenticate('local',{
+  successRedirect: '/signup',
+  failureRedirect : '/'
+}))
 
 router.get("/logout", function (req, res, next) {
   req.logout(function (err) {
@@ -147,6 +144,23 @@ router.get(
 router.get("/auth/google/failure", (req, res) => {
   res.send("Failed to authenticate..");
 });
+
+router.post("/createChannel" , async function(req,res){
+  let user = await userModel.findOne({_id: req.session.passport.user._id})
+  channelModel.create({
+    channelName : req.body.cname,
+    username : req.body.username,
+    channelOwner : user._id
+  })
+  .then(function(createdChannel){
+    user.channel=createdChannel._id;
+    user.save()
+    .then(function(updatedUser){
+      res.send(updatedUser)
+    })
+  })
+})
+
 
 router.post("/upload/video", upload().single("file"), async (req, res) => {
   try {

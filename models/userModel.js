@@ -3,12 +3,16 @@ const plm = require("passport-local-mongoose");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  channelName: {
-    type: String,
-    // required: [true, "Please add a channel name"],
-    // unique: true,
-    // uniqueCaseInsensitive: true,
+  name:{
+    type:String
   },
+  channel: 
+    {
+      type:mongoose.Schema.Types.ObjectId,
+      ref:'channelModel',
+      default: null
+    }
+  ,
   username: {
     type: String,
   },
