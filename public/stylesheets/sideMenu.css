@@ -1,0 +1,23 @@
+.left-menu-bar {
+    height: inherit;
+    background-color: var(--themeBg);
+    padding-left: .4rem;
+}
+
+.menu-btn-wrapper {
+    color: white;
+}
+
+.menu-btn-wrapper:hover {
+    background-color: var(--iconBackFaded);
+    color: #fff;
+    cursor: pointer;
+}
+
+.menu-btn-wrapper i {
+    font-size: 1.2rem;
+}
+
+.menu-btn-wrapper small {
+    font-size: .65rem;
+}

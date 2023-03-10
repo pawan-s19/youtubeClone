@@ -11,49 +11,99 @@
 </head>
 <body>
     <div>
-        <!-- search for smaller screen -->
-        <div class="nav small-screen-search d-flex align-items-center justify-content-between px-2 flex-nowrap">
-            <div class="sm-nav-left me-2">
-                <i class="Navicon CloseSearch ri-arrow-left-line"></i>
-            </div>
-            <div class="sm-nav-center flex-grow-1">
-                <div class="nav-searchbox d-flex align-items-center gap-2 justify-content-center">
-                    <form class="d-flex" role="search">
-                        <input class="form-control rounded-0 rounded-start bg-transparent text-light" type="search" placeholder="Search" aria-label="Search">
-                        <button disabled class="btn btn-light rounded-0 rounded-end border-start-0 d-flex align-items-center justify-content-center" type="submit"><i class="ri-search-line"></i></button>
-                    </form>
-                    <i class="Navicon small-mic filled-icon mic ri-mic-fill"></i>
-                </div>
-            </div>
-        </div>
-        <div class="nav d-flex align-items-center justify-content-between px-2">
-            <div class="nav-left d-flex align-items-center">
-                <div class="nav-menu">
-                    <i class="Navicon ri-menu-fill me-2"></i>
-                </div>
-                <div class="nav-left">
-                    <a class="text-decoration-none text-light" href="">
-                        WeTube
-                    </a>
-                </div>
-            </div>
-            <div class="nav-center flex-grow-1">
-                <div class="nav-searchbox d-flex align-items-center gap-2 justify-content-center">
-                    <form class="d-flex" role="search">
-                        <input class="form-control rounded-0 rounded-start bg-transparent text-light" type="search" placeholder="Search" aria-label="Search">
-                        <button disabled class="btn btn-light rounded-0 rounded-end border-start-0 d-flex align-items-center justify-content-center" type="submit"><i class="ri-search-line"></i></button>
-                    </form>
-                    <i class="Navicon big-mic filled-icon mic ri-mic-fill"></i>
-                </div>
-            </div>
-            <div class="nav-right">
-                <div class="right-icons d-flex align-items-center text-light">
-                    <div class="gap-2 align-items-center text-light small-screen-icon">
-                        <i class="Navicon OpenSearch filled-icon ri-search-line"></i>
+        <%-include('navbar') %>
+        <div class="menu-vid-parent d-flex flex-fill">
+            <%-include('sideMenu') %>
+            <%-include('bottomMenu') %>
+            <div class="right-section p-3">
+                <div class="tags-ctn d-flex align-items-center gap-3">
+                    <div class="explore tags-wrapper rounded-3">
+                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center" href="#">
+                            <i class="ri-compass-3-line"></i>
+                        </a>
                     </div>
-                    <i class="Navicon ri-video-add-line"></i>
-                    <i class="Navicon ri-notification-4-line"></i>
-                    <i class="Navicon ri-user-3-line"></i>
+                    <div class="tags-wrapper-selected tags-wrapper rounded-3">
+                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center" href="#">
+                            <small>All</small>
+                        </a>
+                    </div>
+                    <div class="tags-wrapper rounded-3">
+                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center" href="#">
+                            <small>Music</small>
+                        </a>
+                    </div>
+                    <div class="tags-wrapper rounded-3">
+                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center" href="#">
+                            <small>Mixes</small>
+                        </a>
+                    </div>
+                    <div class="tags-wrapper rounded-3">
+                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center" href="#">
+                            <small>Ravindra Jain</small>
+                        </a>
+                    </div>
+                    <div class="tags-wrapper rounded-3">
+                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center" href="#">
+                            <small>Live</small>
+                        </a>
+                    </div>
+                    <div class="tags-wrapper rounded-3">
+                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center" href="#">
+                            <small>Bhajan Music</small>
+                        </a>
+                    </div>
+                    <div class="tags-wrapper rounded-3">
+                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center" href="#">
+                            <small>Javascript</small>
+                        </a>
+                    </div>
+                    <div class="tags-wrapper rounded-3">
+                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center" href="#">
+                            <small>Comedy</small>
+                        </a>
+                    </div>
+                    <div class="tags-wrapper rounded-3">
+                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center" href="#">
+                            <small>Computer Science</small>
+                        </a>
+                    </div>
+                    <div class="tags-wrapper rounded-3">
+                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center" href="#">
+                            <small>Wildlife</small>
+                        </a>
+                    </div>
+                    <div class="tags-wrapper rounded-3">
+                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center" href="#">
+                            <small>Television</small>
+                        </a>
+                    </div>
+                    <div class="tags-wrapper rounded-3">
+                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center" href="#">
+                            <small>Web Development</small>
+                        </a>
+                    </div>
+                    <div class="tags-wrapper rounded-3">
+                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center" href="#">
+                            <small>Recently Uploaded</small>
+                        </a>
+                    </div>
+                    <div class="tags-wrapper rounded-3">
+                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center" href="#">
+                            <small>New to you</small>
+                        </a>
+                    </div>
+                    
+                </div>
+                <div class="all-videos-ctn mt-3">
+                    <div class="video-wrapper"></div>
+                    <div class="video-wrapper"></div>
+                    <div class="video-wrapper"></div>
+                    <div class="video-wrapper"></div>
+                    <div class="video-wrapper"></div>
+                    <div class="video-wrapper"></div>
+                    <div class="video-wrapper"></div>
+                    <div class="video-wrapper"></div>
+                    <div class="video-wrapper"></div>
                 </div>
             </div>
         </div>

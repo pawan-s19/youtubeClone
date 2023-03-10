@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    transition: background .25s ease-in-out;
 }
 
 html,
@@ -10,86 +11,112 @@ body {
     width: 100%;
 }
 
-.nav {
-    height: 60px;
-    background-color: #212121;
+:root {
+    --themeBg: #212121;
+    --iconHover: rgba(221, 160, 221, 0.484);
+    --iconBackFaded: rgba(221, 160, 221, 0.194);
 }
 
-.nav-searchbox {
+.menu-vid-parent {
+    height: calc(100vh - 60px);
     width: 100%;
+    background-color: var(--themeBg);
 }
 
-.nav-searchbox form {
-    width: 55%;
-    position: relative;
+.right-section {
+    width: calc(100% - 67.823px);
 }
 
-.nav-searchbox input {
-    border-top-left-radius: 100px !important;
-    border-bottom-left-radius: 100px !important;
+.tags-ctn {
+    width: 100%;
+    overflow-y: scroll;
 }
 
-.nav-searchbox button {
-    width: 60px;
-    color: white;
-    border-top-right-radius: 100px !important;
-    border-bottom-right-radius: 100px !important;
-    background-color: rgba(221, 160, 221, 0.194);
+.tags-ctn::-webkit-scrollbar {
+    display: none;
+    behavior: smooth;
 }
 
-.right-icons{
-    gap: .7rem !important;
-}
-
-.Navicon {
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
-}
-
-.Navicon:hover {
-    cursor: pointer;
-    background-color: rgba(221, 160, 221, 0.484);
-}
-
-.filled-icon {
-    background-color: rgba(221, 160, 221, 0.194);
-}
-.small-screen-icon{
+.explore{
     display: none;
 }
-.small-screen-search{
-    width: 100%;
-    position: absolute;
-    top: -60px;
-    left: 0;
-    z-index: 99999;
-    transition: all .5s cubic-bezier(0.19, 1, 0.22, 1);
-    will-change: top;
-    opacity: 0;
+
+.explore i{
+    font-size: 1.2rem;
 }
-.sm-nav-center .nav-searchbox form{
-    width: 90%;
+
+.tags-wrapper {
+    background-color: var(--iconBackFaded);
+    color: white;
+    padding: .3rem .8rem;
 }
+
+.tags-wrapper-selected,
+.tags-wrapper-selected a {
+    color: black !important;
+}
+
+.tags-wrapper-selected{
+    background-color: white;
+}
+
+.tags-wrapper small {
+    white-space: nowrap;
+}
+
+.tags-wrapper:hover{
+    background-color: var(--iconHover);
+}
+
+.all-videos-ctn {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(auto-fill, 20vmax);
+    justify-content: space-between;
+    height: calc(100% - 2.5rem);
+    overflow-y: scroll;
+}
+
+.all-videos-ctn::-webkit-scrollbar{
+    width: 10px;
+}
+
+.all-videos-ctn::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background:  rgba(255, 237, 255, 0.484);
+}
+
+.all-videos-ctn::-webkit-scrollbar-thumb:hover {
+    background:  rgba(221, 160, 221, 0.84);
+}
+
+.video-wrapper {
+    background-color: palegoldenrod;
+    height: 20vmax;
+}
+
 /* For screens smaller than 630px */
 @media only screen and (max-width: 630px) {
-    .nav-center{
+    .left-menu-bar{
         display: none;
     }
-    .small-screen-icon{
-        display: flex;
+
+    .tags-wrapper:nth-child(1){
+        padding: .1rem .6rem;
     }
-    .right-icons{
-        gap: 0rem !important;
+
+    .right-section {
+        width: 100%;
     }
-    .right-icons i{
-        width: 35px;
-        height: 35px;
-        font-size: 15px;
+
+    .explore{
+        display: initial;
+    }
+}
+
+/* Specifically for mobile to adjust video css */
+@media only screen and (max-width: 376px) {
+    .all-videos-ctn {
+        grid-template-columns: repeat(auto-fill, 100%);
     }
 }
