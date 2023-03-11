@@ -23,6 +23,7 @@ body {
     background-color: var(--themeBg);
     position: fixed;
     bottom: 0;
+    z-index: 99;
     box-shadow: 2px 2px 2px 2px black;
     border-top: 1px solid grey;
     display: none;

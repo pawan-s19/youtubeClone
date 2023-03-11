@@ -19,13 +19,14 @@
   </head>
   <body>
     <div>
+        <%-include('modal') %>
         <%-include('navbar') %>
         <div class="menu-vid-parent d-flex flex-fill">
             <%-include('sideMenu') %>
             <%-include('bottomMenu') %>
             <div class="right-section p-3">
                 <div class="tags-ctn d-flex align-items-center gap-3">
-                    <div class="explore tags-wrapper rounded-3">
+                    <div class="explore tags-wrapper rounded-3"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
                         <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center" href="#">
                             <i class="ri-compass-3-line"></i>
                         </a>
@@ -103,20 +104,287 @@
                     
                 </div>
                 <div class="all-videos-ctn mt-3">
-                    <div class="video-wrapper"></div>
-                    <div class="video-wrapper"></div>
-                    <div class="video-wrapper"></div>
-                    <div class="video-wrapper"></div>
-                    <div class="video-wrapper"></div>
-                    <div class="video-wrapper"></div>
-                    <div class="video-wrapper"></div>
-                    <div class="video-wrapper"></div>
-                    <div class="video-wrapper"></div>
+                    <div class="video-wrapper">
+                        <div class="video-container">
+                            <a class="linkTo text-light" href="#">
+                                <video oncontextmenu="return false;" disablepictureinpicture muted controlsList="nofullscreen nodownload noremoteplayback noplaybackrate" src="/Sample_Videos/327-1_327-2027_preview.mp4"></video>
+                                <small class="m-0 p-1 badge bg-dark">8:20</small>
+                                <i class="muteIcon ri-volume-mute-fill"></i>
+                            </a>
+                        </div>
+                        <div class="iconTextWrapper mt-2 d-flex flex-nowrap align-items-start gap-3">
+                            <a class="linkTo text-light" href="#">
+                                <div class="profileIconCtn">
+                                    <img src="/Sample_Profile/pf1.jpg" alt="">
+                                </div>
+                            </a>
+                            <div class="videoTextCtn">
+                                <a class="linkTo text-light" href="#">
+                                    <p class="m-0 fw-bold text-light mb-2">
+                                        Filhall | Me tera ho jau | Jain song new 2022 | Jain bhajan new 2022 | Jain stavan new 2022 | latest
+                                    </p>
+                                </a>
+                                <div class="text-secondary">
+                                    <a class="linkTo text-secondary" href="#">
+                                        <small class="m-0 channelName">Dandelion Medical Animation</small>
+                                    </a>
+                                </div>
+                                <div class="text-secondary">
+                                    <a class="linkTo text-secondary" href="#">
+                                        <small class="listDot m-0 sm-channelName">Dandelion Medical Animation</small>
+                                        <small class="listDot">7.9M Views</small>
+                                        <small class="listDot last">1 Year Ago</small>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                    <div class="video-wrapper">
+                        <div class="video-container">
+                            <a class="linkTo text-light" href="#">
+                                <video oncontextmenu="return false;" disablepictureinpicture muted controlsList="nofullscreen nodownload noremoteplayback noplaybackrate" src="/Sample_Videos/mountain-22512.mp4"></video>
+                                <small class="m-0 p-1 badge bg-dark">6:00</small>
+                                <i class="muteIcon ri-volume-mute-fill"></i>
+                            </a>
+                        </div>
+                        <div class="iconTextWrapper mt-2 d-flex flex-nowrap align-items-start gap-3">
+                            <a class="linkTo text-light" href="#">
+                                <div class="profileIconCtn">
+                                    <img src="/Sample_Profile/pf10.png" alt="">
+                                </div>
+                            </a>
+                            <div class="videoTextCtn">
+                                <a class="linkTo text-light" href="#">
+                                    <p class="m-0 fw-bold text-light mb-2">
+                                        Filhall | Me tera ho jau | Jain song new 2022 | Jain bhajan new 2022 | Jain stavan new 2022 | latest
+                                    </p>
+                                </a>
+                                <div class="text-secondary">
+                                    <a class="linkTo text-secondary" href="#">
+                                        <small class="m-0 channelName">Nature Viewer</small>
+                                    </a>
+                                </div>
+                                <div class="text-secondary">
+                                    <a class="linkTo text-secondary" href="#">
+                                        <small class="listDot m-0 sm-channelName">Dandelion Medical Animation</small>
+                                        <small class="listDot">4.6K Views</small>
+                                        <small class="listDot last">2 Months Ago</small>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                    <div class="video-wrapper">
+                        <div class="video-container">
+                            <a class="linkTo text-light" href="#">
+                                <video oncontextmenu="return false;" disablepictureinpicture muted controlsList="nofullscreen nodownload noremoteplayback noplaybackrate" src="/Sample_Videos/pexels-ventill-6006682.mp4"></video>
+                                <small class="m-0 p-1 badge bg-dark">14:40</small>
+                                <i class="muteIcon ri-volume-mute-fill"></i>
+                            </a>
+                        </div>
+                        <div class="iconTextWrapper mt-2 d-flex flex-nowrap align-items-start gap-3">
+                            <a class="linkTo text-light" href="#">
+                                <div class="profileIconCtn">
+                                    <img src="/Sample_Profile/pf11.png" alt="">
+                                </div>
+                            </a>
+                            <div class="videoTextCtn">
+                                <a class="linkTo text-light" href="#">
+                                    <p class="m-0 fw-bold text-light mb-2">
+                                        Filhall | Me tera ho jau | Jain song new 2022 | Jain bhajan new 2022 | Jain stavan new 2022 | latest
+                                    </p>
+                                </a>
+                                <div class="text-secondary">
+                                    <a class="linkTo text-secondary" href="#">
+                                        <small class="m-0 channelName">Earth Explorer</small>
+                                    </a>
+                                </div>
+                                <div class="text-secondary">
+                                    <a class="linkTo text-secondary" href="#">
+                                        <small class="listDot m-0 sm-channelName">Dandelion Medical Animation</small>
+                                        <small class="listDot">4.5M Views</small>
+                                        <small class="listDot last">4 Year Ago</small>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                    <div class="video-wrapper">
+                        <div class="video-container">
+                            <a class="linkTo text-light" href="#">
+                                <video oncontextmenu="return false;" disablepictureinpicture muted controlsList="nofullscreen nodownload noremoteplayback noplaybackrate" src="/Sample_Videos/snowy-trees-7328.mp4"></video>
+                                <small class="m-0 p-1 badge bg-dark">4:16</small>
+                            </a>
+                        </div>
+                        <div class="iconTextWrapper mt-2 d-flex flex-nowrap align-items-start gap-3">
+                            <a class="linkTo text-light" href="#">
+                                <div class="profileIconCtn">
+                                    <img src="/Sample_Profile/pf12.jpg" alt="">
+                                </div>
+                            </a>
+                            <div class="videoTextCtn">
+                                <a class="linkTo text-light" href="#">
+                                    <p class="m-0 fw-bold text-light mb-2">
+                                        Filhall | Me tera ho jau | Jain song new 2022 | Jain bhajan new 2022 | Jain stavan new 2022 | latest
+                                    </p>
+                                </a>
+                                <div class="text-secondary">
+                                    <a class="linkTo text-secondary" href="#">
+                                        <small class="m-0 channelName">Cool Chillings</small>
+                                    </a>
+                                </div>
+                                <div class="text-secondary">
+                                    <a class="linkTo text-secondary" href="#">
+                                        <small class="listDot m-0 sm-channelName">Dandelion Medical Animation</small>
+                                        <small class="listDot">3.0M Views</small>
+                                        <small class="listDot last">3 Year Ago</small>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                    <div class="video-wrapper">
+                        <div class="video-container">
+                            <a class="linkTo text-light" href="#">
+                                <video oncontextmenu="return false;" disablepictureinpicture muted controlsList="nofullscreen nodownload noremoteplayback noplaybackrate" src="/Sample_Videos/stock-footage-blue-low-bright-and-white-number-countdown-timer-transparent-resolution.webm"></video>
+                                <small class="m-0 p-1 badge bg-dark">3:23</small>
+                            </a>
+                        </div>
+                        <div class="iconTextWrapper mt-2 d-flex flex-nowrap align-items-start gap-3">
+                            <a class="linkTo text-light" href="#">
+                                <div class="profileIconCtn">
+                                    <img src="/Sample_Profile/pf2.jpg" alt="">
+                                </div>
+                            </a>
+                            <div class="videoTextCtn">
+                                <a class="linkTo text-light" href="#">
+                                    <p class="m-0 fw-bold text-light mb-2">
+                                        Filhall | Me tera ho jau | Jain song new 2022 | Jain bhajan new 2022 | Jain stavan new 2022 | latest
+                                    </p>
+                                </a>
+                                <div class="text-secondary">
+                                    <a class="linkTo text-secondary" href="#">
+                                        <small class="m-0 channelName">Gamer Ashish</small>
+                                    </a>
+                                </div>
+                                <div class="text-secondary">
+                                    <a class="linkTo text-secondary" href="#">
+                                        <small class="listDot m-0 sm-channelName">Dandelion Medical Animation</small>
+                                        <small class="listDot">8.6K Views</small>
+                                        <small class="listDot last">2 Year Ago</small>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                    <div class="video-wrapper">
+                        <div class="video-container">
+                            <a class="linkTo text-light" href="#">
+                                <video oncontextmenu="return false;" disablepictureinpicture muted controlsList="nofullscreen nodownload noremoteplayback noplaybackrate" src="/Sample_Videos/stock-footage-low-altitude-top-down-aerial-view-of-green-grass-lawn-video-background-closing-credits-or-end.webm"></video>
+                                <small class="m-0 p-1 badge bg-dark">10:02</small>
+                            </a>
+                        </div>
+                        <div class="iconTextWrapper mt-2 d-flex flex-nowrap align-items-start gap-3">
+                            <a class="linkTo text-light" href="#">
+                                <div class="profileIconCtn">
+                                    <img src="/Sample_Profile/pf3.jpg" alt="">
+                                </div>
+                            </a>
+                            <div class="videoTextCtn">
+                                <a class="linkTo text-light" href="#">
+                                    <p class="m-0 fw-bold text-light mb-2">
+                                        Filhall | Me tera ho jau | Jain song new 2022 | Jain bhajan new 2022 | Jain stavan new 2022 | latest
+                                    </p>
+                                </a>
+                                <div class="text-secondary">
+                                    <a class="linkTo text-secondary" href="#">
+                                        <small class="m-0 channelName">Green Mimers</small>
+                                    </a>
+                                </div>
+                                <div class="text-secondary">
+                                    <a class="linkTo text-secondary" href="#">
+                                        <small class="listDot m-0 sm-channelName">Dandelion Medical Animation</small>
+                                        <small class="listDot">7.5M Views</small>
+                                        <small class="listDot last">10 Year Ago</small>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                    <div class="video-wrapper">
+                        <div class="video-container">
+                            <a class="linkTo text-light" href="#">
+                                <video oncontextmenu="return false;" disablepictureinpicture muted controlsList="nofullscreen nodownload noremoteplayback noplaybackrate" src="/Sample_Videos/stock-footage-train-puzzle-retro-style-low-resolution-pixelated-game-graphics-animation-level.webm"></video>
+                                <small class="m-0 p-1 badge bg-dark">1:20:22</small>
+                            </a>
+                        </div>
+                        <div class="iconTextWrapper mt-2 d-flex flex-nowrap align-items-start gap-3">
+                            <a class="linkTo text-light" href="#">
+                                <div class="profileIconCtn">
+                                    <img src="/Sample_Profile/pf4.png" alt="">
+                                </div>
+                            </a>
+                            <div class="videoTextCtn">
+                                <a class="linkTo text-light" href="#">
+                                    <p class="m-0 fw-bold text-light mb-2">
+                                        Filhall | Me tera ho jau | Jain song new 2022 | Jain bhajan new 2022 | Jain stavan new 2022 | latest
+                                    </p>
+                                </a>
+                                <div class="text-secondary">
+                                    <a class="linkTo text-secondary" href="#">
+                                        <small class="m-0 channelName">Nutshell</small>
+                                    </a>
+                                </div>
+                                <div class="text-secondary">
+                                    <a class="linkTo text-secondary" href="#">
+                                        <small class="listDot m-0 sm-channelName">Nutshell</small>
+                                        <small class="listDot">4.9M Views</small>
+                                        <small class="listDot last">6 Months Ago</small>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                    <div class="video-wrapper">
+                        <div class="video-container">
+                            <a class="linkTo text-light" href="#">
+                                <video oncontextmenu="return false;" disablepictureinpicture muted controlsList="nofullscreen nodownload noremoteplayback noplaybackrate" src="/Sample_Videos/stock-footage-vancouver-bc-canada-january-heavy-snow-fall-and-low-temperatures-in-mount-pleasant-cars.webm"></video>
+                                <small class="m-0 p-1 badge bg-dark">15:35</small>
+                            </a>
+                        </div>
+                        <div class="iconTextWrapper mt-2 d-flex flex-nowrap align-items-start gap-3">
+                            <a class="linkTo text-light" href="#">
+                                <div class="profileIconCtn">
+                                    <img src="/Sample_Profile/pf5.jpeg" alt="">
+                                </div>
+                            </a>
+                            <div class="videoTextCtn">
+                                <a class="linkTo text-light" href="#">
+                                    <p class="m-0 fw-bold text-light mb-2">
+                                        Filhall | Me tera ho jau | Jain song new 2022 | Jain bhajan new 2022 | Jain stavan new 2022 | latest
+                                    </p>
+                                </a>
+                                <div class="text-secondary">
+                                    <a class="linkTo text-secondary" href="#">
+                                        <small class="m-0 channelName">CrypStream Nation Vloggers</small>
+                                    </a>
+                                </div>
+                                <div class="text-secondary">
+                                    <a class="linkTo text-secondary" href="#">
+                                        <small class="listDot m-0 sm-channelName">Dandelion Medical Animation</small>
+                                        <small class="listDot">1.2B Views</small>
+                                        <small class="listDot last">11 Year Ago</small>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
                 </div>
             </div>
         </div>
       </div>
     </div>
     <script src="/javascripts/home2.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
   </body>
 </html>
