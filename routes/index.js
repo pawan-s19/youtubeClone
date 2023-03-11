@@ -3,7 +3,7 @@ var router = express.Router();
 const userModel = require("../models/userModel");
 const videoModel = require("../models/videoModels");
 var passport = require("passport");
-var notifire = require("node-notifier");
+var notifier = require("node-notifier");
 const { upload } = require("../utils/upload");
 const mongoose = require("mongoose");
 const cloudinary = require("cloudinary");
@@ -251,6 +251,24 @@ router.get("/like/:id", isLoggedIn, async (req, res, next) => {
   } else {
     //if user has not liked nor disliked the video
     video.likes.push(userId);
+  }
+  await video.save();
+  res.redirect(req.headers.referer);
+});
+
+router.get("/dislike/:id", isLoggedIn, async (req, res) => {
+  let video = await videoModel.findOne({ _id: req.params.id });
+  let userId = req.session.passport.user._id;
+  if (video.disLikes.indexOf(userId) !== -1) {
+    //if user has already disliked
+    video.disLikes.splice(video.disLikes.indexOf(userId), 1);
+  } else if (video.likes.indexOf(userId) !== -1) {
+    //if user has liked the video
+    video.likes.splice(video.likes.indexOf(userId), 1);
+    video.disLikes.push(userId);
+  } else {
+    //if user has not disliked nor liked
+    video.disLikes.push(userId);
   }
   await video.save();
   res.redirect(req.headers.referer);

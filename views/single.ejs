@@ -13,6 +13,7 @@
       height="500"
       width="800"
       controls
+      controlsList="nodownload"
     ></video>
     <h4><%=video.title%></h4>
     <div
@@ -28,8 +29,12 @@
         <h5>Subscribers</h5>
       </div>
       <div>
-        <a href="/like/<%=video._id%>">Like : <%=video.likes.length%></a>
-        <a href="/dislike/<%=video._id%>">Dislike : 0</a>
+        <a class="like" href="/like/<%=video._id%>" data-bs-video="<%=video%>"
+          >Like : <%=video.likes.length%></a
+        >
+        <a href="/dislike/<%=video._id%>"
+          >Dislike : <%=video.disLikes.length%></a
+        >
         <span>Share</span>
       </div>
     </div>
@@ -40,4 +45,5 @@
       <input type="submit" value="comment" />
     </form>
   </body>
+  <script src="/javascripts/single.js"></script>
 </html>
