@@ -27,17 +27,17 @@ let bucket;
 /* GET home page. */
 
 router.get("/", async function (req, res, next) {
-  try {
-    // let user = await userModel.findOne({_id:req.session.passport.user._id})
-    // res.render("index",{user:user});
-    // let user = req.session.passport?.user
-    let user = await userModel.findOne({_id:req.session.passport.user._id})
-    res.render('index', {user})
-   }
-   catch(err){
-    res.send(err)
-   }
-  
+ try {
+    let LoggedInUser;
+    if (req.session.passport?.user) {
+      LoggedInUser = await userModel.findOne({
+        _id: req.session.passport.user._id,
+      });
+    }
+    res.render("index", { user: LoggedInUser });
+  } catch (err) {
+    res.send(err);
+  }
 });
 
 router.get("/home", async (req, res) => {
@@ -280,28 +280,29 @@ router.get("/uploadPage", (req, res, next) => {
   res.render("uploadPage");
 });
 
-router.post("/createChannel" , async function(req,res){
-  let user = await userModel.findOne({_id: req.session.passport.user._id})
-  if(!user.channel){
-    channelModel.create({
-      channelName : req.body.cname,
-      username : req.body.username,
-      channelOwner : user._id
-    })
-    .then(function(createdChannel){
-      
-      user.channel=createdChannel._id;
-      user.save()
-     
-      .then(function(updatedUser){
-        console.log(user) 
-        return res.redirect('/')
+router.post("/createChannel", async function (req, res) {
+  let user = await userModel.findOne({ _id: req.session.passport.user._id });
+  if (!user.channel) {
+    channelModel
+      .create({
+        channelName: req.body.cname,
+        username: req.body.username,
+        channelOwner: user._id,
       })
-    })
-  }else{
-    res.redirect('/')
+      .then(function (createdChannel) {
+        user.channel = createdChannel._id;
+        user
+          .save()
+
+          .then(function (updatedUser) {
+            console.log(user);
+            return res.redirect("/");
+          });
+      });
+  } else {
+    res.redirect("/");
   }
-})
+});
 
 function isLoggedIn(req, res, next) {
   // req.user ? next() : res.sendStatus(401);
@@ -313,35 +314,37 @@ function isLoggedIn(req, res, next) {
 }
 
 router.get("/subscribe", (req, res, next) => {
-  channelModel.find()
-  .populate("channelOwner")
-  .then(function(channel){
-    res.render("subscribePage",{dets:channel})
-  })
+  channelModel
+    .find()
+    .populate("channelOwner")
+    .then(function (channel) {
+      res.render("subscribePage", { dets: channel });
+    });
 });
 
-router.get('/subscribe/:id',function(req,res){
-  userModel.findOne({username:req.session.passport.user.username})
-  .then(function(user){
-    channelModel.findOne({_id:req.params.id})
-    .then(function(channeltobesubscribe){
-      let index = channeltobesubscribe.channelSubscription.indexOf(user._id);
+router.get("/subscribe/:id", function (req, res) {
+  userModel
+    .findOne({ username: req.session.passport.user.username })
+    .then(function (user) {
+      channelModel
+        .findOne({ _id: req.params.id })
+        .then(function (channeltobesubscribe) {
+          let index = channeltobesubscribe.channelSubscription.indexOf(
+            user._id
+          );
 
-      if(index === -1){
-        channeltobesubscribe.channelSubscription.push(user._id);
-        console.log("pushuser")
-      }
-      else{
-        console.log("removeuser")
-        channeltobesubscribe.channelSubscription.splice(index,1)
-        
-      }
-      channeltobesubscribe.save()
-      .then(function(){
-        res.redirect('/subscribe')
-      })
-    })
-  })
+          if (index === -1) {
+            channeltobesubscribe.channelSubscription.push(user._id);
+            console.log("pushuser");
+          } else {
+            console.log("removeuser");
+            channeltobesubscribe.channelSubscription.splice(index, 1);
+          }
+          channeltobesubscribe.save().then(function () {
+            res.redirect("/subscribe");
+          });
+        });
+    });
 });
 
 router.get("/upload/video", async (req, res) => {});
