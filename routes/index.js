@@ -9,8 +9,8 @@ const mongoose = require("mongoose");
 const cloudinary = require("cloudinary");
 const formidable = require("formidable");
 const moment = require("moment");
-const channelModel = require('../models/channelModel')
-const localStrategy=require('passport-local');
+const channelModel = require("../models/channelModel");
+const localStrategy = require("passport-local");
 const { json } = require("express");
 passport.use(new localStrategy(userModel.authenticate()));
 
@@ -27,16 +27,14 @@ let bucket;
 /* GET home page. */
 
 router.get("/", async function (req, res, next) {
-   try{
-     // let user = await userModel.findOne({_id:req.session.passport.user._id})
+  try {
+    // let user = await userModel.findOne({_id:req.session.passport.user._id})
     // res.render("index",{user:user});
-    let user = req.session.passport?.user
-    res.render('index', {user})
-   }
-   catch(err){
-    res.send(err)
-   }
-  
+    let user = req.session.passport?.user;
+    res.render("index", { user });
+  } catch (err) {
+    res.send(err);
+  }
 });
 
 router.get("/home", async (req, res) => {
@@ -89,14 +87,14 @@ router.post("/register", async function (req, res, next) {
       var newUser = new userModel({
         username: req.body.username,
         email: req.body.email,
-        name : req.body.name
+        name: req.body.name,
       });
       userModel
         .register(newUser, req.body.password)
         .then(function (registereduser) {
           passport.authenticate("local")(req, res, function () {
-            console.log(registereduser)
-            res.redirect('/')
+            console.log(registereduser);
+            res.redirect("/");
           });
         });
     }
@@ -109,10 +107,13 @@ router.get("/login", function (req, res, next) {
   res.render("login");
 });
 
-router.post('/login' , passport.authenticate('local',{
-  successRedirect: '/',
-  failureRedirect : '/404'
-}))
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/404",
+  })
+);
 
 router.get("/logout", function (req, res, next) {
   req.logout(function (err) {
@@ -213,16 +214,15 @@ router.get("/videos", async (req, res, next) => {
   res.render("videos", { videos, moment });
 });
 
-router.get("/single/:id", async (req, res, next) => {
-  const video = await bucket
-    .find({
-      _id: new mongoose.Types.ObjectId(req.params.id),
-    })
-    .toArray();
-  res.render("single", {
-    path: `/play/${req.params.id}`,
-    videoName: video[0].filename,
-  });
+router.get("/single/:id", isLoggedIn, async (req, res, next) => {
+  let video = await videoModel.findOne({ _id: req.params.id });
+  let userId = req.session.passport.user._id;
+
+  if (video.views.indexOf(userId) == -1) {
+    video.views.push(userId);
+  }
+  await video.save();
+  res.render("single", { video });
 });
 
 router.get("/play/:id", async (req, res) => {
@@ -238,26 +238,50 @@ router.get("/play/:id", async (req, res) => {
   readStream.pipe(res);
 });
 
+router.get("/like/:id", isLoggedIn, async (req, res, next) => {
+  let video = await videoModel.findOne({ _id: req.params.id });
+  let userId = req.session.passport.user._id;
+  if (video.likes.indexOf(userId) !== -1) {
+    //if user has already liked the video
+    video.likes.splice(video.likes.indexOf(userId), 1);
+  } else if (video.disLikes.indexOf(userId) !== -1) {
+    //if user has disliked the video
+    video.disLikes.splice(video.disLikes.indexOf(userId), 1);
+    video.likes.push(userId);
+  } else {
+    //if user has not liked nor disliked the video
+    video.likes.push(userId);
+  }
+  await video.save();
+  res.redirect(req.headers.referer);
+});
 router.get("/uploadPage", (req, res, next) => {
   res.render("uploadPage");
 });
 
-router.post("/createChannel" , async function(req,res){
-  let user = await userModel.findOne({_id: req.session.passport.user._id})
-  channelModel.create({
-    channelName : req.body.cname,
-    username : req.body.username,
-    channelOwner : user._id
-  })
-  .then(function(createdChannel){
-    user.channel=createdChannel._id;
-    user.save()
-    .then(function(updatedUser){
-      res.send(updatedUser)
+router.post("/createChannel", async function (req, res) {
+  let user = await userModel.findOne({ _id: req.session.passport.user._id });
+  channelModel
+    .create({
+      channelName: req.body.cname,
+      username: req.body.username,
+      channelOwner: user._id,
     })
-  })
-})
+    .then(function (createdChannel) {
+      user.channel = createdChannel._id;
+      user.save().then(function (updatedUser) {
+        res.send(updatedUser);
+      });
+    });
+});
 
+function isLoggedIn(req, res, next) {
+  // req.user ? next() : res.sendStatus(401);
+  if (req.isAuthenticated() || req.user) {
+    return next();
+  } else {
+    res.redirect("/");
+  }
+}
 
-router.get("/upload/video", async (req, res) => {});
 module.exports = router;
