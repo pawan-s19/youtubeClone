@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 var channelSchema= mongoose.Schema({
   channelName:String,
-  username : String,
   channelDiscription:String,
   channelPlaylist: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -14,11 +13,11 @@ var channelSchema= mongoose.Schema({
   }],
   channelOwner:{
     type: mongoose.Schema.Types.ObjectId,
-    ref:'user'
+    ref:'userModel'
   },
   channelSubscription:[{
     type: mongoose.Schema.Types.ObjectId,
-    ref : 'user'
+    ref : 'userModel'
   }],
   channelProfile:{
     type: Object,
@@ -33,7 +32,11 @@ var channelSchema= mongoose.Schema({
         public_id:"",
         url:""
     }
-  }
+  },
+  subscriberCount:[{
+    type: mongoose.Schema.Types.ObjectId,
+    ref : 'userModel'
+  }]
 })
 
 

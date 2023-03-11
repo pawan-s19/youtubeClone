@@ -30,7 +30,8 @@ router.get("/", async function (req, res, next) {
    try{
      // let user = await userModel.findOne({_id:req.session.passport.user._id})
     // res.render("index",{user:user});
-    let user = req.session.passport?.user
+    // let user = req.session.passport?.user
+    let user = await userModel.findOne({_id:req.session.passport.user._id})
     res.render('index', {user})
    }
    catch(err){
@@ -62,7 +63,7 @@ router.get("/signup", function (req, res, next) {
 router.post("/register", async function (req, res, next) {
   try {
     if (!req.body.username || !req.body.email || !req.body.password) {
-      new notifier.WindowsBalloon().notify({
+      new notifire.WindowsBalloon().notify({
         title: "",
         message: "Fill All the Fields",
       });
@@ -73,13 +74,13 @@ router.post("/register", async function (req, res, next) {
     const userAgain = await userModel.findOne({ email: req.body.email });
 
     if (user) {
-      notifier.notify({
+      notifire.notify({
         title: "",
         message: "User Already Exists with the given username",
       });
       return res.redirect("/signup");
     } else if (userAgain) {
-      notifier.notify({
+      notifire.notify({
         title: "",
         message: "User Already Exists with the given email",
       });
@@ -244,20 +245,59 @@ router.get("/uploadPage", (req, res, next) => {
 
 router.post("/createChannel" , async function(req,res){
   let user = await userModel.findOne({_id: req.session.passport.user._id})
-  channelModel.create({
-    channelName : req.body.cname,
-    username : req.body.username,
-    channelOwner : user._id
-  })
-  .then(function(createdChannel){
-    user.channel=createdChannel._id;
-    user.save()
-    .then(function(updatedUser){
-      res.send(updatedUser)
+  if(!user.channel){
+    channelModel.create({
+      channelName : req.body.cname,
+      username : req.body.username,
+      channelOwner : user._id
     })
-  })
+    .then(function(createdChannel){
+      
+      user.channel=createdChannel._id;
+      user.save()
+     
+      .then(function(updatedUser){
+        console.log(user) 
+        return res.redirect('/')
+      })
+    })
+  }else{
+    res.redirect('/')
+  }
 })
 
+
+router.get("/subscribe", (req, res, next) => {
+  channelModel.find()
+  .populate("channelOwner")
+  .then(function(channel){
+    res.render("subscribePage",{dets:channel})
+  })
+});
+
+router.get('/subscribe/:id',function(req,res){
+  userModel.findOne({username:req.session.passport.user.username})
+  .then(function(user){
+    channelModel.findOne({_id:req.params.id})
+    .then(function(channeltobesubscribe){
+      let index = channeltobesubscribe.channelSubscription.indexOf(user._id);
+
+      if(index === -1){
+        channeltobesubscribe.channelSubscription.push(user._id);
+        console.log("pushuser")
+      }
+      else{
+        console.log("removeuser")
+        channeltobesubscribe.channelSubscription.splice(index,1)
+        
+      }
+      channeltobesubscribe.save()
+      .then(function(){
+        res.redirect('/subscribe')
+      })
+    })
+  })
+});
 
 router.get("/upload/video", async (req, res) => {});
 module.exports = router;
