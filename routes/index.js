@@ -48,10 +48,14 @@ router.get("/home", async (req, res) => {
 });
 
 router.get("/home2", async (req, res) => {
-  try {
-    res.render("home2");
-  } catch (error) {
-    return res.json(err);
+  try{
+    // let user = await userModel.findOne({_id:req.session.passport.user._id})
+   // res.render("index",{user:user});
+   let user = req.session.passport?.user
+   res.render('home2', {user})
+  }
+  catch(err){
+   res.send(err)
   }
 });
 
