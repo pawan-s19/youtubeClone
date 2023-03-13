@@ -110,19 +110,12 @@ body {
     bottom: 10px;
     right: 3px;
 }
-.muteIcon{
-    position: absolute;
-    top: 5px;
-    right: 8px;
-    display: none;
-}
-
-video:hover ~ .muteIcon,.muteIcon:hover{
-    display: block;
-}
 
 .iconTextWrapper{
     width: 100%;
+}
+.iconTextWrapper:hover ~ .optionsMenu{
+    opacity: 1;
 }
 .profileIconCtn{
     width: 45px;
@@ -166,6 +159,9 @@ video:hover ~ .muteIcon,.muteIcon:hover{
 .linkTo{
     color: rgb(108,117,125);
     text-decoration: none;
+}
+.optionsMenu{
+    opacity: 0;
 }
 /* For screens smaller than 630px */
 @media only screen and (max-width: 630px) {
