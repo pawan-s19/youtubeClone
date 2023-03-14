@@ -128,12 +128,12 @@
                                     </a>
                                     <div class="text-secondary">
                                         <a class="linkTo text-secondary" href="#">
-                                            <small class="m-0 channelName"><%=elem.userId.channel.channelName%></small>
+                                            <small class="m-0 channelName"><%=elem.userId?.channel.channelName%></small>
                                         </a>
                                     </div>
                                     <div class="text-secondary">
                                         <a class="linkTo text-secondary" href="#">
-                                            <small class="listDot m-0 sm-channelName"><%=elem.userId.channel.channelName%></small>
+                                            <small class="listDot m-0 sm-channelName"><%=elem.userId?.channel.channelName%></small>
                                             <small class="listDot">
                                             <%if(elem.views.length == 0){%>
                                             No views
