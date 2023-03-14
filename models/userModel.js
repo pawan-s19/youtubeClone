@@ -3,15 +3,13 @@ const plm = require("passport-local-mongoose");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  name:{
-    type:String
+  name: {
+    type: String,
   },
-  channel: 
-    {
-      type:mongoose.Schema.Types.ObjectId,
-      ref:'channelModel',
-    }
-  ,
+  channel: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "channelModel",
+  },
   username: {
     type: String,
   },
@@ -37,6 +35,7 @@ const UserSchema = new Schema({
   password: {
     type: String,
   },
+  userPlaylist: [{ types: mongoose.Schema.Types.ObjectId }],
 });
 
 UserSchema.plugin(plm);

@@ -27,7 +27,7 @@ let bucket;
 /* GET home page. */
 
 router.get("/", async function (req, res, next) {
- try {
+  try {
     let LoggedInUser;
     if (req.session.passport?.user) {
       LoggedInUser = await userModel.findOne({
@@ -49,14 +49,16 @@ router.get("/home", async (req, res) => {
 });
 
 router.get("/home2", async (req, res) => {
-  try{
+  try {
     // let user = await userModel.findOne({_id:req.session.passport.user._id})
-   // res.render("index",{user:user});
-   let user = req.session.passport?.user
-   res.render('home2', {user})
-  }
-  catch(err){
-   res.send(err)
+    // res.render("index",{user:user});
+    const videos = await videoModel
+      .find({})
+      .populate({ path: "userId", populate: { path: "channel" } });
+    let user = req.session.passport?.user;
+    res.render("home2", { user, videos, moment });
+  } catch (err) {
+    res.send(err);
   }
 });
 
@@ -165,6 +167,7 @@ router.post("/upload/video", upload().single("file"), async (req, res) => {
   try {
     let video = await videoModel.create({
       video_id: req.file.id,
+      userId: req.session.passport.user._id,
     });
     // if (
     //   fileContent == "video/mp4" ||
@@ -183,50 +186,66 @@ router.post("/upload/video", upload().single("file"), async (req, res) => {
   }
 });
 
-router.get("/redirect/video/dets/:id", async (req, res, next) => {
+router.get(
+  "/redirect/video/dets/:id",
+  isLoggedIn,
+  hasChannel,
+  async (req, res, next) => {
+    try {
+      let video = await videoModel.findOne({ _id: req.params.id });
+      res.render("uploadPageSecond", {
+        id: req.params.id,
+        vidGridFs: video.video_id,
+      });
+    } catch (err) {
+      res.send(err);
+    }
+  }
+);
+
+router.post(
+  "/upload/video/dets/:id",
+  isLoggedIn,
+  hasChannel,
+  async (req, res, next) => {
+    try {
+      const form = formidable({ multiples: true });
+
+      form.parse(req, async (err, fields, files) => {
+        console.log(fields);
+        const { title, description, status } = fields;
+        const { secure_url, public_id } = await cloudinary.v2.uploader.upload(
+          files.thumbnail.filepath,
+          {
+            folder: `youtubethumbnails`,
+            fetch_format: "webp",
+          }
+        );
+        await videoModel.findOneAndUpdate(
+          { _id: req.params.id },
+          {
+            title,
+            description,
+            status,
+            thumbnail: { secure_url, public_id },
+          }
+        );
+      });
+      res.redirect("/uploadPage");
+    } catch (err) {
+      res.send(err);
+    }
+  }
+);
+
+router.get("/single/:id", async (req, res, next) => {
   let video = await videoModel.findOne({ _id: req.params.id });
-  res.render("uploadPageSecond", {
-    id: req.params.id,
-    vidGridFs: video.video_id,
-  });
-});
+  if (req.session.passport?.user) {
+    let userId = req.session.passport.user._id;
 
-router.post("/upload/video/dets/:id", async (req, res, next) => {
-  const form = formidable({ multiples: true });
-
-  form.parse(req, async (err, fields, files) => {
-    console.log(fields);
-    const { title, description, status } = fields;
-    const { secure_url, public_id } = await cloudinary.v2.uploader.upload(
-      files.thumbnail.filepath,
-      {
-        folder: `youtubethumbnails`,
-        fetch_format: "webp",
-      }
-    );
-    await videoModel.findOneAndUpdate(
-      { _id: req.params.id },
-      {
-        title,
-        description,
-        status,
-        thumbnail: { secure_url, public_id },
-      }
-    );
-  });
-  res.redirect("/uploadPage");
-});
-router.get("/videos", async (req, res, next) => {
-  const videos = await videoModel.find({});
-  res.render("videos", { videos, moment });
-});
-
-router.get("/single/:id", isLoggedIn, async (req, res, next) => {
-  let video = await videoModel.findOne({ _id: req.params.id });
-  let userId = req.session.passport.user._id;
-
-  if (video.views.indexOf(userId) == -1) {
-    video.views.push(userId);
+    if (video.views.indexOf(userId) == -1) {
+      video.views.push(userId);
+    }
   }
   await video.save();
   res.render("single", { video });
@@ -280,7 +299,7 @@ router.get("/dislike/:id", isLoggedIn, async (req, res) => {
   await video.save();
   res.redirect(req.headers.referer);
 });
-router.get("/uploadPage", (req, res, next) => {
+router.get("/uploadPage", isLoggedIn, hasChannel, (req, res, next) => {
   res.render("uploadPage");
 });
 
@@ -317,6 +336,14 @@ function isLoggedIn(req, res, next) {
   }
 }
 
+async function hasChannel(req, res, next) {
+  let user = await userModel.findOne({ _id: req.session.passport.user._id });
+  if (user.channel) {
+    return next();
+  } else {
+    res.redirect("/");
+  }
+}
 router.get("/subscribe", (req, res, next) => {
   channelModel
     .find()
@@ -351,5 +378,4 @@ router.get("/subscribe/:id", function (req, res) {
     });
 });
 
-router.get("/upload/video", async (req, res) => {});
 module.exports = router;

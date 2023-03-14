@@ -16,9 +16,7 @@
 
   <body>
     <div id="main">
-      <%if(user){%> 
-        <%=user.channel%>
-      <%if(user.channel){%>
+      <%if(user){%> <%=user.channel%> <%if(user.channel){%>
       <a href="/manageChannel">Manage Your Channel</a>
       <%}else{%>
       <!-- Button trigger modal -->
@@ -91,7 +89,6 @@
       <%}%>
 
       <a href="/logout">click to logout</a>
-      <a href="/videos"> all videos</a>
       <%}else{%>
       <a href="/login">click to login</a>
       <br /><br />
