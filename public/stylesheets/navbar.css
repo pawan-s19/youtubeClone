@@ -126,15 +126,36 @@ body {
     width: 90%;
 }
 
-.signInBtn{
+.signInBtn {
     border: 1px solid white;
     color: white;
     padding: .2rem .5rem;
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden; */
+    cursor: pointer;
+    z-index: 10;
+    /* opacity: 0; */
 }
 
-.signInBtn::after{
+.signUpBtn {
+    border: 1px solid white;
+    color: white;
+    background-color: var(--iconBackFaded);
+    cursor: pointer;
+    padding: .2rem .5rem;
+    overflow: hidden;
+    position: absolute;
+    opacity: 1;
+    white-space: nowrap;
+    right: 14px;
+    top: 2vh;
+    z-index: 9;
+    opacity: 0;
+    scale: .5;
+    transition: all cubic-bezier(0.19, 1, 0.22, 1) .5s;
+}
+
+.signInBtn::after {
     content: '';
     position: absolute;
     z-index: 999;
@@ -144,13 +165,73 @@ body {
     height: 100%;
     background-color: var(--iconBackFaded);
     opacity: 0;
+    border-radius: 100px;
     transition: opacity .25s ease-in-out;
 }
 
-.signInBtn:hover::after{
+.signInBtn:hover::after {
     opacity: 1;
     cursor: pointer;
 }
+
+.user-data {
+    display: flex;
+    align-items: start;
+    gap: .5rem;
+    padding: .2rem .5rem;
+}
+
+.user-data>.profileIcon {
+    flex-shrink: 0;
+}
+
+.user-info-text small {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    width: 150px;
+    /* some width */
+}
+
+.user-info-text>a {
+    font-size: .9rem;
+    text-decoration: none;
+}
+
+.user-info-text>a:hover {
+    background-color: white !important;
+}
+
+.profileIcon {
+    background-color: var(--themeBg);
+}
+
+.profileIcon:hover {
+    background-color: var(--themeBg);
+}
+
+.user-menu {
+    position: absolute;
+    z-index: 999999999999999999999999;
+    color: rgb(78, 32, 78) !important;
+    top: 10%;
+    right: 2%;
+}
+
+.user-menu-body>a {
+    color: rgb(78, 32, 78);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: .2rem;
+    padding: .2rem .4rem;
+}
+
+.user-menu-body a:hover {
+    background-color: var(--iconBackFaded);
+}
+
 /* For screens smaller than 630px */
 @media only screen and (max-width: 630px) {
     .nav-center {
@@ -165,7 +246,8 @@ body {
         gap: 0rem !important;
     }
 
-    .right-icons>i,.searchIconBox>i{
+    .right-icons>i,
+    .searchIconBox>i {
         width: 35px;
         height: 35px;
         font-size: 15px;

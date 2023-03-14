@@ -103,6 +103,22 @@ closeSearchBtn.addEventListener('click', () => {
     hideSmallScreenSearchBox();
 });
 
+let signInBtn = document.querySelector('.signInBtn');
+let signUpBtn = document.querySelector('.signUpBtn');
+
+signInBtn.addEventListener('mouseover',(e) => {
+    signUpBtn.style.transform = "translateY(38px)";
+    signUpBtn.style.scale = "1";
+    signUpBtn.style.opacity = "1";
+});
+
+signInBtn.addEventListener('mouseout', () => {
+    setTimeout(() => {
+        signUpBtn.style.transform = "translateY(0)";
+        signUpBtn.style.scale = ".5";
+        signUpBtn.style.opacity = "0";
+    }, 5000);
+})
 
 function myFunction(x) {
     if (x.matches) { // If media query matches

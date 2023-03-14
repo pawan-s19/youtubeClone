@@ -28,7 +28,7 @@ let bucket;
 
 router.get("/", async function (req, res, next) {
    try{
-     // let user = await userModel.findOne({_id:req.session.passport.user._id})
+    // let user = await userModel.findOne({_id:req.session.passport.user._id})
     // res.render("index",{user:user});
     let user = req.session.passport?.user
     res.render('index', {user})
@@ -40,10 +40,14 @@ router.get("/", async function (req, res, next) {
 });
 
 router.get("/home", async (req, res) => {
-  try {
-    res.render("home");
-  } catch (error) {
-    return res.json(err);
+  try{
+    // let user = await userModel.findOne({_id:req.session.passport.user._id})
+   // res.render("index",{user:user});
+   let user = req.session.passport?.user
+   res.render('videoPlayer', {user})
+  }
+  catch(err){
+   res.send(err)
   }
 });
 
