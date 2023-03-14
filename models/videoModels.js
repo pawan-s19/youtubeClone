@@ -13,6 +13,7 @@ const videoModel = new mongoose.Schema(
       secure_url: { type: String },
       public_id: { type: String },
     },
+    duration: Number,
     views: [{ type: mongoose.Schema.Types.ObjectId, ref: "userModel" }],
 
     status: {

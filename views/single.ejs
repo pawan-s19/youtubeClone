@@ -7,7 +7,43 @@
     <title>Document</title>
   </head>
   <body>
-    <video autoplay src="<%=path%>" height="500" width="800" controls></video>
-    <h4><%=videoName%></h4>
+    <video
+      autoplay
+      src="/play/<%=video.video_id%>"
+      height="500"
+      width="800"
+      controls
+      controlsList="nodownload"
+    ></video>
+    <h4><%=video.title%></h4>
+    <div
+      style="
+        width: 800px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      "
+    >
+      <div>
+        <h3>Channel Name</h3>
+        <h5>Subscribers</h5>
+      </div>
+      <div>
+        <a class="like" href="/like/<%=video._id%>" data-bs-video="<%=video%>"
+          >Like : <%=video.likes.length%></a
+        >
+        <a href="/dislike/<%=video._id%>"
+          >Dislike : <%=video.disLikes.length%></a
+        >
+        <span>Share</span>
+      </div>
+    </div>
+    <h4><%=video.description%></h4>
+    <h3>0 Comments</h3>
+    <form action="/comment/<%=video._id%>" method="post">
+      <input type="text" placeholder="Add a comment" name="comment" />
+      <input type="submit" value="comment" />
+    </form>
   </body>
+  <script src="/javascripts/single.js"></script>
 </html>

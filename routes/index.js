@@ -9,8 +9,8 @@ const mongoose = require("mongoose");
 const cloudinary = require("cloudinary");
 const formidable = require("formidable");
 const moment = require("moment");
-const channelModel = require('../models/channelModel')
-const localStrategy=require('passport-local');
+const channelModel = require("../models/channelModel");
+const localStrategy = require("passport-local");
 const { json } = require("express");
 passport.use(new localStrategy(userModel.authenticate()));
 
@@ -27,16 +27,17 @@ let bucket;
 /* GET home page. */
 
 router.get("/", async function (req, res, next) {
-   try{
-    // let user = await userModel.findOne({_id:req.session.passport.user._id})
-    // res.render("index",{user:user});
-    let user = req.session.passport?.user
-    res.render('index', {user})
-   }
-   catch(err){
-    res.send(err)
-   }
-  
+  try {
+    let LoggedInUser;
+    if (req.session.passport?.user) {
+      LoggedInUser = await userModel.findOne({
+        _id: req.session.passport.user._id,
+      });
+    }
+    res.render("index", { user: LoggedInUser });
+  } catch (err) {
+    res.send(err);
+  }
 });
 
 router.get("/home", async (req, res) => {
@@ -52,14 +53,16 @@ router.get("/home", async (req, res) => {
 });
 
 router.get("/home2", async (req, res) => {
-  try{
+  try {
     // let user = await userModel.findOne({_id:req.session.passport.user._id})
-   // res.render("index",{user:user});
-   let user = req.session.passport?.user
-   res.render('home2', {user})
-  }
-  catch(err){
-   res.send(err)
+    // res.render("index",{user:user});
+    const videos = await videoModel
+      .find({})
+      .populate({ path: "userId", populate: { path: "channel" } });
+    let user = req.session.passport?.user;
+    res.render("home2", { user, videos, moment });
+  } catch (err) {
+    res.send(err);
   }
 });
 
@@ -70,7 +73,7 @@ router.get("/signup", function (req, res, next) {
 router.post("/register", async function (req, res, next) {
   try {
     if (!req.body.username || !req.body.email || !req.body.password) {
-      new notifier.WindowsBalloon().notify({
+      new notifire.WindowsBalloon().notify({
         title: "",
         message: "Fill All the Fields",
       });
@@ -81,13 +84,13 @@ router.post("/register", async function (req, res, next) {
     const userAgain = await userModel.findOne({ email: req.body.email });
 
     if (user) {
-      notifier.notify({
+      notifire.notify({
         title: "",
         message: "User Already Exists with the given username",
       });
       return res.redirect("/signup");
     } else if (userAgain) {
-      notifier.notify({
+      notifire.notify({
         title: "",
         message: "User Already Exists with the given email",
       });
@@ -97,14 +100,14 @@ router.post("/register", async function (req, res, next) {
       var newUser = new userModel({
         username: req.body.username,
         email: req.body.email,
-        name : req.body.name
+        name: req.body.name,
       });
       userModel
         .register(newUser, req.body.password)
         .then(function (registereduser) {
           passport.authenticate("local")(req, res, function () {
-            console.log(registereduser)
-            res.redirect('/')
+            console.log(registereduser);
+            res.redirect("/");
           });
         });
     }
@@ -117,10 +120,13 @@ router.get("/login", function (req, res, next) {
   res.render("login");
 });
 
-router.post('/login' , passport.authenticate('local',{
-  successRedirect: '/',
-  failureRedirect : '/404'
-}))
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/404",
+  })
+);
 
 router.get("/logout", function (req, res, next) {
   req.logout(function (err) {
@@ -165,6 +171,7 @@ router.post("/upload/video", upload().single("file"), async (req, res) => {
   try {
     let video = await videoModel.create({
       video_id: req.file.id,
+      userId: req.session.passport.user._id,
     });
     // if (
     //   fileContent == "video/mp4" ||
@@ -183,54 +190,69 @@ router.post("/upload/video", upload().single("file"), async (req, res) => {
   }
 });
 
-router.get("/redirect/video/dets/:id", async (req, res, next) => {
-  let video = await videoModel.findOne({ _id: req.params.id });
-  res.render("uploadPageSecond", {
-    id: req.params.id,
-    vidGridFs: video.video_id,
-  });
-});
+router.get(
+  "/redirect/video/dets/:id",
+  isLoggedIn,
+  hasChannel,
+  async (req, res, next) => {
+    try {
+      let video = await videoModel.findOne({ _id: req.params.id });
+      res.render("uploadPageSecond", {
+        id: req.params.id,
+        vidGridFs: video.video_id,
+      });
+    } catch (err) {
+      res.send(err);
+    }
+  }
+);
 
-router.post("/upload/video/dets/:id", async (req, res, next) => {
-  const form = formidable({ multiples: true });
+router.post(
+  "/upload/video/dets/:id",
+  isLoggedIn,
+  hasChannel,
+  async (req, res, next) => {
+    try {
+      const form = formidable({ multiples: true });
 
-  form.parse(req, async (err, fields, files) => {
-    console.log(fields);
-    const { title, description, status } = fields;
-    const { secure_url, public_id } = await cloudinary.v2.uploader.upload(
-      files.thumbnail.filepath,
-      {
-        folder: `youtubethumbnails`,
-        fetch_format: "webp",
-      }
-    );
-    await videoModel.findOneAndUpdate(
-      { _id: req.params.id },
-      {
-        title,
-        description,
-        status,
-        thumbnail: { secure_url, public_id },
-      }
-    );
-  });
-  res.redirect("/uploadPage");
-});
-router.get("/videos", async (req, res, next) => {
-  const videos = await videoModel.find({});
-  res.render("videos", { videos, moment });
-});
+      form.parse(req, async (err, fields, files) => {
+        console.log(fields);
+        const { title, description, status } = fields;
+        const { secure_url, public_id } = await cloudinary.v2.uploader.upload(
+          files.thumbnail.filepath,
+          {
+            folder: `youtubethumbnails`,
+            fetch_format: "webp",
+          }
+        );
+        await videoModel.findOneAndUpdate(
+          { _id: req.params.id },
+          {
+            title,
+            description,
+            status,
+            thumbnail: { secure_url, public_id },
+          }
+        );
+      });
+      res.redirect("/uploadPage");
+    } catch (err) {
+      res.send(err);
+    }
+  }
+);
 
 router.get("/single/:id", async (req, res, next) => {
-  const video = await bucket
-    .find({
-      _id: new mongoose.Types.ObjectId(req.params.id),
-    })
-    .toArray();
-  res.render("single", {
-    path: `/play/${req.params.id}`,
-    videoName: video[0].filename,
-  });
+  let video = await videoModel.findOne({ _id: req.params.id });
+  if (req.session.passport?.user) {
+    let userId = req.session.passport.user._id;
+
+    if (video.views.indexOf(userId) == -1) {
+      video.views.push(userId);
+    }
+  }
+  await video.save();
+  res.render("single", { video });
 });
 
 router.get("/play/:id", async (req, res) => {
@@ -246,26 +268,118 @@ router.get("/play/:id", async (req, res) => {
   readStream.pipe(res);
 });
 
-router.get("/uploadPage", (req, res, next) => {
+router.get("/like/:id", isLoggedIn, async (req, res, next) => {
+  let video = await videoModel.findOne({ _id: req.params.id });
+  let userId = req.session.passport.user._id;
+  if (video.likes.indexOf(userId) !== -1) {
+    //if user has already liked the video
+    video.likes.splice(video.likes.indexOf(userId), 1);
+  } else if (video.disLikes.indexOf(userId) !== -1) {
+    //if user has disliked the video
+    video.disLikes.splice(video.disLikes.indexOf(userId), 1);
+    video.likes.push(userId);
+  } else {
+    //if user has not liked nor disliked the video
+    video.likes.push(userId);
+  }
+  await video.save();
+  res.redirect(req.headers.referer);
+});
+
+router.get("/dislike/:id", isLoggedIn, async (req, res) => {
+  let video = await videoModel.findOne({ _id: req.params.id });
+  let userId = req.session.passport.user._id;
+  if (video.disLikes.indexOf(userId) !== -1) {
+    //if user has already disliked
+    video.disLikes.splice(video.disLikes.indexOf(userId), 1);
+  } else if (video.likes.indexOf(userId) !== -1) {
+    //if user has liked the video
+    video.likes.splice(video.likes.indexOf(userId), 1);
+    video.disLikes.push(userId);
+  } else {
+    //if user has not disliked nor liked
+    video.disLikes.push(userId);
+  }
+  await video.save();
+  res.redirect(req.headers.referer);
+});
+router.get("/uploadPage", isLoggedIn, hasChannel, (req, res, next) => {
   res.render("uploadPage");
 });
 
-router.post("/createChannel" , async function(req,res){
-  let user = await userModel.findOne({_id: req.session.passport.user._id})
-  channelModel.create({
-    channelName : req.body.cname,
-    username : req.body.username,
-    channelOwner : user._id
-  })
-  .then(function(createdChannel){
-    user.channel=createdChannel._id;
-    user.save()
-    .then(function(updatedUser){
-      res.send(updatedUser)
-    })
-  })
-})
+router.post("/createChannel", async function (req, res) {
+  let user = await userModel.findOne({ _id: req.session.passport.user._id });
+  if (!user.channel) {
+    channelModel
+      .create({
+        channelName: req.body.cname,
+        username: req.body.username,
+        channelOwner: user._id,
+      })
+      .then(function (createdChannel) {
+        user.channel = createdChannel._id;
+        user
+          .save()
 
+          .then(function (updatedUser) {
+            console.log(user);
+            return res.redirect("/");
+          });
+      });
+  } else {
+    res.redirect("/");
+  }
+});
 
-router.get("/upload/video", async (req, res) => {});
+function isLoggedIn(req, res, next) {
+  // req.user ? next() : res.sendStatus(401);
+  if (req.isAuthenticated() || req.user) {
+    return next();
+  } else {
+    res.redirect("/");
+  }
+}
+
+async function hasChannel(req, res, next) {
+  let user = await userModel.findOne({ _id: req.session.passport.user._id });
+  if (user.channel) {
+    return next();
+  } else {
+    res.redirect("/");
+  }
+}
+router.get("/subscribe", (req, res, next) => {
+  channelModel
+    .find()
+    .populate("channelOwner")
+    .then(function (channel) {
+      res.render("subscribePage", { dets: channel });
+    });
+});
+
+router.get("/subscribe/:id", function (req, res) {
+  userModel
+    .findOne({ username: req.session.passport.user.username })
+    .then(function (user) {
+      channelModel
+        .findOne({ _id: req.params.id })
+        .then(function (channeltobesubscribe) {
+          let index = channeltobesubscribe.channelSubscription.indexOf(
+            user._id
+          );
+
+          if (index === -1) {
+            channeltobesubscribe.channelSubscription.push(user._id);
+            console.log("pushuser");
+          } else {
+            console.log("removeuser");
+            channeltobesubscribe.channelSubscription.splice(index, 1);
+          }
+          channeltobesubscribe.save().then(function () {
+            res.redirect("/subscribe");
+          });
+        });
+    });
+});
+
 module.exports = router;
