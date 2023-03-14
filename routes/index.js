@@ -12,6 +12,7 @@ const moment = require("moment");
 const channelModel = require("../models/channelModel");
 const localStrategy = require("passport-local");
 const { json } = require("express");
+const commentModel = require("../models/commentModel");
 passport.use(new localStrategy(userModel.authenticate()));
 
 //initializing bucket for gridfs
@@ -326,6 +327,19 @@ router.get("/uploadPage", isLoggedIn, hasChannel, (req, res, next) => {
   res.render("uploadPage");
 });
 
+router.post("/comment/:id" ,async function(req,res){
+  // let user = await userModel.findOne({_id:req.session.passport.user._id})
+  let comment = await commentModel.create({
+    comment : req.body.comment,
+    userId : req.session.passport.user._id,
+    name : req.session.passport.user.name
+  })
+  let video = await videoModel.findOne({_id:req.params.id})
+  video.comment.push(comment._id)
+  video.save();
+  res.redirect(req.headers.referer)
+})
+
 router.post("/createChannel", async function (req, res) {
   try {
     let user = await userModel.findOne({ _id: req.session.passport.user._id });
@@ -412,5 +426,10 @@ router.get("/subscribe/:id", function (req, res) {
     res.send(err);
   }
 });
+
+router.get('/channel', async function(req,res){
+  res.render('channel')
+})
+
 
 module.exports = router;
