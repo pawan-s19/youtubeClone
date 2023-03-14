@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: background .25s ease-in-out;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+.menu-vid-parent {
+    height: calc(100vh - 60px);
+    width: 100%;
+    background-color: var(--themeBg);
+}
+
+.right-section {
+    width: calc(100% - 67.823px);
+}
+
+@media only screen and (max-width: 630px) {
+    .right-section{
+        width: 100%;
+    }
+}

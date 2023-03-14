@@ -1,49 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <video
-      autoplay
-      src="/play/<%=video.video_id%>"
-      height="500"
-      width="800"
-      controls
-      controlsList="nodownload"
-    ></video>
-    <h4><%=video.title%></h4>
-    <div
-      style="
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+
+<body>
+  <video autoplay src="/play/<%=video.video_id%>" height="500" width="800" controls controlsList="nodownload"></video>
+  <h4>
+    <%=video.title%>
+  </h4>
+  <div style="
         width: 800px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-      "
-    >
-      <div>
-        <h3>Channel Name</h3>
-        <h5>Subscribers</h5>
-      </div>
-      <div>
-        <a class="like" href="/like/<%=video._id%>" data-bs-video="<%=video%>"
-          >Like : <%=video.likes.length%></a
-        >
-        <a href="/dislike/<%=video._id%>"
-          >Dislike : <%=video.disLikes.length%></a
-        >
-        <span>Share</span>
+      ">
+    <div>
+      <h3>Channel Name</h3>
+      <h5>Subscribers</h5>
+    </div>
+    <div>
+      <a class="like" href="/like/<%=video._id%>" data-bs-video="<%=video%>">Like : <%=video.likes.length%></a>
+      <a href="/dislike/<%=video._id%>">Dislike : <%=video.disLikes.length%></a>
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        share
+      </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <input type="text" value="http://localhost:3000/single/<%=video._id%>" style="width: 100%;">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary copyLinkButton">Copy URL</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <h4><%=video.description%></h4>
-    <h3>0 Comments</h3>
-    <form action="/comment/<%=video._id%>" method="post">
-      <input type="text" placeholder="Add a comment" name="comment" />
-      <input type="submit" value="comment" />
-    </form>
-  </body>
-  <script src="/javascripts/single.js"></script>
+  </div>
+  <h4>
+    <%=video.description%>
+  </h4>
+  <h3>
+    <%video.comment.length%> comments
+  </h3>
+  <form action="/comment/<%=video._id%>" method="post">
+    <input type="text" placeholder="Add a comment" name="comment" />
+    <input type="submit" value="comment" />
+  </form>
+  <%video.comment.forEach(function(elem2){%>
+    <strong>
+      <%=elem2.name%>
+    </strong>
+    <br>
+    <div>
+      <%=elem2.comment%>
+        <a href="/comment/like/<%=elem2._id%>"><i class="ri-thumb-up-line"></i></a>
+        <a href=""><i class="ri-thumb-down-line"></i></a>
+    </div>
+    <br>
+    <%})%>
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+</body>
+<script src="/javascripts/single.js"></script>
+
 </html>
