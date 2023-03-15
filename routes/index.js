@@ -29,13 +29,16 @@ let bucket;
 
 router.get("/", async function (req, res, next) {
   try {
+    const videos = await videoModel
+      .find({})
+      .populate({ path: "userId", populate: { path: "channel" } });
     let LoggedInUser;
     if (req.session.passport?.user) {
       LoggedInUser = await userModel.findOne({
         _id: req.session.passport.user._id,
       });
     }
-    res.render("home2", { user: LoggedInUser });
+    res.render("home2", { user: LoggedInUser, videos, moment });
   } catch (err) {
     res.send(err);
   }
