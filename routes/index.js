@@ -35,7 +35,7 @@ router.get("/", async function (req, res, next) {
         _id: req.session.passport.user._id,
       });
     }
-    res.render("index", { user: LoggedInUser });
+    res.render("home2", { user: LoggedInUser });
   } catch (err) {
     res.send(err);
   }
@@ -248,7 +248,7 @@ router.post(
 
 router.get("/single/:id", async (req, res, next) => {
   try {
-    let video = await videoModel.findOne({ _id: req.params.id });
+    let video = await videoModel.findOne({ _id: req.params.id }).populate('comment');
     if (req.session.passport?.user) {
       let userId = req.session.passport.user._id;
 
@@ -328,16 +328,60 @@ router.get("/uploadPage", isLoggedIn, hasChannel, (req, res, next) => {
 });
 
 router.post("/comment/:id" ,async function(req,res){
-  // let user = await userModel.findOne({_id:req.session.passport.user._id})
+  let user = await userModel.findOne({_id:req.session.passport.user._id})
   let comment = await commentModel.create({
     comment : req.body.comment,
-    userId : req.session.passport.user._id,
+    userId :  user._id,
     name : req.session.passport.user.name
   })
   let video = await videoModel.findOne({_id:req.params.id})
   video.comment.push(comment._id)
   video.save();
   res.redirect(req.headers.referer)
+})
+
+router.get("/comment/like/:id" ,async function(req,res){
+  try {
+    let comment = await commentModel.findOne({ _id: req.params.id });
+    let userId = req.session.passport.user._id;
+    if (comment.likes.indexOf(userId) !== -1) {
+      //if user has already liked the comment
+      comment.likes.splice(comment.likes.indexOf(userId), 1);
+    } else if (comment.disLikes.indexOf(userId) !== -1) {
+      //if user has disliked the comment
+      comment.disLikes.splice(comment.disLikes.indexOf(userId), 1);
+      comment.likes.push(userId);
+    } else {
+      //if user has not liked nor disliked the comment
+      comment.likes.push(userId);
+    }
+    await comment.save();
+    res.redirect(req.headers.referer);
+  } catch (err) {
+    res.send(err);
+  }
+})
+
+router.get("/comment/dislike/:id" ,async function(req,res){
+  try {
+    let comment = await commentModel.findOne({ _id: req.params.id });
+    let userId = req.session.passport.user._id;
+    if (comment.disLikes.indexOf(userId) !== -1) {
+      //if user has already disliked
+      comment.disLikes.splice(comment.disLikes.indexOf(userId), 1);
+    } else if (comment.likes.indexOf(userId) !== -1) {
+      //if user has liked the comment
+      comment.likes.splice(comment.likes.indexOf(userId), 1);
+      comment.disLikes.push(userId);
+    } else {
+      //if user has not disliked nor liked
+      comment.disLikes.push(userId);
+    }
+    await comment.save();
+    res.redirect(req.headers.referer);
+  } catch (err) {
+    res.send(err);
+  }
 })
 
 router.post("/createChannel", async function (req, res) {
@@ -428,7 +472,38 @@ router.get("/subscribe/:id", function (req, res) {
 });
 
 router.get('/channel', async function(req,res){
-  res.render('channel')
+  try {
+    // let user = await userModel.findOne({_id:req.session.passport.user._id})
+    // res.render("index",{user:user});
+    const videos = await videoModel
+      .find({})
+      .populate({ path: "userId", populate: { path: "channel" } });
+    let user = req.session.passport?.user;
+    res.render("channel", { user, videos, moment });
+  } catch (err) {
+    res.send(err);
+  }
+})
+
+
+router.get('/addToWatchLater/:id', async function(req,res){
+  try {
+    let user = await userModel.findOne({_id:req.session.passport.user._id})
+    user.watchLater.push(req.params.id);
+    user.save()
+    res.send(user)
+  } catch (error) {
+    res.send(err)
+  }
+})
+
+router.get('/watchLaterVideos', async function(req,res){
+  try {
+    let user = await userModel.findOne({ _id: req.session.passport.user._id }).populate('watchLater');
+    res.render('watchlater',{user})
+  } catch (error) {
+    res.send(error)
+  }
 })
 
 

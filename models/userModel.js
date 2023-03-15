@@ -35,7 +35,8 @@ const UserSchema = new Schema({
   password: {
     type: String,
   },
-  userPlaylist: [{ types: mongoose.Schema.Types.ObjectId }],
+  userPlaylist: [{ type: mongoose.Schema.Types.ObjectId }],
+  watchLater: [{ type: mongoose.Schema.Types.ObjectId, ref: 'videoModel' }]
 });
 
 UserSchema.plugin(plm);
