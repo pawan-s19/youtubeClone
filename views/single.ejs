@@ -69,10 +69,10 @@
       <%=elem2.name%>
     </strong>
     <br>
-    <div>
+    <div> 
       <%=elem2.comment%>
-        <a href="/comment/like/<%=elem2._id%>"><i class="ri-thumb-up-line"></i></a>
-        <a href=""><i class="ri-thumb-down-line"></i></a>
+        <a href="/comment/like/<%=elem2._id%>"><i class="ri-thumb-up-line"></i><%=elem2.likes.length%></a>
+        <a href="/comment/dislike/<%=elem2._id%>"><i class="ri-thumb-down-line"></i><%=elem2.disLikes.length%></a>
     </div>
     <br>
     <%})%>
