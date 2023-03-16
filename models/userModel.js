@@ -35,7 +35,7 @@ const UserSchema = new Schema({
   password: {
     type: String,
   },
-  userPlaylist: [{ type: mongoose.Schema.Types.ObjectId }],
+  userPlaylist: [{ type: mongoose.Schema.Types.ObjectId , ref: "userPlayListModel" }],
   watchLater: [{ type: mongoose.Schema.Types.ObjectId, ref: 'videoModel' }]
 });
 

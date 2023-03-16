@@ -509,4 +509,14 @@ router.get('/watchLaterVideos', async function(req,res){
   }
 })
 
+
+router.get('/createplaylist/:id', async function(req,res){
+  try {
+    
+  } catch (error) {
+    res.send(error)
+  }
+})
+
+
 module.exports = router;
