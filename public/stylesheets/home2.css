@@ -118,9 +118,7 @@ video[poster] {
 .iconTextWrapper {
   width: 100%;
 }
-.iconTextWrapper:hover ~ .optionsMenu {
-  opacity: 1;
-}
+
 .profileIconCtn {
   width: 45px;
   border-radius: 50%;
@@ -164,9 +162,12 @@ video[poster] {
   color: rgb(108, 117, 125);
   text-decoration: none;
 }
-.optionsMenu {
-  opacity: 0;
+
+.optionsMenu{
+  visibility: hidden;
+  cursor: pointer;
 }
+
 
 /* For screens smaller than 630px */
 @media only screen and (max-width: 630px) {

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <title>Document</title>
+</head>
+    <style>
+        .createChannelBtn{
+            background-color: var(--themeBg);
+            padding: .2rem .5rem;
+            border-radius: 5px;
+            color: white;
+            border: none;
+        }
+        .createChannelBtn:hover{
+            background-color: #212121ea;
+        }
+        .createChannelBtn:active{
+            background-color: var(--themeBg);
+        }
+    </style>
+<body>
+    <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@fat">Open modal for @fat</button> -->
+    
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Create Your Channel</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form method="post" action="/createChannel" >
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Channel Name</label>
+                <input name="cname" value="<%=user?.name%>" type="text" class="form-control" id="recipient-name">
+              </div>
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Usename</label>
+                <input name="username" value="<%=user?.name%>" disabled type="text" class="form-control" id="recipient-name">
+              </div>
+                <button type="submit" class="createChannelBtn">Create</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+</html>

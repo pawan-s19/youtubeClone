@@ -35,15 +35,15 @@
                         data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"></i>
                 </div>
                 <div class="nav-left">
-                    <a class="text-decoration-none text-light" href="">
+                    <a class="text-decoration-none text-light" href="/">
                         WeTube
                     </a>
                 </div>
             </div>
             <div class="nav-center flex-grow-1">
                 <div class="nav-searchbox d-flex align-items-center gap-2 justify-content-center">
-                    <form class="d-flex" role="search">
-                        <input class="form-control rounded-0 rounded-start bg-transparent text-light" type="search"
+                    <form method="get" action="/search" class="d-flex" role="search">
+                        <input name="keyword" class="form-control rounded-0 rounded-start bg-transparent text-light" type="search"
                             placeholder="Search" aria-label="Search">
                         <button disabled
                             class="btn btn-light rounded-0 rounded-end border-start-0 d-flex align-items-center justify-content-center"
@@ -63,12 +63,11 @@
                             <div class="card card-body text-dark user-menu-body p-0">
                                 <div class="user-data">
                                     <div class="Navicon profileIcon">
-                                        T
+                                        <%=user.name.charAt(0).toUpperCase()%>
                                     </div>
                                     <div class="user-info-text">
                                         <small><%=user.name%></small>
                                         <small><%=user.email%></small>
-                                        <a href="">Manage Your User Profile</a>
                                     </div>
                                 </div>
                                 <hr>
@@ -78,7 +77,7 @@
                                         Manage Your channel
                                     </a>
                                 <% }else{ %>
-                                    <a href="">
+                                    <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@fat">
                                         <i class="ri-user-3-line"></i>
                                         Create a channel
                                     </a>
@@ -92,7 +91,7 @@
                         <!-- <div class="searchIconBox gap-2 align-items-center text-light small-screen-icon">
                             <i class="Navicon OpenSearch filled-icon ri-search-line"></i>
                         </div> -->
-                        <i class="Navicon ri-video-add-line"></i>
+                        <i class="Navicon ri-video-add-line" data-bs-toggle="modal" data-bs-target="#videoUploadModal" data-bs-whatever="@getbootstrap"></i>
                         <i class="Navicon ri-notification-4-line"></i>
                         <i class="Navicon ri-user-3-line" data-bs-toggle="collapse"
                         data-bs-target="#collapse-user-menu" aria-expanded="false"

@@ -36,17 +36,20 @@ descriptionBox.addEventListener('click', (e) => {
 })
 
 let allVideosSec = document.querySelectorAll('.videoAndTextWrapper')
-let optionsMenu = document.querySelector('.optionsMenu');
+let optionsMenu = document.querySelectorAll('.optionsMenu');
 
 let isOptionsBoxOpen = false;
 
-optionsMenu.addEventListener('show.bs.dropdown', event => {
-    isOptionsBoxOpen = true;
-})
-
-optionsMenu.addEventListener('hide.bs.dropdown', event => {
-    isOptionsBoxOpen = false;
-    optionsMenu.style.visibility = 'hidden'
+optionsMenu.forEach((e) => {
+  e.addEventListener('show.bs.dropdown', event => {
+      isOptionsBoxOpen = true;
+  })
+  
+  e.addEventListener('hide.bs.dropdown', event => {
+      isOptionsBoxOpen = false;
+      console.log(e)
+      e.style.visibility = 'hidden'
+  })
 })
 
 allVideosSec.forEach((wrapper) => {
