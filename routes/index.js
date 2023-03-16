@@ -556,4 +556,14 @@ router.get('/signInPage', async (req, res) => {
   }
 });
 
+
+router.get('/createplaylist/:id', async function(req,res){
+  try {
+    
+  } catch (error) {
+    res.send(error)
+  }
+})
+
+
 module.exports = router;
