@@ -35,7 +35,10 @@ const UserSchema = new Schema({
   password: {
     type: String,
   },
-  userPlaylist: [{ types: mongoose.Schema.Types.ObjectId }],
+  userPlaylist: [{ type: mongoose.Schema.Types.ObjectId }],
+  notifications: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "notificationModel" },
+  ],
 });
 
 UserSchema.plugin(plm);

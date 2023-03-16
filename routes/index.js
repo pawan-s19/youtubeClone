@@ -13,6 +13,7 @@ const channelModel = require("../models/channelModel");
 const localStrategy = require("passport-local");
 const { json } = require("express");
 const commentModel = require("../models/commentModel");
+const notificationModel = require("../models/notificationModel");
 passport.use(new localStrategy(userModel.authenticate()));
 
 //initializing bucket for gridfs
@@ -59,7 +60,9 @@ router.get("/home2", async (req, res) => {
     const videos = await videoModel
       .find({})
       .populate({ path: "userId", populate: { path: "channel" } });
-    let user = req.session.passport?.user;
+
+      
+    let user = await userModel.findOne({_id:req.session.passport.user._id});
     res.render("home2", { user, videos, moment });
   } catch (err) {
     res.send(err);
@@ -238,7 +241,34 @@ router.post(
             thumbnail: { secure_url, public_id },
           }
         );
+
+        let user = await userModel
+          .findOne({ _id: req.session.passport.user._id })
+          .populate({
+            path: "channel",
+            populate: { path: "channelSubscription" },
+          });
+        console.log(user);
+        user.channel.channelSubscription.forEach(async function (elem) {
+          let notification = await notificationModel.create({
+            userId: elem._id,
+            channelId: user.channel._id,
+            videoId: req.params.id,
+          });
+          elem.notifications.push(notification._id);
+          await elem.save();
+        });
+        // user.channel.subscriberCount.forEach(async function (elem) {
+        //   let notification = await notificationModel.create({
+        //     userId: elem._id,
+        //     channelId: user.channel._id,
+        //     videoId: req.params.id,
+        //   });
+        //   elem.notifications.push(notification._id);
+        //   await elem.save();
+        // });
       });
+
       res.redirect("/uploadPage");
     } catch (err) {
       res.send(err);
@@ -327,18 +357,18 @@ router.get("/uploadPage", isLoggedIn, hasChannel, (req, res, next) => {
   res.render("uploadPage");
 });
 
-router.post("/comment/:id" ,async function(req,res){
+router.post("/comment/:id", async function (req, res) {
   // let user = await userModel.findOne({_id:req.session.passport.user._id})
   let comment = await commentModel.create({
-    comment : req.body.comment,
-    userId : req.session.passport.user._id,
-    name : req.session.passport.user.name
-  })
-  let video = await videoModel.findOne({_id:req.params.id})
-  video.comment.push(comment._id)
+    comment: req.body.comment,
+    userId: req.session.passport.user._id,
+    name: req.session.passport.user.name,
+  });
+  let video = await videoModel.findOne({ _id: req.params.id });
+  video.comment.push(comment._id);
   video.save();
-  res.redirect(req.headers.referer)
-})
+  res.redirect(req.headers.referer);
+});
 
 router.post("/createChannel", async function (req, res) {
   try {
@@ -427,9 +457,8 @@ router.get("/subscribe/:id", function (req, res) {
   }
 });
 
-router.get('/channel', async function(req,res){
-  res.render('channel')
-})
-
+router.get("/channel", async function (req, res) {
+  res.render("channel");
+});
 
 module.exports = router;

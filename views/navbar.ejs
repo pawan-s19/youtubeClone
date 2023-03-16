@@ -1,127 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/stylesheets/navbar.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/navbar.css" />
     <title>Document</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div>
-        <div class="nav small-screen-search d-flex align-items-center justify-content-between px-2 flex-nowrap">
-            <div class="sm-nav-left me-2">
-                <i class="Navicon CloseSearch ri-arrow-left-line"></i>
-            </div>
-            <div class="sm-nav-center flex-grow-1">
-                <div class="nav-searchbox d-flex align-items-center gap-2 justify-content-center">
-                    <form class="d-flex" role="search">
-                        <input class="form-control rounded-0 rounded-start bg-transparent text-light" type="search"
-                            placeholder="Search" aria-label="Search">
-                        <button disabled
-                            class="btn btn-light rounded-0 rounded-end border-start-0 d-flex align-items-center justify-content-center"
-                            type="submit"><i class="ri-search-line"></i></button>
-                    </form>
-                    <i class="Navicon small-mic filled-icon mic ri-mic-fill"></i>
-                </div>
-            </div>
+      <div
+        class="nav small-screen-search d-flex align-items-center justify-content-between px-2 flex-nowrap"
+      >
+        <div class="sm-nav-left me-2">
+          <i class="Navicon CloseSearch ri-arrow-left-line"></i>
         </div>
-        <div class="nav d-flex align-items-center justify-content-between px-3">
-            <div class="nav-left d-flex align-items-center">
-                <div class="nav-menu">
-                    <i class="Navicon ri-menu-fill me-2" data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"></i>
-                </div>
-                <div class="nav-left">
-                    <a class="text-decoration-none text-light" href="">
-                        WeTube
-                    </a>
-                </div>
+        <div class="sm-nav-center flex-grow-1">
+          <div
+            class="nav-searchbox d-flex align-items-center gap-2 justify-content-center"
+          >
+            <form class="d-flex" role="search">
+              <input
+                class="form-control rounded-0 rounded-start bg-transparent text-light"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button
+                disabled
+                class="btn btn-light rounded-0 rounded-end border-start-0 d-flex align-items-center justify-content-center"
+                type="submit"
+              >
+                <i class="ri-search-line"></i>
+              </button>
+            </form>
+            <i class="Navicon small-mic filled-icon mic ri-mic-fill"></i>
+          </div>
+        </div>
+      </div>
+      <div class="nav d-flex align-items-center justify-content-between px-3">
+        <div class="nav-left d-flex align-items-center">
+          <div class="nav-menu">
+            <i
+              class="Navicon ri-menu-fill me-2"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasWithBothOptions"
+              aria-controls="offcanvasWithBothOptions"
+            ></i>
+          </div>
+          <div class="nav-left">
+            <a class="text-decoration-none text-light" href=""> WeTube </a>
+          </div>
+        </div>
+        <div class="nav-center flex-grow-1">
+          <div
+            class="nav-searchbox d-flex align-items-center gap-2 justify-content-center"
+          >
+            <form class="d-flex" role="search">
+              <input
+                class="form-control rounded-0 rounded-start bg-transparent text-light"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button
+                disabled
+                class="btn btn-light rounded-0 rounded-end border-start-0 d-flex align-items-center justify-content-center"
+                type="submit"
+              >
+                <i class="ri-search-line"></i>
+              </button>
+            </form>
+            <i class="Navicon big-mic filled-icon mic ri-mic-fill"></i>
+          </div>
+        </div>
+        <div class="nav-right">
+          <div class="right-icons d-flex align-items-center text-light">
+            <div
+              class="searchIconBox gap-2 align-items-center text-light small-screen-icon"
+            >
+              <i class="Navicon OpenSearch filled-icon ri-search-line"></i>
             </div>
-            <div class="nav-center flex-grow-1">
-                <div class="nav-searchbox d-flex align-items-center gap-2 justify-content-center">
-                    <form class="d-flex" role="search">
-                        <input class="form-control rounded-0 rounded-start bg-transparent text-light" type="search"
-                            placeholder="Search" aria-label="Search">
-                        <button disabled
-                            class="btn btn-light rounded-0 rounded-end border-start-0 d-flex align-items-center justify-content-center"
-                            type="submit"><i class="ri-search-line"></i></button>
-                    </form>
-                    <i class="Navicon big-mic filled-icon mic ri-mic-fill"></i>
+            <% if(user){ %>
+            <!-- USER EXISTS -->
+            <div class="collapse user-menu" id="collapse-user-menu">
+              <div class="card card-body text-dark user-menu-body p-0">
+                <div class="user-data">
+                  <div class="Navicon profileIcon">T</div>
+                  <div class="user-info-text">
+                    <small><%=user.name%></small>
+                    <small><%=user.email%></small>
+                    <a href="">Manage Your User Profile</a>
+                  </div>
                 </div>
+                <hr />
+                <% if(user.channel){ %>
+                <a href="">
+                  <i class="ri-user-3-line"></i>
+                  Manage Your channel
+                </a>
+                <% }else{ %>
+                <a href="">
+                  <i class="ri-user-3-line"></i>
+                  Create a channel
+                </a>
+                <% } %>
+                <a href="/logout">
+                  <i class="ri-logout-box-line"></i>
+                  Sign out
+                </a>
+              </div>
             </div>
-            <div class="nav-right">
-                <div class="right-icons d-flex align-items-center text-light">
-                    <div class="searchIconBox gap-2 align-items-center text-light small-screen-icon">
-                        <i class="Navicon OpenSearch filled-icon ri-search-line"></i>
-                    </div>
-                    <% if(user){ %>
-                        <!-- USER EXISTS -->
-                        <div class="collapse user-menu" id="collapse-user-menu">
-                            <div class="card card-body text-dark user-menu-body p-0">
-                                <div class="user-data">
-                                    <div class="Navicon profileIcon">
-                                        T
-                                    </div>
-                                    <div class="user-info-text">
-                                        <small><%=user.name%></small>
-                                        <small><%=user.email%></small>
-                                        <a href="">Manage Your User Profile</a>
-                                    </div>
-                                </div>
-                                <hr>
-                                <% if(user.channel){ %>
-                                    <a href="">
-                                        <i class="ri-user-3-line"></i>
-                                        Manage Your channel
-                                    </a>
-                                <% }else{ %>
-                                    <a href="">
-                                        <i class="ri-user-3-line"></i>
-                                        Create a channel
-                                    </a>
-                                <% } %>
-                                <a href="/logout">
-                                    <i class="ri-logout-box-line"></i>
-                                    Sign out
-                                </a>
-                            </div>
-                        </div>
-                        <!-- <div class="searchIconBox gap-2 align-items-center text-light small-screen-icon">
+            <!-- <div class="searchIconBox gap-2 align-items-center text-light small-screen-icon">
                             <i class="Navicon OpenSearch filled-icon ri-search-line"></i>
                         </div> -->
-                        <i class="Navicon ri-video-add-line"></i>
-                        <i class="Navicon ri-notification-4-line"></i>
-                        <i class="Navicon ri-user-3-line" data-bs-toggle="collapse"
-                        data-bs-target="#collapse-user-menu" aria-expanded="false"
-                        aria-controls="collapse-user-menu"></i>
-                                    <!-- USER DOSEN'T EXISTS -->
-                    <% }else{ %>
-                        <div class="signInBtn d-flex align-items-center rounded-pill gap-1 flex-nowrap ms-2"
-                            data-bs-toggle="modal" data-bs-target="#signinModal">
-                            <i class="ri-shield-user-line"></i>
-                            <small>Sign in</small>
-                        </div>
-                        <div class="signUpBtn d-flex align-items-center rounded-pill gap-1 flex-nowrap ms-2"
-                            data-bs-toggle="modal" data-bs-target="#signupModal">
-                            <i class="ri-shield-user-line"></i>
-                            <small>Sign up</small>
-                        </div>
-                        <!-- <div class="dropdown">
+            <i class="Navicon ri-video-add-line"></i>
+            <i
+              class="Navicon ri-notification-4-line"
+              data-bs-toggle="modal"
+              data-bs-target="#notificationModal"
+            ></i>
+
+            <i
+              class="Navicon ri-user-3-line"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapse-user-menu"
+              aria-expanded="false"
+              aria-controls="collapse-user-menu"
+            ></i>
+            <!-- USER DOSEN'T EXISTS -->
+            <% }else{ %>
+            <div
+              class="signInBtn d-flex align-items-center rounded-pill gap-1 flex-nowrap ms-2"
+              data-bs-toggle="modal"
+              data-bs-target="#signinModal"
+            >
+              <i class="ri-shield-user-line"></i>
+              <small>Sign in</small>
+            </div>
+            <div
+              class="signUpBtn d-flex align-items-center rounded-pill gap-1 flex-nowrap ms-2"
+              data-bs-toggle="modal"
+              data-bs-target="#signupModal"
+            >
+              <i class="ri-shield-user-line"></i>
+              <small>Sign up</small>
+            </div>
+            <!-- <div class="dropdown">
                             <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapse-user-menu" aria-expanded="false"
                                 aria-controls="collapse-user-menu">
                                 Button with data-bs-target
                             </button>
                         </div> -->
-                    <% } %>
-                </div>
-            </div>
+            <% } %>
+          </div>
         </div>
+      </div>
     </div>
     <script src="/javascripts/navbar.js"></script>
-</body>
-
+  </body>
 </html>

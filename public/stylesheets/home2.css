@@ -167,7 +167,41 @@ video[poster] {
 .optionsMenu {
   opacity: 0;
 }
-
+.notification-parent {
+  background-color: var(--themeBg) !important;
+  color: #b6b6b6 !important;
+}
+.notification {
+  height: 82vh !important;
+}
+.notification-grid {
+  width: 100%;
+}
+.notification-channel-profile {
+  height: 5vmax;
+  width: 5vmax;
+  overflow: hidden;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.notification-dets {
+  width: 55%;
+}
+.notification-video {
+  height: 6vmax;
+  width: 9vmax;
+  border-radius: 0.5em;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.notification-channel-profile-image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.ri-notification-fill {
+  font-size: 12vmax;
+}
 /* For screens smaller than 630px */
 @media only screen and (max-width: 630px) {
   .left-menu-bar {
