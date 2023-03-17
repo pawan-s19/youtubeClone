@@ -152,13 +152,13 @@
                                     <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown" aria-expanded="false"></i>
                                     <ul class="dropdown-menu">
                                         <li>
-                                        <a class="dropdown-item d-flex align-items-center gap-2" href="/addToWatchLater/<%=elem._id%>">
+                                        <a class="dropdown-item d-flex align-items-center gap-2" data-bs-prefix="/addToWatchLater/<%=elem._id%>" href="/addToWatchLater/<%=elem._id%>">
                                             <i class="ri-time-line"></i>
                                             <p class="m-0">Save to Watch Later</p>
                                         </a>
                                         </li>
                                         <li>
-                                        <a class="dropdown-item d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#playlistModal" data-bs-whatever="<%=elem._id%>" data-bs-createdPls="<%=user?.userPlaylist%>">
+                                        <a class="dropdown-item d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#playlistModal" data-bs-whatever="<%=elem._id%>" data-bs-createdPls="<%=JSON.stringify(user?.userPlaylist)%>">
                                             <i class="ri-play-list-add-line"></i>
                                             <p class="m-0">Save to Playlist</p>
                                         </a>

@@ -13,6 +13,7 @@ const channelModel = require("../models/channelModel");
 const localStrategy = require("passport-local");
 const { json } = require("express");
 const commentModel = require("../models/commentModel");
+const userplaylistModel = require("../models/userPlayListModel")
 passport.use(new localStrategy(userModel.authenticate()));
 
 //initializing bucket for gridfs
@@ -36,7 +37,7 @@ router.get("/", async function (req, res, next) {
     if (req.session.passport?.user) {
       LoggedInUser = await userModel.findOne({
         _id: req.session.passport.user._id,
-      });
+      }).populate('userPlaylist');
     }
     res.render("home2", { user: LoggedInUser, videos, moment });
   } catch (err) {
@@ -504,9 +505,11 @@ router.get('/channel', async function(req,res){
 router.get('/addToWatchLater/:id', async function(req,res){
   try {
     let user = await userModel.findOne({_id:req.session.passport.user._id})
-    user.watchLater.push(req.params.id);
-    user.save()
-    res.send(user)
+    if(user.watchLater.indexOf(req.params.id)===-1){
+      user.watchLater.push(req.params.id);
+      user.save()
+    }
+    res.redirect('/')
   } catch (error) {
     res.send(error)
   }
@@ -557,9 +560,30 @@ router.get('/signInPage', async (req, res) => {
 });
 
 
-router.get('/createplaylist/:id', async function(req,res){
+router.post('/createplaylist/:id', isLoggedIn, async function(req,res){
   try {
-    
+    let user = await userModel.findOne({_id:req.session.passport.user._id})
+    let playlist = await userplaylistModel.create({
+      playListName : req.body.playListname,
+      creater:  user._id,
+      videos : req.params.id
+    })
+    user.userPlaylist.push(playlist._id)
+    user.save();
+    res.redirect('/')
+  } catch (error) {
+    res.send(error)
+  }
+})
+
+router.get("/addToPlaylist/:plid/:id" , async function(req,res){
+  try {
+    let playlist = await  userplaylistModel.findOne({_id : req.params.plid})
+    if(playlist.videos.indexOf(req.params.id)===-1){
+      playlist.videos.push(req.params.id)
+      playlist.save();
+    }
+    res.redirect('/')
   } catch (error) {
     res.send(error)
   }
