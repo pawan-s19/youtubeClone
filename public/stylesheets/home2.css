@@ -91,6 +91,7 @@ body {
 }
 
 .video-container {
+  /* height: fit-content; */
   position: relative;
 }
 

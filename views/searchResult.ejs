@@ -11,52 +11,73 @@
     <title>Document</title>
 </head>
 <body>
-    <%-include('signInModal') %>
-    <%-include('modal') %>
     <%- include('navbar') %>
     <div class="menu-vid-parent d-flex flex-fill">
         <%-include('sideMenu') %>
-        <%-include('bottomMenu') %>
         <div class="right-section">
             <% if(videos.length > 0){ %>
                 <% videos.forEach(function(elem){ %>
-                    <div class="videoAndTextWrapper d-flex align-items-top gap-4 text-light mb-3">
+                    <div class="videoAndTextWrapper d-flex align-items-top gap-4 text-light mb-3" videoId="<%=elem._id%>">
                         <div class="sm-video-wrapper">
                             <video oncontextmenu="return false;" disablepictureinpicture muted controlsList="nofullscreen nodownload noremoteplayback noplaybackrate" src="/play/<%=elem.video_id%>"></video>
                           <img
                             src="<%=elem.thumbnail.secure_url%>"
                             alt="">
                         </div>
-                        <div class="videoTitleAndStats">
-                          <p title="<%=elem?.title%>" class="m-0 fw-semibold ">
-                            <%=elem?.title%>
-                          </p>
-                          <div class="sm-video-stats text-muted">
-                            <small class="listDot">
-                                <%if(elem.views.length == 0){%>
-                                 No views
-                                <% }else{%>
-                                  <%=elem.views.length%> Views
-                                <% }%>
-                            </small>
-                            <small><%=moment(elem.createdAt).fromNow()%></small>
-                            <small>7 months ago</small>
+                        <div class="videoTitleAndStats d-flex align-items-top flex-nowrap justify-content-between">
+                          <div class="onlyStats">
+                            <p title="<%=elem?.title%>" class="m-0 fw-semibold ">
+                              <%=elem?.title%>
+                            </p>
+                            <div class="sm-video-stats text-muted">
+                              <small class="listDot">
+                                  <%if(elem.views.length == 0){%>
+                                   No views
+                                  <% }else{%>
+                                    <%=elem.views.length%> Views
+                                  <% }%>
+                              </small>
+                              <small><%=moment(elem.createdAt).fromNow()%></small>
+                            </div>
+                            <div class="channelInfoWrapper d-flex align-items-center gap-2 mt-2">
+                              <a class="anchorWrap text-light" href="/channel">
+                                  <div title="Go To Channel" class="profile">
+                                    <img src="/Sample_Profile/pf2.jpg" alt="">
+                                  </div>
+                              </a>
+                              <a class="anchorWrap text-light" href="/channel">
+                                  <small title="<%=elem.userId?.channel.channelName%>" class="text-muted"><%=elem.userId?.channel.channelName%></small>
+                              </a>
+                            </div>
+                            <div class="channelDescription mt-2">
+                                  <small title="From the video description" class=" text-muted"><%=elem?.description%></small>
+                            </div>
                           </div>
-                          <div class="channelInfoWrapper d-flex align-items-center gap-2 mt-2">
-                            <a class="anchorWrap text-light" href="">
-                                <div title="Go To Channel" class="profile">
-                                  <img src="/Sample_Profile/pf2.jpg" alt="">
-                                </div>
-                            </a>
-                            <a class="anchorWrap text-light" href="">
-                                <small title="<%=elem.userId?.channel.channelName%>" class="text-muted"><%=elem.userId?.channel.channelName%></small>
-                            </a>
-                          </div>
-                          <div class="channelDescription mt-2">
-                                <small title="From the video description" class=" text-muted"><%=elem?.description%></small>
+                          <div auto class="optionsMenu text-light">
+                            <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown" aria-expanded="false" ></i>
+                            <ul class="dropdown-menu">
+                              <li>
+                                <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                                  <i class="ri-time-line"></i>
+                                  <p class="m-0">Save to Watch Later</p>
+                                </a>
+                              </li>
+                              <li>
+                                <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                                  <i class="ri-play-list-add-line"></i>
+                                  <p class="m-0">Save to Playlist</p>
+                                </a>
+                              </li>
+                              <li>
+                                <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                                  <i class="ri-share-forward-line"></i>
+                                  <p class="m-0">Share</p>
+                                </a>
+                              </li>
+                            </ul>
                           </div>
                         </div>
-                        <div auto class="optionsMenu text-light">
+                        <!-- <div auto class="optionsMenu text-light">
                           <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown" aria-expanded="false" ></i>
                           <ul class="dropdown-menu">
                             <li>
@@ -77,9 +98,8 @@
                                 <p class="m-0">Share</p>
                               </a>
                             </li>
-                            
                           </ul>
-                        </div>
+                        </div> -->
                     </div>
                 <% }) %>
             <% }else{ %>
