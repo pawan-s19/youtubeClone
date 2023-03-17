@@ -19,6 +19,25 @@ let descriptionBox = document.querySelector('.description');
 let descriptionText = document.querySelector('.desText');
 let showMore = document.querySelector('.showMore');
 
+let editcomment = document.querySelectorAll('.comment-edit');
+let commentform = document.querySelector('.comment-form');
+
+// console.log(dropdownmenu)
+
+editcomment.forEach(function(e){
+    console.log(e)
+    e.addEventListener("click",function(elem){
+        this.parentNode.children[1].children[0].style.display = 'block'
+    })
+})
+
+// editcomment.addEventListener('click' , function(e){
+//     commentform.style.display = 'block'
+//     // dropdownmenu.show()  
+// })
+
+
+
 let isShowMore = false;
 descriptionBox.addEventListener('click', (e) => {
     if (isShowMore) {

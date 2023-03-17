@@ -9,6 +9,14 @@ const playListModel = new mongoose.Schema({
     videos:[{
         type: mongoose.Schema.Types.ObjectId,
         ref : "videoModels"
+    }],
+    comment: [{ 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "commentModel" 
+    }],
+    likedVideos: [{ 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "videoModels" 
     }]
 })
 

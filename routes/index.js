@@ -694,4 +694,21 @@ router.get('/feed/library' ,async (req, res) => {
   } 
 });
 
+router.get('/comment/delete/:id', async function(req,res){
+  let comment = await commentModel.findOne({_id:req.params.id})
+  if(comment.userId.indexOf(req.session.passport?.user._id)!==-1){
+    comment.deleteOne({_id: req.params.id})
+  }
+  res.redirect(req.headers.referer)
+})
+
+router.post('/comment/edit/:id' , async function(req,res){
+  let comment = await commentModel.findOne({_id:req.params.id})
+  if(comment.userId.indexOf(req.session.passport?.user._id)!==-1){
+    comment.comment = req.body.comment
+    comment.save();
+  }
+  res.redirect(req.headers.referer)
+})
+
 module.exports = router;
