@@ -692,9 +692,9 @@ router.post('/createplaylist/:id', isLoggedIn, async function(req,res){
     user.save();
     res.redirect('/')
   } catch (error) {
-    res.send(error)
+    res.send(error);
   }
-})
+});
 
 router.get("/addToPlaylist/:plid/:id" , async function(req,res){
   try {
@@ -732,14 +732,29 @@ router.get("/feed/history", async function (req, res) {
   }
 });
 
-// user subscribed channels
-router.get('/feed/subscriptions', async (req,res) => {
+router.get("/feed/subscriptions", isLoggedIn, (req, res) => {
   try {
+    res.send("subscription page");
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+router.get("/feed/library", async (req, res) => {
+  try {
+    const videos = await videoModel
+      .find({})
+      .populate({ path: "userId", populate: { path: "channel" } });
     let LoggedInUser;
     if (req.session.passport?.user) {
-      LoggedInUser = await userModel.findOne({
-        _id: req.session.passport.user._id,
-      });
+      LoggedInUser = await userModel
+        .findOne({
+          _id: req.session.passport.user._id,
+        })
+        .populate({
+          path: "notifications",
+          populate: { path: "userId channelId videoId" },
+        });
     }
     res.render('subscriptions', {user: LoggedInUser});
   } catch (error) {

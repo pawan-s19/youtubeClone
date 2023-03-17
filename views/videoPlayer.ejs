@@ -136,59 +136,14 @@
                           <img src="/Sample_Profile/pf2.jpg" alt="">
                         </div>
                       </a>
-                      <form method="POST" class="commentForm" action="/comment/<%=video._id%>">
-                        <input placeholder="Comment Here..." name="comment" class="commentInp" type="text">
-                      </form>
-                    </div>
-                    <% if(video.comment.length>0){ %>
-                      <% video.comment.forEach(function(elem){ %>
-                        <div class="otherPeopleCommentWrapper mt-4 text-light">
-                          <div class="peopleCommentWrap d-flex align-items-top gap-3 mb-3">
-                            <a class="anchorWrap text-light" href="">
-                              <div title="Go To Channel" class="profile">
-                                <img src="/Sample_Profile/pf2.jpg" alt="">
-                              </div>
-                            </a>
-                            <div>
-                              <div class="nameWrapper">
-                                <a class="anchorWrap text-light" href="">
-                                  <small class="fw-semibold me-1"><%=elem.name%></small>
-                                </a>
-                                <small class="text-muted fw-semibold">3 months ago</small>
-                              </div>
-                              <div class="commentTextWrapper">
-                                <small><%=elem.comment%></small>
-                              </div>
-                              <div class="commentLikeIcon d-flex align-items-center gap-2 mt-2">
-                                <a href="/comment/like/<%=elem._id%>" class="d-flex align-items-center gap-1 anchorWrap text-light">
-                                  <i class="commentDislikeIcon ri-thumb-up-line"></i>
-                                  <small class="m-0 text-muted fw-semibold"><%=elem.likes.length%></small>
-                                </a>
-                                <a href="/comment/dislike/<%=elem._id%>" class="anchorWrap text-light">
-                                  <i class="commentDislikeIcon ri-thumb-down-line"></i>
-                                </a>
-                                <i class="ri-more-2-fill" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside"></i>
-                                <div class="dropdownParent">
-                                  <ul class="dropdown-menu">
-                                    <% if(user){ %>
-                                      <li style="cursor: pointer;" class="comment-edit"  ><h6 class="dropdown-item" >Edit Comment</h6></li>
-                                    <% }else{ %>
-                                      <li style="cursor: pointer;"><a class="dropdown-item" href="/signInPage" >Edit Comment</a></li>
-                                    <% } %>
-                                    <li >
-                                      <form action="/comment/edit/<%=elem._id%>" class="comment-form" style="display: none;" method="post">
-                                        <div class="mx-3">
-                                          <input type="text" class="form-control" id="exampleInputPassword1" value="<%=elem.comment%>" name="comment">
-                                        </div>
-                                        <button type="submit" class="btn btn-primary mx-3 mt-2">Submit</button>
-                                      </form>
-                                    </li>
-                                    <li ><a class="dropdown-item"  href="/comment/delete/<%=elem._id%>">Delete Comment</a></li>
-                                  </ul>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                      <div>
+                        <div class="nameWrapper">
+                          <a class="anchorWrap text-light" href="">
+                            <small class="fw-semibold me-1">
+                              <%=elem.name%>
+                            </small>
+                          </a>
+                          <small class="text-muted fw-semibold">3 months ago</small>
                         </div>
                         <div class="commentTextWrapper">
                           <small>
