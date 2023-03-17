@@ -1,0 +1,323 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: background .25s ease-in-out;
+  font-family: 'Roboto', sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+:root{
+  --ratioVid: 1vmax;
+}
+
+.anchorWrap{
+  text-decoration: none;
+}
+
+.menu-vid-parent {
+  height: calc(100vh - 60px);
+  width: 100%;
+  background-color: var(--themeBg);
+}
+
+.right-section {
+  width: 100%;
+  height: 100%;
+  background-color: var(--themeBg);
+  overflow-y: scroll;
+  display: flex;
+  gap: 2rem;
+  padding: .8rem 5.4rem 0 5rem;
+}
+
+.right-section::-webkit-scrollbar {
+  width: 10px;
+}
+
+.right-section::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: rgba(255, 237, 255, 0.484);
+}
+
+.right-section::-webkit-scrollbar-thumb:hover {
+  background: rgba(221, 160, 221, 0.84);
+}
+
+.right-section .videoPlayerSection{
+  flex: 2;
+  min-width: 555px;
+  /* background-color: red; */
+}
+
+.right-section .relatedVideoSection{
+  flex: 1;
+  min-width: 300px;
+  /* background-color: gold; */
+}
+
+.videoDetsWrapper{
+  width: 100%;
+}
+
+.videoContainer{
+  width: 100%;
+  /* max-height: 35vmax; */
+  position: relative;
+}
+
+.videoContainer > video{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* this is the magic to add thumbnail like thing */
+.videoContainer > img,.sm-video-wrapper > img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.profile{
+  width: 45px;
+  height: 45px;
+  background-color: rgb(0, 255, 208);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.profile > img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.subscribeBtn{
+  padding: .4rem 1rem;
+}
+
+.subscribeBtn:hover{
+  background-color: var(--iconHover) !important;
+  color: white !important;
+}
+
+.likeDislikeShare{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.fadedBtnWrap{
+  background-color: var(--iconBackFaded) !important;
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.fadedBtnWrap > a{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fadedBtnWrap > a:nth-child(2){
+  border-left: 1px solid var(--iconHover);
+}
+
+.likeWrap,.dislikeWrap,.shareWrap{
+  padding: .5rem 1rem;
+}
+
+.likeWrap:hover, .dislikeWrap:hover,.shareWrap:hover{
+  background-color: var(--iconBackFaded) !important;
+}
+
+.description{
+  width: 100%;
+  /* height: auto; */
+  background-color: var(--iconBackFaded) !important;
+  position: relative;
+}
+
+.description::after{
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(221, 160, 221, 0.066);
+  opacity: 0;
+  display: var(--displayNot, initial);
+}
+
+.description:hover::after{
+  opacity: 1;
+  cursor: pointer;
+}
+
+.desText{
+  font-size: .9rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2; 
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.desShrink{
+  display: initial !important;
+}
+
+.showMore:hover{
+  background-color: var(--iconBackFaded);
+  cursor: pointer;
+}
+
+.commentForm{
+  width: 100%;
+}
+
+.commentInp{
+  background-color: transparent;
+  border-right: 0;
+  border-bottom: 1px double var(--iconHover);
+  width: 100%;
+  color: white;
+}
+
+.commentInp::placeholder{
+  color: gainsboro;
+  font-size: .9rem;
+}
+
+.commentInp:focus{
+  outline: none;
+}
+
+.commentDislikeIcon{
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.commentDislikeIcon:hover{
+  cursor: pointer;
+  background-color: var(--iconBackFaded);
+}
+
+
+.sm-video-wrapper{
+  /* width: calc(16* var(--ratioVid)); */
+  /* height: calc(9* var(--ratioVid)); */
+  height: fit-content;
+  position: relative;
+  
+}
+
+.sm-video-wrapper>video{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.videoTitleAndStats{
+  width: 55%;
+}
+
+.videoTitleAndStats>p{
+  font-size: .9rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2; 
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.sm-video-stats>small{
+  font-size: .8rem;
+  line-height: .8rem
+}
+
+.sm-video-stats .listDot::after {
+  content: "·";
+  margin-left: 4px;
+  font-weight: 900;
+}
+.sm-video-stats .listDot.last::after {
+  content: "";
+}
+
+.optionsMenu{
+  visibility: hidden;
+  cursor: pointer;
+}
+
+
+@media only screen and (max-width: 1016px) {
+    .right-section .videoPlayerSection,.right-section .relatedVideoSection{
+      min-width: 100%;
+    }
+    .right-section{
+      padding: .8rem 1rem 0 1rem;
+    }
+}
+
+@media only screen and (max-width: 630px) {
+  .right-section{
+    padding: .8rem .5rem 0 .5rem;
+  }
+  .padbtm{
+    padding-bottom: 70px !important;
+  }
+  .subscribeBtnWrapper{
+    width: 100%;
+    justify-content: space-between !important;
+  }
+}
+
+@media only screen and (max-width: 376px) {
+  .right-section{
+    padding: 0;
+  }
+  .likeDislikeShare{
+    width: 100%;
+    justify-content: space-between !important;
+  }
+  .profile{
+    width: 35px;
+    height: 35px;
+  }
+  .subscribeBtn{
+    padding: .2rem .6rem;
+  }
+  .likeWrap,.dislikeWrap,.shareWrap{
+    padding: .2rem .6rem;
+  }
+}
+
+/* .right-section {
+    width: calc(100% - 67.823px);
+  } */
+
+/* @media only screen and (max-width: 630px) {
+    .right-section {
+      width: 100%;
+    }
+  } */

@@ -3,11 +3,12 @@ const plm = require("passport-local-mongoose");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  channelName: {
+  name: {
     type: String,
-    // required: [true, "Please add a channel name"],
-    // unique: true,
-    // uniqueCaseInsensitive: true,
+  },
+  channel: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "channelModel",
   },
   username: {
     type: String,
@@ -34,6 +35,12 @@ const UserSchema = new Schema({
   password: {
     type: String,
   },
+  
+  notifications: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "notificationModel" },
+  ],
+  userPlaylist: [{ type: mongoose.Schema.Types.ObjectId , ref: "userPlayListModel" }],
+  watchLater: [{ type: mongoose.Schema.Types.ObjectId, ref: 'videoModel' }]
 });
 
 UserSchema.plugin(plm);

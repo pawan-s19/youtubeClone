@@ -1,0 +1,43 @@
+.u-validation{
+    display: none;
+}
+.userInputRed:focus{
+    outline: none !important;
+    border-color: #ce7171;
+    box-shadow: 0 0 10px #ce7171;
+}
+.userInputNormal:focus{
+    outline: default;
+    border-color: default;
+    box-shadow: default;
+}
+.closeBtn,.signin-btn{
+    padding: .2rem .5rem;
+    white-space: nowrap;
+    border-radius: 5px;
+    border: 1px solid rgb(78, 32, 78);
+    color: rgb(78, 32, 78);
+    background-color: white;
+}
+
+.closeBtn:hover{
+    background-color: var(--iconBackFaded);
+    box-shadow: 1px 3px 3px 2px var(--iconBackFaded);
+}
+
+.closeBtn:focus{
+    background-color: rgba(221, 160, 221, 0.607);
+}
+
+.signin-btn{
+    background-color: rgba(78, 32, 78, 0.79);
+    color: white;
+}
+
+.signin-btn:hover{
+    background-color: rgb(78, 32, 78);
+}
+
+.signin-btn:focus{
+    background-color: rgba(78, 32, 78, 0.874);   
+}

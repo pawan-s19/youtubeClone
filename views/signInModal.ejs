@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+        href="cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/css/bootstrapvalidator.min.css">
+    <link rel="stylesheet" href="/stylesheets/signInModal.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- // add form submition js for signUp form -->
+    <!-- Modal -->
+    <div class="modal fade" id="signinModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="signinModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content p-3">
+                <h5 class="modal-title border-bottom pb-2">Sign In</h5>
+                <form method="post" id="signInForm" class="signInForm mt-2" action="/login">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Username</label>
+                        <input name="username" type="text" class="u-inp form-control input"
+                            id="exampleFormControlInput1" placeholder="Enter your username">
+                        <small class="text-danger u-validation validation">Username Required</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input name="password" type="password" placeholder="Enter your password" class="p-inp input form-control" id="password">
+                        <small class="text-danger u-validation validation">Password Required</small>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="closeBtn" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="signin-btn">Sign In</button>
+                    </div>
+                </form>
+                <p class="border-top pt-2 text-center mb-0">Don't Have Accout? <a class="text-decoration-none" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</a> Here !</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="signupModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="signupModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content p-3">
+                <h5 class="modal-title border-bottom pb-2">Sign Up</h5>
+                <form method="post" id="signUpForm" class="signInForm mt-2" action="/register">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Username</label>
+                        <input name="username" type="text" class="uName form-control input"
+                            id="exampleFormControlInput1" placeholder="Enter your username">
+                        <small class="text-danger u-validation validation">Username Required</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Email</label>
+                        <input name="email" type="email" class="uEmail form-control input"
+                            id="exampleFormControlInput1" placeholder="Enter your username">
+                        <small class="text-danger u-validation validation">Email Required</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Name</label>
+                        <input name="name" type="text" class="Name form-control input"
+                            id="exampleFormControlInput1" placeholder="Enter your username">
+                        <small class="text-danger u-validation validation">Name Required</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input name="password" type="password" placeholder="Enter your password" class="uPassword input form-control" id="password">
+                        <small class="text-danger u-validation validation">Password Required</small>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="closeBtn" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="signin-btn">Sign Up</button>
+                    </div>
+                </form>
+                <p class="border-top pt-2 text-center mb-0">Already Have Accout? <a class="text-decoration-none" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#signinModal">Sign In</a> Here !</p>
+            </div>
+        </div>
+    </div>
+    <script src="/javascripts/signInModal.js"></script>
+    <script src="cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js"></script>
+</body>
+
+</html>
