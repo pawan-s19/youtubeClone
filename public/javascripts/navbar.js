@@ -117,7 +117,7 @@ signInBtn.addEventListener('mouseout', () => {
         signUpBtn.style.transform = "translateY(0)";
         signUpBtn.style.scale = ".5";
         signUpBtn.style.opacity = "0";
-    }, 5000);
+    }, 2000);
 })
 
 function myFunction(x) {

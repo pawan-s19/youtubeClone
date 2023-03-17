@@ -14,6 +14,9 @@ allVideos.forEach((video) => {
     // e.target.muted = true;
     e.target.play();
     e.target.controls = true;
+    if(!isNaN(e.target.duration)){
+      console.log('aa gaya',e.target.duration)
+    }
   });
 
   video.addEventListener('mouseout', (e) => {
@@ -21,6 +24,35 @@ allVideos.forEach((video) => {
     e.target.currentTime = 0;
     e.target.controls = false;
   });
+});
+
+let allVideoWrapper = document.querySelectorAll('.video-wrapper');
+let optionsMenu = document.querySelectorAll('.optionsMenu');
+
+let isOptionsBoxOpen = false;
+
+optionsMenu.forEach((e) => {
+  e.addEventListener('show.bs.dropdown', event => {
+      isOptionsBoxOpen = true;
+  })
+  
+  e.addEventListener('hide.bs.dropdown', event => {
+      isOptionsBoxOpen = false;
+      console.log(e)
+      e.style.visibility = 'hidden'
+  })
+})
+
+allVideoWrapper.forEach((wrapper) => {
+    wrapper.addEventListener('mouseover', function () {
+        this.lastElementChild.lastElementChild.style.visibility = 'initial'
+        console.log('first')
+    });
+    wrapper.addEventListener('mouseout', function () {
+        if(!isOptionsBoxOpen){
+            this.lastElementChild.lastElementChild.style.visibility = 'hidden'
+        }
+    });
 });
 
 let allVideosCtn = document.querySelector('.all-videos-ctn');
