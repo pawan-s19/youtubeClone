@@ -19,7 +19,7 @@ const videoModel = new mongoose.Schema(
     status: {
       type: String,
       enum: ["private", "public"],
-      default: "public",
+      default: "private",
     },
 
     userId: {

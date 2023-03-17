@@ -13,6 +13,7 @@ const channelModel = require("../models/channelModel");
 const localStrategy = require("passport-local");
 const { json } = require("express");
 const commentModel = require("../models/commentModel");
+const { default: getVideoDurationInSeconds } = require("get-video-duration");
 passport.use(new localStrategy(userModel.authenticate()));
 
 //initializing bucket for gridfs
@@ -30,7 +31,7 @@ let bucket;
 router.get("/", async function (req, res, next) {
   try {
     const videos = await videoModel
-      .find({})
+      .find({status: "public"})
       .populate({ path: "userId", populate: { path: "channel" } });
     let LoggedInUser;
     if (req.session.passport?.user) {
@@ -43,17 +44,6 @@ router.get("/", async function (req, res, next) {
     res.send(err);
   }
 });
-
-// router.get("/home", async (req, res) => {
-//   try {
-//     // let user = await userModel.findOne({_id:req.session.passport.user._id})
-//     // res.render("index",{user:user});
-//     let user = req.session.passport?.user;
-//     res.render("videoPlayer", { user });
-//   } catch (err) {
-//     res.send(err);
-//   }
-// });
 
 router.get("/home2", async (req, res) => {
   try {
@@ -174,12 +164,26 @@ router.get("/auth/google/failure", (req, res) => {
   res.send("Failed to authenticate..");
 });
 
+function formatBytes(bytes, decimals = 2) {
+  if (!+bytes) return '0 Bytes'
+
+  const k = 1024
+  const dm = decimals < 0 ? 0 : decimals
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
+}
+
 router.post("/upload/video", upload().single("file"), async (req, res) => {
   try {
     let video = await videoModel.create({
       video_id: req.file.id,
       userId: req.session.passport.user._id,
     });
+
+    let size = formatBytes(req.file.size);
     // if (
     //   fileContent == "video/mp4" ||
     //   fileContent == "video/x-ms-wmv" ||
@@ -189,7 +193,7 @@ router.post("/upload/video", upload().single("file"), async (req, res) => {
     // } else {
     //   res.json({ message: "sorry ! Invalid mime type !!" });
     // }
-    res.redirect(`/redirect/video/dets/${video._id}`);
+    res.redirect(`/redirect/video/dets/${video._id}/${req.file.originalname}/${size}/${req.file.mimetype.split('/')[1]}`);
   } catch (error) {
     res.status(400).json({
       error: { text: "Unable to upload the file", error },
@@ -198,29 +202,24 @@ router.post("/upload/video", upload().single("file"), async (req, res) => {
 });
 
 router.get(
-  "/redirect/video/dets/:id",
+  "/redirect/video/dets/:id/:filename/:filesize/:filetype",
   isLoggedIn,
   hasChannel,
   async (req, res, next) => {
     try {
       let video = await videoModel.findOne({ _id: req.params.id });
-      res.render("uploadPageSecond", {
+      res.render("videoUploadDetails", {
         id: req.params.id,
         vidGridFs: video.video_id,
+        filename: req.params.filename,
+        filesize: req.params.filesize,
+        filetype: req.params.filetype,
       });
     } catch (err) {
       res.send(err);
     }
   }
 );
-
-router.get('/shown', (req, res) => {
-  try {
-    res.render('videoUploadDetails')
-  } catch (error) {
-    res.send(error);
-  }
-})
 
 router.post(
   "/upload/video/dets/:id",
@@ -240,6 +239,7 @@ router.post(
             fetch_format: "webp",
           }
         );
+
         await videoModel.findOneAndUpdate(
           { _id: req.params.id },
           {
@@ -250,7 +250,7 @@ router.post(
           }
         );
       });
-      res.redirect("/uploadPage");
+      res.redirect("/");
     } catch (err) {
       res.send(err);
     }
@@ -507,7 +507,7 @@ router.get("/subscribe/:id", function (req, res) {
   }
 });
 
-router.get('/channel', async function (req, res) {
+router.get('/channel/:id/:base', async function (req, res) {
   try {
     // let user = await userModel.findOne({_id:req.session.passport.user._id})
     // res.render("index",{user:user});
@@ -645,13 +645,21 @@ router.get('/feed/history', async function (req, res) {
   }
 });
 
-router.get('/feed/subscriptions', isLoggedIn ,(req, res) => {
+// user subscribed channels
+router.get('/feed/subscriptions', async (req,res) => {
   try {
-    res.send('subscription page');
+    let LoggedInUser;
+    if (req.session.passport?.user) {
+      LoggedInUser = await userModel.findOne({
+        _id: req.session.passport.user._id,
+      });
+    }
+    res.render('subscriptions', {user: LoggedInUser});
   } catch (error) {
     res.send(error);
   }
 });
+
 
 router.get('/feed/library' ,async (req, res) => {
   try {

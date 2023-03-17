@@ -26,7 +26,6 @@
                 <div class="mt-5">
                     <form class="text-center" action="/upload/video" enctype="multipart/form-data" method="post">
                         <input class="inpVid" name="file" placeholder="Upload A Video" type="file">
-                        <input class="timestamp" type="hidden" name="timestamp" placeholder="timestamp" type="number">
                         <div class="selectFileBtn my-2 w-fitContent">
                             Select Video
                         </div>
@@ -48,7 +47,6 @@
     let uploadFileBtn = document.querySelector('.uploadFileBtn');
     let removeFileBtn = document.querySelector('.removeFileBtn');
     let modal = document.querySelector('.modal');
-    let timestamp = document.querySelector('.timestamp');
 
     selectFileBtn.addEventListener('click', function(e){
         inpVid.click();
@@ -58,7 +56,7 @@
         if(e){
             uploadFileBtn.style.display = "initial";
             removeFileBtn.style.display = "initial";
-            timestamp.value = e.timeStamp
+            let fileType = e.srcElement.files[0].type;
         }
     });
 
@@ -71,6 +69,18 @@
     modal.addEventListener('hide.bs.modal', function(e){
         console.log('sdfj')
     })
+
+    function formatBytes(bytes, decimals = 2) {
+    if (!+bytes) return '0 Bytes'
+
+    const k = 1024
+    const dm = decimals < 0 ? 0 : decimals
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
+    }
 </script>
 </body>
 
