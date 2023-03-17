@@ -21,3 +21,7 @@
 .menu-btn-wrapper small {
     font-size: .65rem;
 }
+
+.left-menu-bar > a:visited{
+    background-color: var(--iconBackFaded);
+}

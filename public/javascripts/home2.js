@@ -10,14 +10,15 @@ let allVideos = document.querySelectorAll('.video-container');
 
 allVideos.forEach((video) => {
 
-  video.addEventListener('mouseover', (e) => {
-    // e.target.muted = true;
-    e.target.play();
-    e.target.controls = true;
-    if(!isNaN(e.target.duration)){
-      console.log('aa gaya',e.target.duration)
-    }
-  });
+  // video.addEventListener('mouseover', (e) => {
+  //   // e.target.muted = true;
+  //   console.log(e.target)
+  //   e.target.play();
+  //   e.target.controls = true;
+  //   if(!isNaN(e.target.duration)){
+  //     console.log('aa gaya',e.target.duration)
+  //   }
+  // });
 
   video.addEventListener('mouseout', (e) => {
     e.target.pause();
@@ -45,13 +46,28 @@ optionsMenu.forEach((e) => {
 
 allVideoWrapper.forEach((wrapper) => {
     wrapper.addEventListener('mouseover', function () {
+        // target optionsMenu icon
         this.lastElementChild.lastElementChild.style.visibility = 'initial'
-        console.log('first')
+
+        // target video to play and pause
+        this.firstElementChild.firstElementChild.firstElementChild.muted = true;
+        this.firstElementChild.firstElementChild.firstElementChild.play();
+        this.firstElementChild.firstElementChild.firstElementChild.controls = true;
+
+        // target img to hide and show
+        this.firstElementChild.firstElementChild.children[1].style.display = 'none'
     });
     wrapper.addEventListener('mouseout', function () {
         if(!isOptionsBoxOpen){
-            this.lastElementChild.lastElementChild.style.visibility = 'hidden'
-        }
+            this.lastElementChild.lastElementChild.style.visibility = 'hidden'  
+          }
+          // target img to hide and show
+          this.firstElementChild.firstElementChild.children[1].style.display = 'initial'
+
+          // target video to play and pause
+          this.firstElementChild.firstElementChild.firstElementChild.pause();
+          this.firstElementChild.firstElementChild.firstElementChild.currentTime = 0;
+          this.firstElementChild.firstElementChild.firstElementChild.controls = false;
     });
 });
 

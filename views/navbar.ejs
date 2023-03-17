@@ -11,14 +11,21 @@
 
 <body>
     <div>
+        <%-include('bottomMenu') %>
+        <%-include('videoUploadModal') %>
+        <%-include('createChannelModal') %>
+        <%-include('playlistModal') %>
+        <%-include('signinModal') %>
+        <%-include('sideMenumodal') %>
         <div class="nav small-screen-search d-flex align-items-center justify-content-between px-2 flex-nowrap">
             <div class="sm-nav-left me-2">
                 <i class="Navicon CloseSearch ri-arrow-left-line"></i>
             </div>
             <div class="sm-nav-center flex-grow-1">
                 <div class="nav-searchbox d-flex align-items-center gap-2 justify-content-center">
-                    <form class="d-flex" role="search">
-                        <input class="form-control rounded-0 rounded-start bg-transparent text-light" type="search"
+                    <form method="get" action="/search" class="d-flex" role="search">
+                        <input type="hidden" name="contentType" value="search" /> 
+                        <input name="keyword" class="inputArea form-control rounded-0 rounded-start bg-transparent text-light" type="search"
                             placeholder="Search" aria-label="Search">
                         <button disabled
                             class="btn btn-light rounded-0 rounded-end border-start-0 d-flex align-items-center justify-content-center"
@@ -43,7 +50,8 @@
             <div class="nav-center flex-grow-1">
                 <div class="nav-searchbox d-flex align-items-center gap-2 justify-content-center">
                     <form method="get" action="/search" class="d-flex" role="search">
-                        <input name="keyword" class="form-control rounded-0 rounded-start bg-transparent text-light" type="search"
+                        <input type="hidden" name="contentType" value="search" /> 
+                        <input name="keyword" class="inputArea form-control rounded-0 rounded-start bg-transparent text-light" type="search"
                             placeholder="Search" aria-label="Search">
                         <button disabled
                             class="btn btn-light rounded-0 rounded-end border-start-0 d-flex align-items-center justify-content-center"
@@ -91,7 +99,11 @@
                         <!-- <div class="searchIconBox gap-2 align-items-center text-light small-screen-icon">
                             <i class="Navicon OpenSearch filled-icon ri-search-line"></i>
                         </div> -->
-                        <i class="Navicon ri-video-add-line" data-bs-toggle="modal" data-bs-target="#videoUploadModal" data-bs-whatever="@getbootstrap"></i>
+                        <% if(user.channel){ %>
+                            <i class="Navicon ri-video-add-line" data-bs-toggle="modal" data-bs-target="#videoUploadModal" data-bs-whatever="@getbootstrap"></i>
+                        <% }else{ %>
+                            <i data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@fat" class="Navicon ri-video-add-line"></i>
+                        <% } %>
                         <i class="Navicon ri-notification-4-line"></i>
                         <i class="Navicon ri-user-3-line" data-bs-toggle="collapse"
                         data-bs-target="#collapse-user-menu" aria-expanded="false"
@@ -122,5 +134,4 @@
     </div>
     <script src="/javascripts/navbar.js"></script>
 </body>
-
 </html>

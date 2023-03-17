@@ -236,6 +236,10 @@ body {
   object-fit: contain;
 }
 
+.videoTitleAndStats{
+  width: 55%;
+}
+
 .videoTitleAndStats>p{
   font-size: .9rem;
   text-overflow: ellipsis;
@@ -278,6 +282,9 @@ body {
 @media only screen and (max-width: 630px) {
   .right-section{
     padding: .8rem .5rem 0 .5rem;
+  }
+  .padbtm{
+    padding-bottom: 70px !important;
   }
   .subscribeBtnWrapper{
     width: 100%;
