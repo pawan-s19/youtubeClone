@@ -17,91 +17,120 @@
 
 <body>
   <div>
-        <%- include('navbar') %>
-          <div class="menu-vid-parent d-flex flex-fill">
-            <!-- <%-include('sideMenu') %> -->
-              <div class="right-section flex-wrap padbtm">
-                <div class="videoPlayerSection">
-                  <div class="videoDetsWrapper text-light">
-                    <div class="videoContainer">
-                      <video oncontextmenu="return false;" disablepictureinpicture autoplay controls controlsList="nodownload"  src="/play/<%=video.video_id%>"></video>
-                      <!-- <img src="https://img.freepik.com/premium-psd/vertical-modern-furniture-poster-a4-size_145156-526.jpg?w=2000"  alt=""> -->
-                    </div>
-                    <h5><%=video.title%></h5>
-                    <div class="btns-container d-flex align-items-center justify-content-between flex-wrap gap-2">
-                      <div class="subscribeBtnWrapper d-flex align-items-center gap-2">
-                        <div class="channelLinkWrapper d-flex align-items-center gap-2">
-                          <a class="anchorWrap text-light" href="">
-                            <div title="Go To Channel" class="profile">
-                              <img src="/Sample_Profile/pf2.jpg" alt="">
-                            </div>
-                          </a>
-                          <div class="subscriberCount d-flex flex-column">
-                            <a class="anchorWrap text-light" href="">
-                              <h6 title="Talent Recap" class="m-0"><%=video.userId.channel.channelName%></h6>
-                            </a>
-                            <small class="m-0 text-secondary"><%=video.userId.channel.subscriberCount.length%> subscribers</small>
-                          </div>
-                        </div>
-                        <% if(video.userId._id !== user?._id){ %>
-                          <a class="anchorWrap text-light ms-3" href="">
-                            <div class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
-                              <small>Subscribe</small>
-                            </div>
-                          </a>
-                        <% } %>
+    <%- include('navbar') %>
+      <div class="menu-vid-parent d-flex flex-fill">
+        <!-- <%-include('sideMenu') %> -->
+        <div class="right-section flex-wrap padbtm">
+          <div class="videoPlayerSection">
+            <div class="videoDetsWrapper text-light">
+              <div class="videoContainer">
+                <video oncontextmenu="return false;" disablepictureinpicture autoplay controls controlsList="nodownload"
+                  src="/play/<%=video.video_id%>"></video>
+                <!-- <img src="https://img.freepik.com/premium-psd/vertical-modern-furniture-poster-a4-size_145156-526.jpg?w=2000"  alt=""> -->
+              </div>
+              <h5>
+                <%=video.title%>
+              </h5>
+              <div class="btns-container d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <div class="subscribeBtnWrapper d-flex align-items-center gap-2">
+                  <div class="channelLinkWrapper d-flex align-items-center gap-2">
+                    <a class="anchorWrap text-light" href="">
+                      <div title="Go To Channel" class="profile">
+                        <img src="/Sample_Profile/pf2.jpg" alt="">
                       </div>
-                      <div class="likeDislikeShare">
-                        <div class="fadedBtnWrap d-flex align-items-center flex-nowrap">
-                          <a title="I Like this" class="anchorWrap text-white" href="/like/<%=video._id%>">
-                            <div class="likeWrap d-flex align-items-center gap-2">
-                              <i class="ri-thumb-up-line"></i>
-                              <small class="m-0"><%=video.likes.length%></small>
-                            </div>
-                          </a>
-                          <a title="I Dislike this" class="anchorWrap text-white" href="/dislike/<%=video._id%>">
-                            <div class="dislikeWrap d-flex align-items-center gap-2">
-                              <i class="ri-thumb-down-line"></i>
-                            </div>
-                          </a>
-                        </div>
-                        <div class="fadedBtnWrap">
-                          <a class="anchorWrap text-white" title="Share" data-bs-toggle="modal" data-bs-target="#shareVideoModal" href="">
-                            <div title="Share" class="shareWrap d-flex align-items-center gap-2">
-                              <i class="ri-share-forward-line"></i>
-                              <small class="m-0">Share</small>
-                            </div>
-                          </a>
-                        </div>
-                      </div>
+                    </a>
+                    <div class="subscriberCount d-flex flex-column">
+                      <a class="anchorWrap text-light" href="">
+                        <h6 title="Talent Recap" class="m-0">
+                          <%=video.userId.channel.channelName%>
+                        </h6>
+                      </a>
+                      <small class="m-0 text-secondary">
+                        <%=video.userId.channel.subscriberCount.length%> subscribers
+                      </small>
                     </div>
                   </div>
-                  <div class="VideoViewsDes">
-                    <!-- <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                  <% if(video.userId._id !==user?._id){ %>
+                    <a class="anchorWrap text-light ms-3" href="">
+                      <div class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
+                        <small>Subscribe</small>
+                      </div>
+                    </a>
+                    <% } %>
+                </div>
+                <div class="likeDislikeShare">
+                  <div class="fadedBtnWrap d-flex align-items-center flex-nowrap">
+                    <a title="I Like this" class="anchorWrap text-white" href="/like/<%=video._id%>">
+                      <div class="likeWrap d-flex align-items-center gap-2">
+                        <i class="ri-thumb-up-line"></i>
+                        <small class="m-0">
+                          <%=video.likes.length%>
+                        </small>
+                      </div>
+                    </a>
+                    <a title="I Dislike this" class="anchorWrap text-white" href="/dislike/<%=video._id%>">
+                      <div class="dislikeWrap d-flex align-items-center gap-2">
+                        <i class="ri-thumb-down-line"></i>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="fadedBtnWrap">
+                    <a class="anchorWrap text-white" title="Share" data-bs-toggle="modal"
+                      data-bs-target="#shareVideoModal" href="">
+                      <div title="Share" class="shareWrap d-flex align-items-center gap-2">
+                        <i class="ri-share-forward-line"></i>
+                        <small class="m-0">Share</small>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="VideoViewsDes">
+              <!-- <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
                       data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                       Button with data-bs-target
                     </button> -->
-                    <div class="description card text-white mt-3">
-                      <div class="card-body position-relative">
-                        <small class="fw-semibold me-2"><%=video.views.length%> Views</small>
-                        <small class="fw-semibold"><%=moment(video.createdAt).fromNow()%></small>
-                        <br>
-                        <p class="desText card-text mb-0">
-                          <%=video.description%>
-                        </p>
-                        <span class="showMore fw-semibold"> Show More</span>
-                      </div>
-                    </div>
-                    <div class="collapse" id="collapseExample">
-                      <div class="card card-body">
-                        Some placeholder content for the collapse component. This panel is hidden by default but
-                        revealed when the user activates the relevant trigger.
-                      </div>
-                    </div>
+              <div class="description card text-white mt-3">
+                <div class="card-body position-relative">
+                  <small class="fw-semibold me-2">
+                    <%=video.views.length%> Views
+                  </small>
+                  <small class="fw-semibold">
+                    <%=moment(video.createdAt).fromNow()%>
+                  </small>
+                  <br>
+                  <p class="desText card-text mb-0">
+                    <%=video.description%>
+                  </p>
+                  <span class="showMore fw-semibold"> Show More</span>
+                </div>
+              </div>
+              <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                  Some placeholder content for the collapse component. This panel is hidden by default but
+                  revealed when the user activates the relevant trigger.
+                </div>
+              </div>
+            </div>
+            <div class="videoCommentSec text-light mt-3">
+              <h6 class="mb-4">
+                <%video.comment.length%> Comments
+              </h6>
+              <div class="commentBoxWrapper d-flex gap-3 align-items-center">
+                <a class="anchorWrap text-light" href="">
+                  <div title="Go To Channel" class="profile">
+                    <img src="/Sample_Profile/pf2.jpg" alt="">
                   </div>
-                  <div class="videoCommentSec text-light mt-3">
-                    <h6 class="mb-4"><%video.comment.length%> Comments</h6>
-                    <div class="commentBoxWrapper d-flex gap-3 align-items-center">
+                </a>
+                <form method="POST" class="commentForm" action="/comment/<%=video._id%>">
+                  <input placeholder="Comment Here..." name="comment" class="commentInp" type="text">
+                </form>
+              </div>
+              <% if(video.comment.length>0){ %>
+                <% video.comment.forEach(function(elem){ %>
+                  <div class="otherPeopleCommentWrapper mt-4 text-light">
+                    <div class="peopleCommentWrap d-flex align-items-top gap-3 mb-3">
                       <a class="anchorWrap text-light" href="">
                         <div title="Go To Channel" class="profile">
                           <img src="/Sample_Profile/pf2.jpg" alt="">
@@ -161,71 +190,98 @@
                             </div>
                           </div>
                         </div>
-                      <% }) %>
+                        <div class="commentTextWrapper">
+                          <small>
+                            <%=elem.comment%>
+                          </small>
+                        </div>
+                        <div class="commentLikeIcon d-flex align-items-center gap-2 mt-2">
+                          <a href="/comment/like/<%=elem._id%>"
+                            class="d-flex align-items-center gap-1 anchorWrap text-light">
+                            <i class="commentDislikeIcon ri-thumb-up-line"></i>
+                            <small class="m-0 text-muted fw-semibold">
+                              <%=elem.likes.length%>
+                            </small>
+                          </a>
+                          <a href="/comment/dislike/<%=elem._id%>" class="anchorWrap text-light">
+                            <i class="commentDislikeIcon ri-thumb-down-line"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <% }) %>
                     <% } %>
+            </div>
+          </div>
+          <div class="relatedVideoSection text-white">
+            <% if(videos.length> 0){ %>
+              <% videos.forEach(function(elem){ %>
+                <div class="videoAndTextWrapper d-flex align-items-top gap-2 mb-2 " videoId="<%=elem._id%>">
+
+                  <div class="sm-video-wrapper rounded-2 overflow-hidden">
+                    <video oncontextmenu="return false;" disablepictureinpicture muted
+                      controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"></video>
+                    <img src="<%=elem.thumbnail.secure_url%>" alt="">
+                  </div>
+
+                  <div class="videoTitleAndStats">
+                    <p class="m-0 fw-semibold ">
+                      <%=elem.title%>
+                    </p>
+                    <div class="sm-video-stats text-muted mt-2">
+                      <a class="anchorWrap text-light" href="/channel">
+                        <small class="d-block">
+                          <%=elem.userId?.channel.channelName%>
+                        </small>
+                      </a>
+                      <small class="listDot">
+                        <%if(elem.views.length==0){%>
+                          No views
+                          <% }else{%>
+                            <%=elem.views.length%> Views
+                              <% }%>
+                      </small>
+                      <small>
+                        <%=moment(elem.createdAt).fromNow() %>
+                      </small>
+                    </div>
+                  </div>
+                  <div class="optionsMenu text-light">
+                    <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a class="dropdown-item d-flex align-items-center gap-2" href="/addToWatchLater/<%=elem._id%>">
+                          <i class="ri-time-line"></i>
+                          <p class="m-0">Save to Watch Later</p>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item d-flex align-items-center gap-2" data-bs-toggle="modal"
+                          data-bs-target="#playlistModal" data-bs-whatever="<%=elem._id%>" href="">
+                          <i class="ri-play-list-add-line"></i>
+                          <p class="m-0">Save to Playlist</p>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                          <i class="ri-share-forward-line"></i>
+                          <p class="m-0">Share</p>
+                        </a>
+                      </li>
+
+                    </ul>
                   </div>
                 </div>
-                <div class="relatedVideoSection text-white">
-                    <% if(videos.length > 0){ %>
-                        <% videos.forEach(function(elem){ %>
-                          <div class="videoAndTextWrapper d-flex align-items-top gap-2 mb-2">
-                            <div class="sm-video-wrapper rounded-2 overflow-hidden">
-                              <video
-                              oncontextmenu="return false;" disablepictureinpicture muted controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
-                                src="/watch/<%=elem._id%>"></video>
-                              <img
-                                src="<%=elem.thumbnail.secure_url%>"
-                                alt="">
-                            </div>
-                            <div class="videoTitleAndStats">
-                              <p class="m-0 fw-semibold ">
-                                <%=elem.title%>
-                              </p>
-                              <div class="sm-video-stats text-muted mt-2">
-                                <small class="d-block"><%=elem.userId?.channel.channelName%></small>
-                                <small class="listDot">
-                                  <%if(elem.views.length == 0){%>
-                                    No views
-                                   <% }else{%>
-                                     <%=elem.views.length%> Views
-                                   <% }%>
-                                </small>
-                                <small><%=moment(elem.createdAt).fromNow() %></small>
-                              </div>
-                            </div>
-                            <div class="optionsMenu text-light">
-                              <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                              <ul class="dropdown-menu">
-                                <li>
-                                  <a class="dropdown-item d-flex align-items-center gap-2" href="/addToWatchLater/<%=elem._id%>">
-                                    <i class="ri-time-line"></i>
-                                    <p class="m-0">Save to Watch Later</p>
-                                  </a>
-                                </li>
-                                <li>
-                                  <a class="dropdown-item d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#playlistModal" data-bs-whatever="<%=elem._id%>" href="">
-                                    <i class="ri-play-list-add-line"></i>
-                                    <p class="m-0">Save to Playlist</p>
-                                  </a>
-                                </li>
-                                <li>
-                                  <a class="dropdown-item d-flex align-items-center gap-2" href="#">
-                                    <i class="ri-share-forward-line"></i>
-                                    <p class="m-0">Share</p>
-                                  </a>
-                                </li>
-                                
-                              </ul>
-                            </div>
-                          </div>
-                        <% }) %>
-                    <% } %>                  
-                </div>
-              </div>
+                <% }) %>
+                  <% } %>
           </div>
+        </div>
+      </div>
 
-          <!-- Modal -->
-      <div class="modal fade" id="shareVideoModal" tabindex="-1" aria-labelledby="shareVideoModalLabel" aria-hidden="true">
+      <!-- Modal -->
+      <div class="modal fade" id="shareVideoModal" tabindex="-1" aria-labelledby="shareVideoModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -248,4 +304,5 @@
     crossorigin="anonymous"></script>
   <script src="/javascripts/videoPlayer.js"></script>
 </body>
+
 </html>

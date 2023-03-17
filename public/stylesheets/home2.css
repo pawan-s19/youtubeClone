@@ -107,12 +107,8 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  border-radius: .375rem;
+  border-radius: 0.375rem;
 }
-/* video[poster] {
-  height: 16.3125vmax;
-  width: 100%;
-} */
 .video-container video::-webkit-media-controls-fullscreen-button {
   display: none;
 }
@@ -173,11 +169,46 @@ body {
   text-decoration: none;
 }
 
-.optionsMenu{
+.optionsMenu {
   visibility: hidden;
   cursor: pointer;
 }
 
+.notification-parent {
+  background-color: var(--themeBg) !important;
+  color: #b6b6b6 !important;
+}
+.notification {
+  height: 82vh !important;
+}
+.notification-grid {
+  width: 100%;
+}
+.notification-channel-profile {
+  height: 5vmax;
+  width: 5vmax;
+  overflow: hidden;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.notification-dets {
+  width: 55%;
+}
+.notification-video {
+  height: 6vmax;
+  width: 9vmax;
+  border-radius: 0.5em;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.notification-channel-profile-image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.ri-notification-fill {
+  font-size: 12vmax;
+}
 
 /* For screens smaller than 630px */
 @media only screen and (max-width: 630px) {
@@ -218,4 +249,16 @@ body {
   /* .videoTextCtn p{
         width: 75%;
     } */
+}
+
+/* Specifically for mobile to adjust video css */
+@media only screen and (max-width: 488px) {
+  .notif-text-container p {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
 }
