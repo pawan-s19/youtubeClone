@@ -42,6 +42,9 @@ body {
 @media only screen and (max-width: 630px) {
     .right-section {
         /* width: 100%; */
-        padding: .8rem 0rem 0 0rem;
+        padding: .8rem 0rem 70px 0rem;
+    }
+    .padbtm{
+        padding-bottom: 70px !important;
     }
 }

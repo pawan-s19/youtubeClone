@@ -1,4 +1,3 @@
-
 let allVideosSec = document.querySelectorAll('.videoAndTextWrapper')
 let optionsMenu = document.querySelectorAll('.optionsMenu');
 
@@ -17,13 +16,19 @@ optionsMenu.forEach((e) => {
 })
 
 allVideosSec.forEach((wrapper) => {
-    wrapper.addEventListener('mouseover', function () {
-        this.lastElementChild.style.visibility = 'initial'
+    wrapper.addEventListener('mouseover', function () { 
+        this.lastElementChild.lastElementChild.style.visibility = 'initial'
         wrapper.style.cursor = 'pointer'
     });
     wrapper.addEventListener('mouseout', function () {
         if(!isOptionsBoxOpen){
-            this.lastElementChild.style.visibility = 'hidden'
+            this.lastElementChild.lastElementChild.style.visibility = 'hidden'
+        }
+    });
+    wrapper.addEventListener('click', function (e) {
+        if(!e.target.classList.contains('ri-more-2-line')){
+            let id = this.getAttribute('videoId');
+            window.location = `/watch/${id}`
         }
     });
 });

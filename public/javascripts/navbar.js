@@ -1,4 +1,4 @@
-let Searchinp = document.querySelectorAll('.nav-searchbox form input');
+let Searchinp = document.querySelectorAll('.inputArea');
 let Searchbtn = document.querySelectorAll('.nav-searchbox form button');
 let micBtn = document.querySelectorAll('.mic');
 
@@ -106,19 +106,20 @@ closeSearchBtn.addEventListener('click', () => {
 let signInBtn = document.querySelector('.signInBtn');
 let signUpBtn = document.querySelector('.signUpBtn');
 
-signInBtn.addEventListener('mouseover',(e) => {
+signInBtn?.addEventListener('mouseover',(e) => {
     signUpBtn.style.transform = "translateY(38px)";
     signUpBtn.style.scale = "1";
     signUpBtn.style.opacity = "1";
 });
 
-signInBtn.addEventListener('mouseout', () => {
+signInBtn?.addEventListener('mouseout', () => {
     setTimeout(() => {
         signUpBtn.style.transform = "translateY(0)";
         signUpBtn.style.scale = ".5";
         signUpBtn.style.opacity = "0";
     }, 2000);
 })
+
 
 function myFunction(x) {
     if (x.matches) { // If media query matches

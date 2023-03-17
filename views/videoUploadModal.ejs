@@ -26,6 +26,7 @@
                 <div class="mt-5">
                     <form class="text-center" action="/upload/video" enctype="multipart/form-data" method="post">
                         <input class="inpVid" name="file" placeholder="Upload A Video" type="file">
+                        <input class="timestamp" type="hidden" name="timestamp" placeholder="timestamp" type="number">
                         <div class="selectFileBtn my-2 w-fitContent">
                             Select Video
                         </div>
@@ -47,6 +48,7 @@
     let uploadFileBtn = document.querySelector('.uploadFileBtn');
     let removeFileBtn = document.querySelector('.removeFileBtn');
     let modal = document.querySelector('.modal');
+    let timestamp = document.querySelector('.timestamp');
 
     selectFileBtn.addEventListener('click', function(e){
         inpVid.click();
@@ -56,6 +58,7 @@
         if(e){
             uploadFileBtn.style.display = "initial";
             removeFileBtn.style.display = "initial";
+            timestamp.value = e.timeStamp
         }
     });
 
