@@ -120,7 +120,7 @@
                                         <a class="linkTo text-light" href="/watch/<%=elem._id%>">
                                             <video oncontextmenu="return false;" disablepictureinpicture muted
                                                 controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
-                                                src="/play/<%=elem.video_id%>"></video>
+                                                data-bs-videoId="<%=elem.video_id%>" src=""></video>
                                             <img src="<%=elem.thumbnail.secure_url%>" alt="">
                                             <small style="pointer-events: none;"
                                                 class="m-0 p-1 badge bg-dark">8:20</small>

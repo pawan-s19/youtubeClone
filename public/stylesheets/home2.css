@@ -173,6 +173,7 @@ body {
   visibility: hidden;
   cursor: pointer;
 }
+
 .notification-parent {
   background-color: var(--themeBg) !important;
   color: #b6b6b6 !important;
@@ -248,4 +249,16 @@ body {
   /* .videoTextCtn p{
         width: 75%;
     } */
+}
+
+/* Specifically for mobile to adjust video css */
+@media only screen and (max-width: 488px) {
+  .notif-text-container p {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
 }
