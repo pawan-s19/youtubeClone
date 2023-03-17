@@ -18,58 +18,54 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="videoDetsFormWrapper p-5">
+    <div class="videoDetsFormWrapper pt-4 px-4">
         <div class="formWrapper">
-            <form class="row g-3 needs-validation" novalidate>
-                <div class="col-md-4">
-                  <label for="validationCustom01" class="form-label">First name</label>
-                  <input type="text" class="form-control" id="validationCustom01" value="Mark" required>
+            <form class="needs-validation p-2 flex-fill" 
+            action="/upload/video/dets/<%=id%>"
+            method="post"
+            enctype="multipart/form-data" 
+            novalidate>
+                <div class="mb-4">
+                  <label for="validationCustom01" class="form-label">Title</label>
+                  <input name="title" type="text" class="form-control" id="validationCustom01" value="<%=filename%>" required>
                   <div class="valid-feedback">
                     Looks good!
                   </div>
                 </div>
-                <div class="col-md-4">
-                  <label for="validationCustom02" class="form-label">Last name</label>
-                  <input type="text" class="form-control" id="validationCustom02" value="Otto" required>
+                <div class="mb-4">
+                  <label for="validationCustom02" class="form-label">Description</label>
+                  <textarea placeholder="Write something here..." name="description" type="text" class="form-control" id="validationCustom02"></textarea>
                   <div class="valid-feedback">
                     Looks good!
                   </div>
                 </div>
-                <div class="col-md-4">
-                  <label for="validationCustomUsername" class="form-label">Username</label>
+                <div class="mb-4">
+                  <label for="validationCustomUsername" class="form-label">Thumbnail</label>
                   <div class="input-group has-validation">
-                    <span class="input-group-text" id="inputGroupPrepend">@</span>
-                    <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+                    <span class="input-group-text" id="inputGroupPrepend"><i class="ri-image-add-fill"></i></span>
+                    <input name="thumbnail" type="file" class="form-control thumbnail" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
                     <div class="invalid-feedback">
-                      Please choose a username.
+                      Please choose a Thumbnail
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6">
-                  <label for="validationCustom03" class="form-label">City</label>
-                  <input type="text" class="form-control" id="validationCustom03" required>
-                  <div class="invalid-feedback">
-                    Please provide a valid city.
+                <div class="mb-4">
+                  <label for="validationCustom03" class="form-label">Visibility</label>
+                  <!-- <input type="radio" id="validationCustom03" required> -->
+                  <div class="form-check">
+                    <input value="public" name="status" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                    <label class="form-check-label" for="flexRadioDefault2">
+                      Public
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input value="private" name="status" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                      Private
+                    </label>
                   </div>
                 </div>
-                <div class="col-md-3">
-                  <label for="validationCustom04" class="form-label">State</label>
-                  <select class="form-select" id="validationCustom04" required>
-                    <option selected disabled value="">Choose...</option>
-                    <option>...</option>
-                  </select>
-                  <div class="invalid-feedback">
-                    Please select a valid state.
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <label for="validationCustom05" class="form-label">Zip</label>
-                  <input type="text" class="form-control" id="validationCustom05" required>
-                  <div class="invalid-feedback">
-                    Please provide a valid zip.
-                  </div>
-                </div>
-                <div class="col-12">
+                <!-- <div class="col-12">
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
                     <label class="form-check-label" for="invalidCheck">
@@ -79,14 +75,20 @@
                       You must agree before submitting.
                     </div>
                   </div>
-                </div>
-                <div class="col-12">
+                </div> -->
+                <div>
                   <button class="btn btn-primary" type="submit">Submit form</button>
                 </div>
             </form>
-            <div class="videoPrevWrapper" >
-                <div class="videoPrevCtn">
-                    <video src="/Sample_Videos/pexels-ventill-6006682.mp4"></video>
+            <div class="videoPrevWrapper">
+                <div class="videoPrevCtn flex-fill">
+                    <video class="video-tag" controls src="/play/<%=vidGridFs%>"></video>
+                </div>
+                <div class="uploadedVideoDetails text-white">
+                  <p class="display-6">Video Details</p>
+                  <li><span class="fw-semibold" >Name</span>: <%=filename%></li>
+                  <li><span class="fw-semibold" >Size</span>: <%=filesize%></li>
+                  <li><span class="fw-semibold" >Type</span>: <%=filetype%></small>
                 </div>
             </div>
         </div>

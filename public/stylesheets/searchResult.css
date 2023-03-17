@@ -65,6 +65,10 @@ body {
     border-radius: .375rem;
 }
 
+.videoTitleAndStats{
+    width: 100%;
+}
+
 .videoTitleAndStats>p {
     font-size: .9rem;
     text-overflow: ellipsis;
@@ -128,6 +132,13 @@ body {
   -webkit-line-clamp: 1; 
   line-clamp: 1;
   -webkit-box-orient: vertical;
+}
+
+.videoAndTextWrapper:active{
+    background-color: rgba(255, 192, 203, 0.1);
+    border: .5px solid white;
+    border-radius: .375rem;
+    /* box-shadow: inset 0px 0px 20px 0px white; */
 }
 @media only screen and (max-width: 1016px) {
     .right-section {

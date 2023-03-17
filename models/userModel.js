@@ -35,6 +35,10 @@ const UserSchema = new Schema({
   password: {
     type: String,
   },
+  
+  notifications: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "notificationModel" },
+  ],
   userPlaylist: [{ type: mongoose.Schema.Types.ObjectId , ref: "userPlayListModel" }],
   watchLater: [{ type: mongoose.Schema.Types.ObjectId, ref: 'videoModel' }]
 });
