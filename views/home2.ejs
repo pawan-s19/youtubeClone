@@ -14,468 +14,195 @@
 
 <body>
     <div>
-        <%-include('modal') %>
-            <%-include('signinModal') %>
-                <%-include('navbar') %>
-                    <div class="menu-vid-parent d-flex flex-fill">
-                        <%-include('sideMenu') %>
-                            <%-include('bottomMenu') %>
-                                <div class="right-section p-3">
-                                    <!--notification modal-->
-                                    <div class="modal fade" id="notificationModal" tabindex="-1"
-                                        aria-labelledby="notificationModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg">
-                                            <div class="modal-content notification-parent">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="notificationModalLabel">
-                                                        Notifications
-                                                    </h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body notification">
-                                                    <%if(user.notifications.length> 0){%>
-                                                        <div
-                                                            class="notification-grid d-flex justify-content-between px-3">
-                                                            <div class="notification-channel-profile">
-                                                                <img class="notification-channel-profile-image"
-                                                                    src="data:image/jpeg;base64,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">
-                                                            </div>
-                                                            <div class="notification-dets">
-                                                                <p>chessBase India uploaded:When you are two pawns up a
-                                                                    against a grandmaster | chandar raju vs GM sriram
-                                                                    jha |
-                                                                    national rapid</p>
-                                                                <h6>10 minutes ago </h6>
-                                                            </div>
-                                                            <div class="notification-video me-4">
-                                                                <img class="notification-channel-profile-image"
-                                                                    src="data:image/jpeg;base64,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">
-                                                            </div>
+        <%-include('navbar') %>
+            <div class="menu-vid-parent d-flex flex-fill">
+                <%-include('sideMenu') %>
+                    <div class="right-section p-3">
+                        <div class="tags-ctn d-flex align-items-center gap-3">
+                            <div class="explore tags-wrapper rounded-3" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                    href="#">
+                                    <i class="ri-compass-3-line"></i>
+                                </a>
+                            </div>
+                            <div class="tags-wrapper-selected tags-wrapper rounded-3">
+                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                    href="#">
+                                    <small>All</small>
+                                </a>
+                            </div>
+                            <div class="tags-wrapper rounded-3">
+                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                    href="#">
+                                    <small>Music</small>
+                                </a>
+                            </div>
+                            <div class="tags-wrapper rounded-3">
+                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                    href="#">
+                                    <small>Mixes</small>
+                                </a>
+                            </div>
+                            <div class="tags-wrapper rounded-3">
+                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                    href="#">
+                                    <small>Ravindra Jain</small>
+                                </a>
+                            </div>
+                            <div class="tags-wrapper rounded-3">
+                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                    href="#">
+                                    <small>Live</small>
+                                </a>
+                            </div>
+                            <div class="tags-wrapper rounded-3">
+                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                    href="#">
+                                    <small>Bhajan Music</small>
+                                </a>
+                            </div>
+                            <div class="tags-wrapper rounded-3">
+                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                    href="#">
+                                    <small>Javascript</small>
+                                </a>
+                            </div>
+                            <div class="tags-wrapper rounded-3">
+                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                    href="#">
+                                    <small>Comedy</small>
+                                </a>
+                            </div>
+                            <div class="tags-wrapper rounded-3">
+                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                    href="#">
+                                    <small>Computer Science</small>
+                                </a>
+                            </div>
+                            <div class="tags-wrapper rounded-3">
+                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                    href="#">
+                                    <small>Wildlife</small>
+                                </a>
+                            </div>
+                            <div class="tags-wrapper rounded-3">
+                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                    href="#">
+                                    <small>Television</small>
+                                </a>
+                            </div>
+                            <div class="tags-wrapper rounded-3">
+                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                    href="#">
+                                    <small>Web Development</small>
+                                </a>
+                            </div>
+                            <div class="tags-wrapper rounded-3">
+                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                    href="#">
+                                    <small>Recently Uploaded</small>
+                                </a>
+                            </div>
+                            <div class="tags-wrapper rounded-3">
+                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                    href="#">
+                                    <small>New to you</small>
+                                </a>
+                            </div>
 
-                                                        </div>
-                                                        <%}else{%>
-                                                            <div
-                                                                class="d-flex align-items-center justify-content-center flex-column text-center">
-                                                                <i class="ri-notification-fill mt-5 mb-3"></i>
-                                                                <h4 class="mb-3">Your notifications
-                                                                    live here
-                                                                </h4>
-                                                                <h6>Subscribe to your favorite channels to
-                                                                    get
-                                                                    notified
-                                                                    about their latest videos.
-                                                                </h6>
+                        </div>
+                        <div class="all-videos-ctn mt-3">
 
-                                                            </div>
-                                                            <%}%>
-
-                                                </div>
-
+                            <%videos.forEach(function(elem){%>
+                                <div class="video-wrapper">
+                                    <div class="video-container">
+                                        <a class="linkTo text-light" href="/watch/<%=elem._id%>">
+                                            <video oncontextmenu="return false;" disablepictureinpicture muted
+                                                controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
+                                                src="/play/<%=elem.video_id%>"></video>
+                                            <img src="<%=elem.thumbnail.secure_url%>" alt="">
+                                            <small style="pointer-events: none;"
+                                                class="m-0 p-1 badge bg-dark">8:20</small>
+                                        </a>
+                                    </div>
+                                    <div class="iconTextWrapper mt-2 d-flex flex-nowrap align-items-start gap-3">
+                                        <a class="linkTo text-light" href="#">
+                                            <div class="profileIconCtn">
+                                                <img src="/Sample_Profile/pf1.jpg" alt="">
+                                            </div>
+                                        </a>
+                                        <div class="videoTextCtn">
+                                            <a class="linkTo text-light" href="#">
+                                                <p class="m-0 fw-bold text-light mb-2">
+                                                    <%=elem.title%>
+                                                </p>
+                                            </a>
+                                            <div class="text-secondary">
+                                                <a class="linkTo text-secondary" href="#">
+                                                    <small class="m-0 channelName">
+                                                        <%=elem.userId?.channel.channelName%>
+                                                    </small>
+                                                </a>
+                                            </div>
+                                            <div class="text-secondary">
+                                                <a class="linkTo text-secondary" href="#">
+                                                    <small class="listDot m-0 sm-channelName">
+                                                        <%=elem.userId?.channel.channelName%>
+                                                    </small>
+                                                    <small class="listDot">
+                                                        <%if(elem.views.length==0){%>
+                                                            No views
+                                                            <% }else{%>
+                                                                <%=elem.views.length%> Views
+                                                                    <% }%>
+                                                    </small>
+                                                    <small class="listDot last">
+                                                        <%=moment(elem.createdAt).fromNow()%>
+                                                    </small>
+                                                </a>
                                             </div>
                                         </div>
-                                        <%-include('signinModal') %>
-                                            <%-include('navbar') %>
-                                                <div class="menu-vid-parent d-flex flex-fill">
-                                                    <%-include('sideMenu') %>
-                                                        <%-include('bottomMenu') %>
-                                                            <%-include('videoUploadModal') %>
-                                                                <%-include('createChannelModal') %>
-                                                                    <%-include('playlistModal') %>
-                                                                        <div class="right-section p-3">
-                                                                            <div
-                                                                                class="tags-ctn d-flex align-items-center gap-3">
-                                                                                <div class="explore tags-wrapper rounded-3"
-                                                                                    data-bs-toggle="offcanvas"
-                                                                                    data-bs-target="#offcanvasWithBothOptions"
-                                                                                    aria-controls="offcanvasWithBothOptions">
-                                                                                    <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                        href="#">
-                                                                                        <i
-                                                                                            class="ri-compass-3-line"></i>
-                                                                                    </a>
-                                                                                </div>
-                                                                                <div
-                                                                                    class="tags-wrapper-selected tags-wrapper rounded-3">
-                                                                                    <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                        href="#">
-                                                                                        <small>All</small>
-                                                                                    </a>
-                                                                                </div>
-                                                                                <div class="tags-wrapper rounded-3">
-                                                                                    <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                        href="#">
-                                                                                        <small>Music</small>
-                                                                                    </a>
-                                                                                </div>
-                                                                                <div class="tags-wrapper rounded-3">
-                                                                                    <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                        href="#">
-                                                                                        <small>Mixes</small>
-                                                                                    </a>
-                                                                                </div>
-                                                                                <div class="tags-wrapper rounded-3">
-                                                                                    <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                        href="#">
-                                                                                        <small>Ravindra Jain</small>
-                                                                                    </a>
-                                                                                </div>
-                                                                                <div class="tags-wrapper rounded-3">
-                                                                                    <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                        href="#">
-                                                                                        <small>Live</small>
-                                                                                    </a>
-                                                                                </div>
-                                                                                <div class="tags-wrapper rounded-3">
-                                                                                    <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                        href="#">
-                                                                                        <small>Bhajan Music</small>
-                                                                                    </a>
-                                                                                </div>
-                                                                                <div class="tags-wrapper rounded-3">
-                                                                                    <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                        href="#">
-                                                                                        <small>Javascript</small>
-                                                                                    </a>
-                                                                                </div>
-                                                                                <div class="tags-wrapper rounded-3">
-                                                                                    <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                        href="#">
-                                                                                        <small>Comedy</small>
-                                                                                    </a>
-                                                                                </div>
-                                                                                <div class="tags-wrapper rounded-3">
-                                                                                    <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                        href="#">
-                                                                                        <small>Computer Science</small>
-                                                                                    </a>
-                                                                                </div>
-                                                                                <div class="tags-wrapper rounded-3">
-                                                                                    <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                        href="#">
-                                                                                        <small>Wildlife</small>
-                                                                                    </a>
-                                                                                </div>
-                                                                                <div class="tags-wrapper rounded-3">
-                                                                                    <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                        href="#">
-                                                                                        <small>Television</small>
-                                                                                    </a>
-                                                                                </div>
-                                                                                <div class="tags-wrapper rounded-3">
-                                                                                    <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                        href="#">
-                                                                                        <small>Web Development</small>
-                                                                                    </a>
-                                                                                </div>
-                                                                                <div class="tags-wrapper rounded-3">
-                                                                                    <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                        href="#">
-                                                                                        <small>Recently Uploaded</small>
-                                                                                    </a>
-                                                                                </div>
-                                                                                <div class="tags-wrapper rounded-3">
-                                                                                    <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                        href="#">
-                                                                                        <small>New to you</small>
-                                                                                    </a>
-                                                                                </div>
-
-                                                                            </div>
-                                                                            <div class="all-videos-ctn mt-3">
-
-                                                                                <%videos.forEach(function(elem){%>
-                                                                                    <div class="video-wrapper">
-                                                                                        <div class="video-container">
-                                                                                            <a class="linkTo text-light"
-                                                                                                href="/single/<%=elem._id%>">
-                                                                                                <video
-                                                                                                    oncontextmenu="return false;"
-                                                                                                    disablepictureinpicture
-                                                                                                    muted
-                                                                                                    controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
-                                                                                                    src="/play/<%=elem.video_id%>"
-                                                                                                    poster="<%=elem.thumbnail.secure_url%>"></video>
-                                                                                                <small
-                                                                                                    style="pointer-events: none;"
-                                                                                                    class="m-0 p-1 badge bg-dark">8:20</small>
-                                                                                            </a>
-                                                                                        </div>
-                                                                                        <div
-                                                                                            class="iconTextWrapper mt-2 d-flex flex-nowrap align-items-start gap-3">
-                                                                                            <a class="linkTo text-light"
-                                                                                                href="#">
-                                                                                                <div
-                                                                                                    class="profileIconCtn">
-                                                                                                    <img src="/Sample_Profile/pf1.jpg"
-                                                                                                        alt="">
-                                                                                                </div>
-                                                                                                <!--notification modal-->
-                                                                                                <div
-                                                                                                    class="tags-ctn d-flex align-items-center gap-3">
-                                                                                                    <div class="explore tags-wrapper rounded-3"
-                                                                                                        data-bs-toggle="offcanvas"
-                                                                                                        data-bs-target="#offcanvasWithBothOptions"
-                                                                                                        aria-controls="offcanvasWithBothOptions">
-                                                                                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                                            href="#">
-                                                                                                            <i
-                                                                                                                class="ri-compass-3-line"></i>
-                                                                                                        </a>
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        class="tags-wrapper-selected tags-wrapper rounded-3">
-                                                                                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                                            href="#">
-                                                                                                            <small>All</small>
-                                                                                                        </a>
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        class="tags-wrapper rounded-3">
-                                                                                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                                            href="#">
-                                                                                                            <small>Music</small>
-                                                                                                        </a>
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        class="tags-wrapper rounded-3">
-                                                                                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                                            href="#">
-                                                                                                            <small>Mixes</small>
-                                                                                                        </a>
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        class="tags-wrapper rounded-3">
-                                                                                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                                            href="#">
-                                                                                                            <small>Ravindra
-                                                                                                                Jain</small>
-                                                                                                        </a>
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        class="tags-wrapper rounded-3">
-                                                                                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                                            href="#">
-                                                                                                            <small>Live</small>
-                                                                                                        </a>
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        class="tags-wrapper rounded-3">
-                                                                                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                                            href="#">
-                                                                                                            <small>Bhajan
-                                                                                                                Music</small>
-                                                                                                        </a>
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        class="tags-wrapper rounded-3">
-                                                                                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                                            href="#">
-                                                                                                            <small>Javascript</small>
-                                                                                                        </a>
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        class="tags-wrapper rounded-3">
-                                                                                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                                            href="#">
-                                                                                                            <small>Comedy</small>
-                                                                                                        </a>
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        class="tags-wrapper rounded-3">
-                                                                                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                                            href="#">
-                                                                                                            <small>Computer
-                                                                                                                Science</small>
-                                                                                                        </a>
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        class="tags-wrapper rounded-3">
-                                                                                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                                            href="#">
-                                                                                                            <small>Wildlife</small>
-                                                                                                        </a>
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        class="tags-wrapper rounded-3">
-                                                                                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                                            href="#">
-                                                                                                            <small>Television</small>
-                                                                                                        </a>
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        class="tags-wrapper rounded-3">
-                                                                                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                                            href="#">
-                                                                                                            <small>Web
-                                                                                                                Development</small>
-                                                                                                        </a>
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        class="tags-wrapper rounded-3">
-                                                                                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                                            href="#">
-                                                                                                            <small>Recently
-                                                                                                                Uploaded</small>
-                                                                                                        </a>
-                                                                                                    </div>
-                                                                                                    <div
-                                                                                                        class="tags-wrapper rounded-3">
-                                                                                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                                                                                            href="#">
-                                                                                                            <small>New
-                                                                                                                to
-                                                                                                                you</small>
-                                                                                                        </a>
-                                                                                                    </div>
-
-                                                                                                </div>
-                                                                                                <div
-                                                                                                    class="all-videos-ctn mt-3">
-
-                                                                                                    <%videos.forEach(function(elem){%>
-                                                                                                        <div
-                                                                                                            class="video-wrapper">
-                                                                                                            <div
-                                                                                                                class="video-container">
-                                                                                                                <a class="linkTo text-light"
-                                                                                                                    href="/single/<%=elem._id%>">
-                                                                                                                    <video
-                                                                                                                        oncontextmenu="return false;"
-                                                                                                                        disablepictureinpicture
-                                                                                                                        muted
-                                                                                                                        controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
-                                                                                                                        src="/play/<%=elem.video_id%>"
-                                                                                                                        poster="<%=elem.thumbnail.secure_url%>"></video>
-                                                                                                                    <small
-                                                                                                                        class="m-0 p-1 badge bg-dark">8:20</small>
-                                                                                                                </a>
-                                                                                                            </div>
-                                                                                                            <div
-                                                                                                                class="iconTextWrapper mt-2 d-flex flex-nowrap align-items-start gap-3">
-                                                                                                                <a class="linkTo text-light"
-                                                                                                                    href="#">
-                                                                                                                    <div
-                                                                                                                        class="profileIconCtn">
-                                                                                                                        <img src="/Sample_Profile/pf1.jpg"
-                                                                                                                            alt="">
-                                                                                                                    </div>
-                                                                                                                </a>
-                                                                                                                <div
-                                                                                                                    class="videoTextCtn">
-                                                                                                                    <a class="linkTo text-light"
-                                                                                                                        href="#">
-                                                                                                                        <p
-                                                                                                                            class="m-0 fw-bold text-light mb-2">
-                                                                                                                            <%=elem.title%>
-                                                                                                                        </p>
-                                                                                                                    </a>
-                                                                                                                    <div
-                                                                                                                        class="text-secondary">
-                                                                                                                        <a class="linkTo text-secondary"
-                                                                                                                            href="#">
-                                                                                                                            <small
-                                                                                                                                class="m-0 channelName">
-                                                                                                                                <%=elem.userId?.channel.channelName%>
-                                                                                                                            </small>
-                                                                                                                        </a>
-                                                                                                                    </div>
-                                                                                                                    <div
-                                                                                                                        class="text-secondary">
-                                                                                                                        <a class="linkTo text-secondary"
-                                                                                                                            href="#">
-                                                                                                                            <small
-                                                                                                                                class="listDot m-0 sm-channelName">
-                                                                                                                                <%=elem.userId?.channel.channelName%>
-                                                                                                                            </small>
-                                                                                                                            <small
-                                                                                                                                class="listDot">
-                                                                                                                                <%if(elem.views.length==0){%>
-                                                                                                                                    No
-                                                                                                                                    views
-                                                                                                                                    <%
-                                                                                                                                        }else{%>
-                                                                                                                                        <%=elem.views.length%>
-                                                                                                                                            Views
-                                                                                                                                            <%
-                                                                                                                                                }%>
-                                                                                                                            </small>
-                                                                                                                            <small
-                                                                                                                                class="listDot last">
-                                                                                                                                <%=moment(elem.createdAt).fromNow()%>
-                                                                                                                            </small>
-                                                                                                                        </a>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                                <div
-                                                                                                                    class="optionsMenu text-light">
-                                                                                                                    <i
-                                                                                                                        class="ri-more-2-line"></i>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                        <%})%>
-
-                                                                                                </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                            </div>
-                                                                            <div class="optionsMenu text-light">
-                                                                                <i class="ri-more-2-line fw-semibold"
-                                                                                    data-bs-toggle="dropdown"
-                                                                                    aria-expanded="false"></i>
-                                                                                <ul class="dropdown-menu">
-                                                                                    <li>
-                                                                                        <a class="dropdown-item d-flex align-items-center gap-2"
-                                                                                            href="/addToWatchLater/<%=elem._id%>">
-                                                                                            <i class="ri-time-line"></i>
-                                                                                            <p class="m-0">Save to Watch
-                                                                                                Later</p>
-                                                                                        </a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                        <a class="dropdown-item d-flex align-items-center gap-2"
-                                                                                            data-bs-toggle="modal"
-                                                                                            data-bs-target="#playlistModal"
-                                                                                            data-bs-whatever="<%=elem._id%>"
-                                                                                            data-bs-createdPls="<%=user?.userPlaylist%>">
-                                                                                            <i
-                                                                                                class="ri-play-list-add-line"></i>
-                                                                                            <p class="m-0">Save to
-                                                                                                Playlist</p>
-                                                                                        </a>
-                                                                                    </li>
-                                                                                    <li>
-                                                                                        <a class="dropdown-item d-flex align-items-center gap-2"
-                                                                                            href="#">
-                                                                                            <i
-                                                                                                class="ri-share-forward-line"></i>
-                                                                                            <p class="m-0">Share</p>
-                                                                                        </a>
-                                                                                    </li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
-                                                </div>
-                                                <%})%>
-
+                                        <div class="optionsMenu text-light">
+                                            <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown"
+                                                aria-expanded="false"></i>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a class="dropdown-item d-flex align-items-center gap-2"
+                                                        href="/addToWatchLater/<%=elem._id%>">
+                                                        <i class="ri-time-line"></i>
+                                                        <p class="m-0">Save to Watch Later</p>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item d-flex align-items-center gap-2"
+                                                        data-bs-toggle="modal" data-bs-target="#playlistModal"
+                                                        data-bs-whatever="<%=elem._id%>"
+                                                        data-bs-createdPls="<%=user?.userPlaylist%>">
+                                                        <i class="ri-play-list-add-line"></i>
+                                                        <p class="m-0">Save to Playlist</p>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                                                        <i class="ri-share-forward-line"></i>
+                                                        <p class="m-0">Share</p>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
+                                <%})%>
+                        </div>
                     </div>
+            </div>
     </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
     <script src="/javascripts/home2.js"></script>
-    <<<<<<< HEAD <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
-        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous">
-        </script>
 </body>
 
 </html>
-=======
-</body>
-
-</html>
->>>>>>> d8c0aa3646e82244542ebf66468245b9194efec8
