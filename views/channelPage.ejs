@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/boilerPlate.css">
+    <link rel="stylesheet" href="/stylesheets/channelPage.css">
+    <title>Document</title>
+</head>
+<body>
+    <%-include('navbar') %>
+    <div class="menu-vid-parent d-flex flex-fill">
+    <%-include('sideMenu') %>
+        <div class="right-section padbtm">
+            <div class="bannerWrapper">
+                <img src="/Sample_Images/banner1.png" alt="">
+            </div>
+            <div class="channelOwnerInfoWrapper">
+                <div class="infoInnerWrapper">
+                    <div class="leftInfoWrapper">
+                        <div class="profileWrapper">
+                            <img src="/images/unnamed.jpg" alt="">
+                        </div>
+                        <div class="infoTextWrapper">
+                            <h3 class="infoChannelName m-0 text-white">T-Series</h3>
+                            <small class="infoUsername gtxt text-wrap"><span>@FameFocus</span> <span>4.32M subscribers</span> <span>313 videos</span></small>
+                            <a class="aboutLink gtxt" href="#">
+                                <small class="infoAboutText">
+                                    🌺🌷❣️🤗❣️🌷🌺
+                                    Welcome to our YouTube channel.
+
+                                    If you want Latest bollywood Songs Whatsapp Status - Then you are at a Right place ✅
+                                    🔥😍🔥😍🔥😍🔥😍🔥
+
+                                    With the latest trending black screen whatsapp status, you will also find some trending Whatsapp Songs like :- "Among us Imposter - Hindi Rap Song".
+                                </small>
+                                <i class="ri-arrow-right-s-line"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="rightInfoWrapper">
+                        <a class="anchorWrap text-light" href="">
+                            <div class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
+                              <small>Subscribe</small>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="channelPageNav">
+                <a href="/channel/id/home">
+                    <div class="channelNavigationBox home">
+                        HOME
+                    </div>
+                </a>
+                <a href="/channel/id/videos">
+                    <div class="channelNavigationBox videos">
+                        VIDEOS
+                    </div>
+                </a>
+                <a href="/channel/id/playlists">
+                    <div class="channelNavigationBox playlists">
+                        PLAYLISTS
+                    </div>
+                </a>
+                <a href="/channel/id/channels">
+                    <div class="channelNavigationBox channels">
+                        CHANNELS
+                    </div>
+                </a>
+                <a href="/channel/id/about">
+                    <div class="channelNavigationBox about">
+                        ABOUT
+                    </div>
+                </a>
+            </div>
+            <div class="content">
+                <% videos.forEach(function(elem){ %>
+                    <div class="videoAndTextWrapper d-flex align-items-top gap-2 mb-2 " videoId="<%=elem._id%>">
+    
+                      <div class="sm-video-wrapper rounded-2 overflow-hidden">
+                        <video oncontextmenu="return false;" disablepictureinpicture muted
+                          controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"></video>
+                        <img src="<%=elem.thumbnail.secure_url%>" alt="">
+                      </div>
+    
+                      <div class="videoTitleAndStats">
+                        <p class="m-0 fw-semibold ">
+                          <%=elem.title%>
+                        </p>
+                        <div class="sm-video-stats text-muted mt-2">
+                          <a class="anchorWrap text-light" href="/channel">
+                            <small class="d-block">
+                              <%=elem.userId?.channel.channelName%>
+                            </small>
+                          </a>
+                          <small class="listDot">
+                            <%if(elem.views.length==0){%>
+                              No views
+                              <% }else{%>
+                                <%=elem.views.length%> Views
+                                  <% }%>
+                          </small>
+                          <small>
+                            <%=moment(elem.createdAt).fromNow() %>
+                          </small>
+                        </div>
+                      </div>
+                      <div class="optionsMenu text-light">
+                        <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                        <ul class="dropdown-menu">
+                          <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2" href="/addToWatchLater/<%=elem._id%>">
+                              <i class="ri-time-line"></i>
+                              <p class="m-0">Save to Watch Later</p>
+                            </a>
+                          </li>
+                          <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2" data-bs-toggle="modal"
+                              data-bs-target="#playlistModal" data-bs-whatever="<%=elem._id%>" href="">
+                              <i class="ri-play-list-add-line"></i>
+                              <p class="m-0">Save to Playlist</p>
+                            </a>
+                          </li>
+                          <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                              <i class="ri-share-forward-line"></i>
+                              <p class="m-0">Share</p>
+                            </a>
+                          </li>
+    
+                        </ul>
+                      </div>
+                    </div>
+                    <% }) %>
+            </div>
+        </div>
+    </div>
+    <script src="/javascripts/channelPage.js"></script>
+</body>
+</html>

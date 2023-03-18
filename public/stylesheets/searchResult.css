@@ -135,7 +135,7 @@ body {
 }
 
 .videoAndTextWrapper:active{
-    background-color: rgba(255, 192, 203, 0.1);
+    background-color: var(--elementActive);
     border: .5px solid white;
     border-radius: .375rem;
     /* box-shadow: inset 0px 0px 20px 0px white; */
