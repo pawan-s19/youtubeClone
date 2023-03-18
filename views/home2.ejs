@@ -31,54 +31,6 @@
                                     href="#">
                                     <small>All</small>
                                 </a>
-                                <div class="videoTextCtn">
-                                    <a class="linkTo text-light" href="#">
-                                        <p class="m-0 fw-bold text-light mb-2">
-                                            <%=elem.title%>
-                                        </p>
-                                    </a>
-                                    <div class="text-secondary">
-                                        <a class="linkTo text-secondary" href="#">
-                                            <small class="m-0 channelName"><%=elem.userId?.channel.channelName%></small>
-                                        </a>
-                                    </div>
-                                    <div class="text-secondary">
-                                        <a class="linkTo text-secondary" href="#">
-                                            <small class="listDot m-0 sm-channelName"><%=elem.userId?.channel.channelName%></small>
-                                            <small class="listDot">
-                                            <%if(elem.views.length == 0){%>
-                                            No views
-                                           <% }else{%>
-                                             <%=elem.views.length%> Views
-                                           <% }%>
-                                           </small>
-                                            <small class="listDot last"><%=moment(elem.createdAt).fromNow()%></small>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="optionsMenu text-light">
-                                    <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                        <a class="dropdown-item d-flex align-items-center gap-2" data-bs-prefix="/addToWatchLater/<%=elem._id%>" href="/addToWatchLater/<%=elem._id%>">
-                                            <i class="ri-time-line"></i>
-                                            <p class="m-0">Save to Watch Later</p>
-                                        </a>
-                                        </li>
-                                        <li>
-                                        <a class="dropdown-item d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#playlistModal" data-bs-whatever="<%=elem._id%>" data-bs-createdPls="<%=JSON.stringify(user?.userPlaylist)%>">
-                                            <i class="ri-play-list-add-line"></i>
-                                            <p class="m-0">Save to Playlist</p>
-                                        </a>
-                                        </li>
-                                        <li>
-                                        <a class="dropdown-item d-flex align-items-center gap-2" href="#">
-                                            <i class="ri-share-forward-line"></i>
-                                            <p class="m-0">Share</p>
-                                        </a>
-                                        </li>
-                                    </ul>
-                                </div>
                             </div>
                             <div class="tags-wrapper rounded-3">
                                 <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
