@@ -3,7 +3,11 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+
+const cloudinary = require("cloudinary");
+
 var expressSession = require("cookie-session");
+
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./models/userModel");
@@ -37,6 +41,14 @@ passport.serializeUser(function (user, done) {
 passport.deserializeUser(function (user, done) {
   // console.log(user)
   done(null, user);
+});
+//connecting to cloudinary
+
+cloudinary.config({
+  cloud_name: "dy9xqzsbx",
+  api_key: "464422387612173",
+  api_secret: "tsVokf_Q6IwHnRAQz7POgvrxLHg",
+  secure: true,
 });
 
 //connect to database

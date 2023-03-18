@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/videoUploadModal.css">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="modal fade" id="videoUploadModal" tabindex="-1" aria-labelledby="videoUploadModalLabel"
+        data-bs-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="videoUploadModalLabel">Upload a Video</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex align-items-center justify-content-center">
+                    <div class="d-flex justify-content-center flex-column align-items-center">
+                        <div class="gifWrapper">
+                            <img src="https://media.tenor.com/LUNANcnXLiUAAAAM/up-arrow.gif" alt="">
+                        </div>
+                        <div class="mt-5">
+                            <form class="text-center" action="/upload/video" enctype="multipart/form-data"
+                                method="post">
+                                <input class="inpVid" name="file" placeholder="Upload A Video" type="file">
+                                <div class="selectFileBtn my-2 w-fitContent">
+                                    Select Video
+                                </div>
+                                <input class="uploadFileBtn bg-success mb-4" type="submit" value="Publish Video">
+                            </form>
+                            <p class="text-secondary">Your Video Will be Private Until Your Publish Them</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="removeFileBtn mx-auto">Remove Selected Video</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let selectFileBtn = document.querySelector('.selectFileBtn');
+        let inpVid = document.querySelector('.inpVid');
+        let uploadFileBtn = document.querySelector('.uploadFileBtn');
+        let removeFileBtn = document.querySelector('.removeFileBtn');
+        let modal = document.querySelector('.modal');
+
+        selectFileBtn.addEventListener('click', function (e) {
+            inpVid.click();
+        });
+
+        inpVid.addEventListener('change', function (e) {
+            if (e) {
+                uploadFileBtn.style.display = "initial";
+                removeFileBtn.style.display = "initial";
+                let fileType = e.srcElement.files[0].type;
+            }
+        });
+
+        removeFileBtn.addEventListener('click', function (e) {
+            inpVid.form.reset();
+            uploadFileBtn.style.display = "none";
+            removeFileBtn.style.display = "none";
+        })
+
+        modal.addEventListener('hide.bs.modal', function (e) {
+            console.log('sdfj')
+        })
+
+        function formatBytes(bytes, decimals = 2) {
+            if (!+bytes) return '0 Bytes'
+
+            const k = 1024
+            const dm = decimals < 0 ? 0 : decimals
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+
+            const i = Math.floor(Math.log(bytes) / Math.log(k))
+
+            return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
+        }
+    </script>
+</body>
+
+</html>

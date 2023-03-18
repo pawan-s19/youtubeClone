@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/sideMenu.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="left-menu-bar">
+        <a href="/" class="active text-decoration-none menu-btn-wrapper d-flex flex-column align-items-center py-3 rounded-3">
+            <i class="ri-home-4-line"></i>
+            <small>Home</small>
+        </a>
+        <a href="/feed/subscriptions" class="text-decoration-none menu-btn-wrapper d-flex flex-column align-items-center py-3 rounded-3">
+            <i class="ri-clapperboard-line"></i>
+            <small>Subscriptions</small>
+        </a>
+        <a href="/feed/library" class="text-decoration-none menu-btn-wrapper d-flex flex-column align-items-center py-3 rounded-3">
+            <i class="ri-slideshow-4-line"></i>
+            <small>Library</small>
+        </a>
+        <a href="/search?contentType=history" class="text-decoration-none menu-btn-wrapper d-flex flex-column align-items-center py-3 rounded-3">
+            <i class="ri-history-line"></i>
+            <small>History</small>
+        </a>
+    </div>
+    <script>
+        let allATags = document.querySelectorAll('.left-menu-bar a');
+        console.log(allATags)
+        allATags.forEach(function(a) {
+            a.addEventListener('click', function(){
+                console.log(this.firstChild.classList)
+            })
+        })
+
+    </script>
+</body>
+</html>

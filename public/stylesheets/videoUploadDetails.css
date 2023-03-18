@@ -1,0 +1,81 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: background .25s ease-in-out;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+:root {
+    --themeBg: #212121;
+    --iconHover: rgba(221, 160, 221, 0.484);
+    --iconBackFaded: rgba(221, 160, 221, 0.194);
+}
+
+.videoDetsFormWrapper{
+    width: 100%;
+    min-height: 100%;
+    background-color: var(--themeBg);
+}
+
+.formWrapper{
+    display: flex;
+    flex-wrap: wrap-reverse;
+    /* justify-content: space-between; */
+    gap: 2rem;
+}
+
+.formWrapper form{
+    width: 500px;
+    border: 1px solid var(--iconHover);
+    border-radius: .375rem;
+    background-color: var(--iconBackFaded);
+    color: white;
+}
+
+.videoPrevWrapper{
+    flex-grow: 1;
+    width: fit-content;
+}
+
+.videoPrevCtn{
+    height: fit-content;
+    width: fit-content;
+    /* min-width: 400px; */
+    /* max-width: 28vmax; */
+    /* position: relative; */
+}
+.videoPrevCtn>video{
+    flex-shrink: 1;
+    width: 100%;
+    /* max-width: 450px; */
+    height: 100%;
+    border-radius: .375rem;
+    object-fit: contain;
+    overflow: hidden;
+}
+
+.videoPrevCtn>video[poster]{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.uploadedVideoDetails li{
+    list-style-type: square;
+    max-width: 450px;
+}
+
+.uploadedVideoDetails li:nth-child(2){
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 3; 
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+}

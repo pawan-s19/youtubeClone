@@ -1,0 +1,44 @@
+.right-section{
+    background-image: url(/Sample_Images/signin-removebg-preview.png);
+    background-size: 50vmax;
+    background-position: 50% 20%;
+    background-repeat: no-repeat;
+}
+
+.authbtnWrapper{
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translate(-50%,0);
+}
+
+.signIn-btn,.signUp-btn {
+    border: 1px solid var(--iconBackFaded);
+    color: white;
+    padding: .2rem .5rem;
+    position: relative;
+    cursor: pointer;
+    z-index: 10;
+    white-space: nowrap;
+    background-color: var(--iconBackFaded);
+    font-size: 1.5rem;
+    transition: all ease-in-out .2s;
+}
+
+.signIn-btn:active,.signUp-btn:active{
+    background-color: var(--iconBackFaded) !important;
+}
+
+.signIn-btn:hover,.signUp-btn:hover{
+    background-color: var(--iconHover);
+    border-radius: 100px !important;
+}
+
+@media only screen and (max-width: 630px) {
+    .signIn-btn,.signUp-btn {
+        font-size: 1.2rem;
+    }
+    .authbtnWrapper{
+        bottom: 30%;
+    }
+}

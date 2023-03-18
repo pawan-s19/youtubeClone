@@ -12,3 +12,5 @@ exports.connectDB = () => {
       console.log(err);
     });
 };
+
+// mongodb+srv://wetube:Suvidha@yt-cluster.rwwtlgg.mongodb.net/?retryWrites=true&w=majority
