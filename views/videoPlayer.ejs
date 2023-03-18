@@ -161,6 +161,32 @@
                           <a href="/comment/dislike/<%=elem._id%>" class="anchorWrap text-light">
                             <i class="commentDislikeIcon ri-thumb-down-line"></i>
                           </a>
+                          <i class="ri-more-2-fill" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                            data-bs-auto-close="outside"></i>
+                          <div class="dropdownParent">
+                            <ul class="dropdown-menu">
+                              <% if(user){ %>
+                                <li style="cursor: pointer;" class="comment-edit">
+                                  <h6 class="dropdown-item">Edit Comment</h6>
+                                </li>
+                                <% }else{ %>
+                                  <li style="cursor: pointer;"><a class="dropdown-item" href="/signInPage">Edit
+                                      Comment</a></li>
+                                  <% } %>
+                                    <li>
+                                      <form action="/comment/edit/<%=elem._id%>" class="comment-form"
+                                        style="display: none;" method="post">
+                                        <div class="mx-3">
+                                          <input type="text" class="form-control" id="exampleInputPassword1"
+                                            value="<%=elem.comment%>" name="comment">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary mx-3 mt-2">Submit</button>
+                                      </form>
+                                    </li>
+                                    <li><a class="dropdown-item" href="/comment/delete/<%=elem._id%>">Delete Comment</a>
+                                    </li>
+                            </ul>
+                          </div>
                         </div>
                       </div>
                     </div>
