@@ -1,71 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
-      crossorigin="anonymous"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/stylesheets/videoUploadDetails.css">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/stylesheets/videoUploadDetails.css">
+  <title>Document</title>
 </head>
+
 <body>
-    <div class="videoDetsFormWrapper pt-4 px-4">
-        <div class="formWrapper">
-            <form class="needs-validation p-2 flex-fill" 
-            action="/upload/video/dets/<%=id%>"
-            method="post"
-            enctype="multipart/form-data" 
-            novalidate>
-                <div class="mb-4">
-                  <label for="validationCustom01" class="form-label">Title</label>
-                  <input name="title" type="text" class="form-control" id="validationCustom01" value="<%=filename%>" required>
-                  <div class="valid-feedback">
-                    Looks good!
-                  </div>
-                </div>
-                <div class="mb-4">
-                  <label for="validationCustom02" class="form-label">Description</label>
-                  <textarea placeholder="Write something here..." name="description" type="text" class="form-control" id="validationCustom02"></textarea>
-                  <div class="valid-feedback">
-                    Looks good!
-                  </div>
-                </div>
-                <div class="mb-4">
-                  <label for="validationCustomUsername" class="form-label">Thumbnail</label>
-                  <div class="input-group has-validation">
-                    <span class="input-group-text" id="inputGroupPrepend"><i class="ri-image-add-fill"></i></span>
-                    <input name="thumbnail" type="file" class="form-control thumbnail" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
-                    <div class="invalid-feedback">
-                      Please choose a Thumbnail
-                    </div>
-                  </div>
-                </div>
-                <div class="mb-4">
-                  <label for="validationCustom03" class="form-label">Visibility</label>
-                  <!-- <input type="radio" id="validationCustom03" required> -->
-                  <div class="form-check">
-                    <input value="public" name="status" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                    <label class="form-check-label" for="flexRadioDefault2">
-                      Public
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input value="private" name="status" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                      Private
-                    </label>
-                  </div>
-                </div>
-                <!-- <div class="col-12">
+  <div class="videoDetsFormWrapper pt-4 px-4">
+    <div class="formWrapper">
+      <form class="needs-validation p-2 flex-fill" action="/upload/video/dets/<%=id%>" method="post"
+        enctype="multipart/form-data" novalidate>
+        <div class="mb-4">
+          <label for="validationCustom01" class="form-label">Title</label>
+          <input name="title" type="text" class="form-control" id="validationCustom01" value="<%=filename%>" required>
+          <div class="valid-feedback">
+            Looks good!
+          </div>
+        </div>
+        <div class="mb-4">
+          <label for="validationCustom02" class="form-label">Description</label>
+          <textarea placeholder="Write something here..." name="description" type="text" class="form-control"
+            id="validationCustom02"></textarea>
+          <div class="valid-feedback">
+            Looks good!
+          </div>
+        </div>
+        <div class="mb-4">
+          <label for="validationCustomUsername" class="form-label">Thumbnail</label>
+          <div class="input-group has-validation">
+            <span class="input-group-text" id="inputGroupPrepend"><i class="ri-image-add-fill"></i></span>
+            <input name="thumbnail" type="file" class="form-control thumbnail" id="validationCustomUsername"
+              aria-describedby="inputGroupPrepend" required>
+            <div class="invalid-feedback">
+              Please choose a Thumbnail
+            </div>
+          </div>
+        </div>
+        <div class="mb-4">
+          <label for="validationCustom04" class="form-label">Category</label>
+          <input name="category" type="text" class="form-control" id="validationCustom04" required>
+          <div class="valid-feedback">
+            Looks good!
+          </div>
+        </div>
+        <div class="mb-4">
+          <label for="validationCustom03" class="form-label">Visibility</label>
+          <!-- <input type="radio" id="validationCustom03" required> -->
+          <div class="form-check">
+            <input value="public" name="status" class="form-check-input" type="radio" name="flexRadioDefault"
+              id="flexRadioDefault2" checked>
+            <label class="form-check-label" for="flexRadioDefault2">
+              Public
+            </label>
+          </div>
+          <div class="form-check">
+            <input value="private" name="status" class="form-check-input" type="radio" name="flexRadioDefault"
+              id="flexRadioDefault1">
+            <label class="form-check-label" for="flexRadioDefault1">
+              Private
+            </label>
+          </div>
+        </div>
+        <!-- <div class="col-12">
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
                     <label class="form-check-label" for="invalidCheck">
@@ -76,26 +79,29 @@
                     </div>
                   </div>
                 </div> -->
-                <div>
-                  <button class="btn btn-primary" type="submit">Submit form</button>
-                </div>
-            </form>
-            <div class="videoPrevWrapper">
-                <div class="videoPrevCtn flex-fill">
-                    <video class="video-tag" controls src="/play/<%=vidGridFs%>"></video>
-                </div>
-                <div class="uploadedVideoDetails text-white">
-                  <p class="display-6">Video Details</p>
-                  <li><span class="fw-semibold" >Name</span>: <%=filename%></li>
-                  <li><span class="fw-semibold" >Size</span>: <%=filesize%></li>
-                  <li><span class="fw-semibold" >Type</span>: <%=filetype%></small>
-                </div>
-            </div>
+        <div>
+          <button class="btn btn-primary" type="submit">Submit form</button>
         </div>
+      </form>
+      <div class="videoPrevWrapper">
+        <div class="videoPrevCtn flex-fill">
+          <video class="video-tag" controls src="/play/<%=vidGridFs%>"></video>
+        </div>
+        <div class="uploadedVideoDetails text-white">
+          <p class="display-6">Video Details</p>
+          <li><span class="fw-semibold">Name</span>: <%=filename%>
+          </li>
+          <li><span class="fw-semibold">Size</span>: <%=filesize%>
+          </li>
+          <li><span class="fw-semibold">Type</span>: <%=filetype%></small>
+        </div>
+      </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
     crossorigin="anonymous"></script>
-    <script src="/javascripts/videoUploadDetails.js"></script>
+  <script src="/javascripts/videoUploadDetails.js"></script>
 </body>
+
 </html>

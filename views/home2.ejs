@@ -32,84 +32,30 @@
                                     <small>All</small>
                                 </a>
                             </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Music</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Mixes</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Ravindra Jain</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Live</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Bhajan Music</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Javascript</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Comedy</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Computer Science</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Wildlife</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Television</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Web Development</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Recently Uploaded</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>New to you</small>
-                                </a>
-                            </div>
+                            <%videos?.forEach(function(elem){%>
+                                <div class="tags-wrapper tags-wrapper rounded-3">
+                                    <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                        href="/category/<%=elem?.category%>">
+                                        <small>
+                                            <%=elem?.category%>
+                                        </small>
+                                    </a>
+                                </div>
+                                <%})%>
+
+
+                                    <!-- <div class="tags-wrapper rounded-3">
+                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                            href="#">
+                                            <small>Recently Uploaded</small>
+                                        </a>
+                                    </div>
+                                    <div class="tags-wrapper rounded-3">
+                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                            href="#">
+                                            <small>New to you</small>
+                                        </a>
+                                    </div> -->
 
                         </div>
                         <div class="all-videos-ctn mt-3">

@@ -30,6 +30,7 @@ const videoModel = new mongoose.Schema(
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "userModel" }],
     disLikes: [{ type: mongoose.Schema.Types.ObjectId, ref: "userModel" }],
     comment: [{ type: mongoose.Schema.Types.ObjectId, ref: "commentModel" }],
+    category: { type: String },
   },
   { timestamps: true }
 );
