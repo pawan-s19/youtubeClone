@@ -40,7 +40,15 @@ const UserSchema = new Schema({
     { type: mongoose.Schema.Types.ObjectId, ref: "notificationModel" },
   ],
   userPlaylist: [{ type: mongoose.Schema.Types.ObjectId , ref: "userPlayListModel" }],
-  watchLater: [{ type: mongoose.Schema.Types.ObjectId, ref: 'videoModel' }]
+  watchLater: [{ type: mongoose.Schema.Types.ObjectId, ref: 'videoModel' }],
+  likedVideos: [{ 
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "videoModels" 
+  }],
+  channelSubscribeByUser: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "channelModel" 
+  }]
 });
 
 UserSchema.plugin(plm);

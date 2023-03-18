@@ -14,10 +14,6 @@ const playListModel = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "commentModel" 
     }],
-    likedVideos: [{ 
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "videoModels" 
-    }]
 })
 
 module.exports = mongoose.model("userPlayListModel", playListModel);

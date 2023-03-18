@@ -208,8 +208,7 @@ router.post("/upload/video", upload().single("file"), async (req, res) => {
     //   res.json({ message: "sorry ! Invalid mime type !!" });
     // }
     res.redirect(
-      `/redirect/video/dets/${video._id}/${req.file.originalname}/${size}/${
-        req.file.mimetype.split("/")[1]
+      `/redirect/video/dets/${video._id}/${req.file.originalname}/${size}/${req.file.mimetype.split("/")[1]
       }`
     );
   } catch (error) {
@@ -365,19 +364,23 @@ router.get("/play/:id", async (req, res) => {
 router.get("/like/:id", isLoggedIn, async (req, res, next) => {
   try {
     let video = await videoModel.findOne({ _id: req.params.id });
-    let userId = req.session.passport.user._id;
-    if (video.likes.indexOf(userId) !== -1) {
+    let userId = await userModel.findOne({_id:req.session.passport.user._id});
+    if (video.likes.indexOf(userId._id) !== -1) {
       //if user has already liked the video
-      video.likes.splice(video.likes.indexOf(userId), 1);
-    } else if (video.disLikes.indexOf(userId) !== -1) {
+      video.likes.splice(video.likes.indexOf(userId._id), 1);
+      userId.likedVideos.splice(userId.likedVideos.indexOf(video._id),1)
+    } else if (video.disLikes.indexOf(userId._id) !== -1) {
       //if user has disliked the video
-      video.disLikes.splice(video.disLikes.indexOf(userId), 1);
-      video.likes.push(userId);
+      video.disLikes.splice(video.disLikes.indexOf(userId._id), 1);
+      video.likes.push(userId._id);
+      userId.likedVideos.push(userId._id)
     } else {
       //if user has not liked nor disliked the video
-      video.likes.push(userId);
+      video.likes.push(userId._id);
+      userId.likedVideos.push(video._id)
     }
     await video.save();
+    await userId.save();
     res.redirect(req.headers.referer);
   } catch (err) {
     res.send(err);
@@ -387,24 +390,27 @@ router.get("/like/:id", isLoggedIn, async (req, res, next) => {
 router.get("/dislike/:id", isLoggedIn, async (req, res) => {
   try {
     let video = await videoModel.findOne({ _id: req.params.id });
-    let userId = req.session.passport.user._id;
-    if (video.disLikes.indexOf(userId) !== -1) {
+    let userId = await userModel.findOne({_id:req.session.passport.user._id});
+    if (video.disLikes.indexOf(userId._id) !== -1) {
       //if user has already disliked
-      video.disLikes.splice(video.disLikes.indexOf(userId), 1);
-    } else if (video.likes.indexOf(userId) !== -1) {
+      video.disLikes.splice(video.disLikes.indexOf(userId._id), 1);
+    } else if (video.likes.indexOf(userId._id) !== -1) {
       //if user has liked the video
-      video.likes.splice(video.likes.indexOf(userId), 1);
-      video.disLikes.push(userId);
+      video.likes.splice(video.likes.indexOf(userId._id), 1);
+      video.disLikes.push(userId._id);
+      userId.likedVideos.splice(userId.likedVideos.indexOf(video._id),1)
     } else {
       //if user has not disliked nor liked
-      video.disLikes.push(userId);
+      video.disLikes.push(userId._id);
     }
     await video.save();
+    await userId.save();
     res.redirect(req.headers.referer);
   } catch (err) {
     res.send(err);
   }
 });
+
 router.get("/uploadPage", isLoggedIn, hasChannel, (req, res, next) => {
   res.render("uploadPage");
 });
@@ -530,22 +536,23 @@ router.get("/subscribe", (req, res, next) => {
 
 router.get("/subscribe/:id", function (req, res) {
   try {
-    userModel
-      .findOne({ username: req.session.passport.user.username })
+    userModel.findOne({ username: req.session.passport.user.username })
       .then(function (user) {
-        channelModel
-          .findOne({ _id: req.params.id })
+        channelModel.findOne({ _id: req.params.id })
           .then(function (channeltobesubscribe) {
             let index = channeltobesubscribe.channelSubscription.indexOf(
               user._id
             );
-
             if (index === -1) {
               channeltobesubscribe.channelSubscription.push(user._id);
+              user.channelSubscribeByUser.push(channeltobesubscribe._id)
+              user.save();
               console.log("pushuser");
             } else {
               console.log("removeuser");
               channeltobesubscribe.channelSubscription.splice(index, 1);
+              user.channelSubscribeByUser.splice(index, 1)
+              user.save()
             }
             channeltobesubscribe.save().then(function () {
               res.redirect("/subscribe");
