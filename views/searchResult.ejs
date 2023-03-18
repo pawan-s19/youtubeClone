@@ -155,16 +155,25 @@
                             <%=elem?.description%>
                           </small>
                         </div>
-                        <div class=" channelInfoWrapper d-flex s-center align-items-center gap-2 mt-3">
-                          <%if(elem.channelSubscription.includes(user?._id)){%>
-                            <a class="btn btn-dark rounded-5" href="/subscribe/<%=elem._id%>">Subscribed</a>
-
-                            <%}else{%>
-                              <a class="btn btn-light rounded-5" href="/subscribe/<%=elem._id%>">Subscribe</a>
-                              <% }%>
-
-                        </div>
-
+                        <% if(JSON.stringify(elem.channelOwner) !== JSON.stringify(user?._id)){ %>
+                          <div class=" channelInfoWrapper d-flex s-center align-items-center gap-2 mt-3">
+                            <a class="anchorWrap text-light ms-3" href="/subscribe/<%=elem._id%>">
+                              <%if(elem.channelSubscription.includes(user?._id)){%>
+                              <div title="Unsubscribe this channel" class="subscribedBtn text-white rounded-pill text-nowrap text-dark fw-semibold">
+                                <small>
+                                    Subscribed
+                                  </small>
+                                </div>
+                                <%}else{%>
+                                  <div title="Subscribe this channel" class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
+                                    <small>
+                                        Subscribe
+                                      </small>
+                                    </div>
+                                <% }%>
+                            </a>
+                          </div>
+                        <% } %>
                       </div>
                       <div auto class="optionsMenu text-light">
                         <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown" aria-expanded="false"></i>

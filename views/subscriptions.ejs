@@ -14,30 +14,72 @@
         <%-include('sideMenu') %>
         <div class="right-section p-3">
             <h5 class="text-white ms-2">Subscriptions</h5>
-            <div class="channelsWrapper mt-4 gap-4">
-                <div class="singleChannelWrapper">
-                    <a class="text-decoration-none text-light" href="/channel/id/home">
-                        <div class="channelBox">
-                            <div title="Go To Channel" class="profile">
-                                <img src="/Sample_Profile/pf2.jpg" alt="">
-                            </div>
-                            <div class="text-center">
-                                <small class="fw-semibold">Aj technicals point</small>
-                                <br>
-                                <small class="showSubscribers">583 Subscribers</small>
+            <div class="channelsWrapper mt-4 gap-4 text-white">
+                <% if(user.channelSubscribeByUser.length > 0){ %>
+                    <% user.channelSubscribeByUser.forEach(function(elem){ %>
+                        <div class="singleChannelWrapper">
+                            <a class="text-decoration-none text-light" href="/channel/<%=elem.channelOwner._id%>/home">
+                                <div class="channelBox">
+                                    <div title="Go To Channel" class="profile">
+                                        <img src="/Sample_Profile/pf2.jpg" alt="">
+                                    </div>
+                                    <div class="text-center">
+                                        <small class="fw-semibold"><%=elem.channelName%></small>
+                                        <br>
+                                        <small class="showSubscribers"><%=elem.channelSubscription.length%> Subscribers</small>
+                                    </div>
+                                </div>
+                            </a>
+                            <% if(JSON.stringify(elem.channelOwner._id) !== JSON.stringify(user?._id)){ %>
+                                <div>
+                                  <a class="anchorWrap text-light ms-3" href="/subscribe/<%=elem._id%>">
+                                    <%if(elem.channelSubscription.includes(user?._id)){%>
+                                    <div title="Unsubscribe this channel" class="subscribedBtn text-white rounded-pill text-nowrap text-dark fw-semibold">
+                                      <small>
+                                          Subscribed
+                                        </small>
+                                      </div>
+                                      <%}else{%>
+                                        <div title="Subscribe this channel" class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
+                                          <small>
+                                              Subscribe
+                                            </small>
+                                          </div>
+                                      <% }%>
+                                  </a>
+                                </div>
+                            <% } %>
+                        </div>
+                    <% }) %>
+                <% }else{ %>
+                    <% allChannels.forEach(function(elem){ %>
+                        <div class="singleChannelWrapper">
+                            <a class="text-decoration-none text-light" href="/channel/<%=elem.channelOwner._id%>/home">
+                                <div class="channelBox">
+                                    <div title="Go To Channel" class="profile">
+                                        <img src="/Sample_Profile/pf2.jpg" alt="">
+                                    </div>
+                                    <div class="text-center">
+                                        <small class="fw-semibold"><%=elem.channelName%></small>
+                                        <br>
+                                        <small class="showSubscribers"><%=elem.channelSubscription.length%> Subscribers</small>
+                                    </div>
+                                </div>
+                            </a>
+                            <div>
+                                <a class="text-decoration-none text-light" href="">
+                                    <div class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
+                                      <small>Subscribe</small>
+                                    </div>
+                                </a>    
                             </div>
                         </div>
-                    </a>
-                    <div>
-                        <a class="text-decoration-none text-light" href="">
-                            <div class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
-                              <small>Subscribe</small>
-                            </div>
-                        </a>    
-                    </div>
-                </div>
+                    <% }) %>
+                <% } %>
             </div>
         </div>
     </div>
 </body>
 </html>
+
+
