@@ -15,6 +15,8 @@ body {
   --themeBg: #212121;
   --iconHover: rgba(221, 160, 221, 0.484);
   --iconBackFaded: rgba(221, 160, 221, 0.194);
+  --elementActive: rgba(255, 192, 203, 0.1);
+  --themeTextGrey: #aaa;
 }
 
 .menu-vid-parent {

@@ -27,7 +27,7 @@ body {
 }
 
 .right-section {
-  width: 100%;
+  width: 100% !important;
   height: 100%;
   background-color: var(--themeBg);
   overflow-y: scroll;
@@ -38,6 +38,16 @@ body {
 
 .right-section::-webkit-scrollbar {
   width: 10px;
+}
+
+.videoAndTextWrapper{
+  cursor: pointer;
+}
+
+.videoAndTextWrapper:active{
+  background-color: var(--elementActive);
+  border: .5px solid white;
+  border-radius: .375rem;
 }
 
 .right-section::-webkit-scrollbar-thumb {

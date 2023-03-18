@@ -1,0 +1,207 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: background 0.25s ease-in-out;
+    font-family: "Roboto", sans-serif;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+.gtxt{
+    color: var(--themeTextGrey) !important;
+}
+
+.right-section {
+    width: 100% !important;
+    padding-right: .2rem;
+    padding-left: .2rem;
+    padding-top: 0;
+}
+
+.bannerWrapper {
+    width: 100%;
+    height: 15vmax;
+}
+
+.bannerWrapper>img,.profileWrapper>img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.profileWrapper>img {
+    object-fit: cover;
+}
+
+.channelOwnerInfoWrapper {
+    /* max-height: 180px; */
+    padding: 1.5rem 3.5rem;
+}
+
+.infoInnerWrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.anchorWrap {
+    text-decoration: none;
+}
+
+.subscribeBtn {
+    padding: 0.4rem 1rem;
+}
+
+.subscribeBtn:hover {
+    background-color: var(--iconHover) !important;
+    color: white !important;
+}
+
+.infoInnerWrapper,
+.leftInfoWrapper {
+    display: flex;
+    align-items: center;
+}
+
+.leftInfoWrapper{
+    gap: 1rem;
+}
+
+.profileWrapper {
+    height: 10vmax;
+    width: 10vmax;
+    flex-shrink: 0;
+    background-color: pink;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.infoInnerWrapper {
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.infoChannelName{
+    font-size: 1.6rem;
+}
+
+.infoTextWrapper{
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+}
+
+.aboutLink{
+    display: flex;
+    align-items: center;
+    color: grey;
+}
+
+.aboutLink>small{
+    width: 65%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+a{
+    text-decoration: none !important;
+}
+
+.aboutLink>i{
+    font-size: 1.5rem;
+}
+
+.channelPageNav{
+    display: flex;
+    align-items: center;
+    overflow-x: scroll;
+    width: 100%;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--themeTextGrey);
+    background-color: var(--themeBg);
+    position: sticky;
+    top: -1px;
+}
+
+.channelPageNav::-webkit-scrollbar{
+    display: none;
+}
+
+.channelNavigationBox{
+    padding: .2rem 2rem;
+    font-size: .8rem;
+    font-weight: bolder;
+    letter-spacing: .8px;
+    color: var(--themeTextGrey);
+}
+
+.channelNavigationBox:hover{
+    color: white;
+}
+
+@media only screen and (max-width: 1016px) {
+    .infoUsername {
+        font-size: .7rem;
+    }
+}
+
+@media only screen and (max-width: 630px) {
+    .right-section {
+        padding-right: 0;
+    }
+    
+    .profileWrapper{
+        width: 8vmax;
+        height: 8vmax;
+    }
+
+    .leftInfoWrapper{
+        gap: .5rem;
+    }
+    
+    .infoChannelName{
+        font-size: 1.2rem;
+    }
+    .infoTextWrapper{
+        text-align: center;
+    }
+    .subscribeBtn {
+        width: 100%;
+        padding: 0.1rem .6rem;
+        margin-top: .3rem;
+    }
+    .aboutLink>small{
+        width: 100%;
+    }
+    .leftInfoWrapper,.infoInnerWrapper {
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+    }
+    .channelNavigationBox{
+        padding: .2rem 1rem;
+    }
+}
+
+@media only screen and (max-width: 376px) {
+    .channelOwnerInfoWrapper {
+        padding: 1rem;
+    }
+    .rightInfoWrapper{
+        flex-grow: 1;
+        text-align: center;
+    }
+    .profileWrapper{
+        width: 6vmax;
+        height: 6vmax;
+    }
+}

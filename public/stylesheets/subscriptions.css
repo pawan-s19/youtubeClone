@@ -15,12 +15,20 @@
     object-fit: cover;
 }
 
-.channelsWrapper{
+.channelsWrapper {
     display: flex;
     flex-wrap: wrap;
 }
 
-.channelBox{
+.singleChannelWrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .4rem;
+}
+
+.channelBox {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -32,12 +40,31 @@
     border: .5px solid transparent;
 }
 
-.channelBox:hover{
+/* .channelBox:hover {
     background-color: var(--iconBackFaded);
-}
+} */
 
-.channelBox:active{
+.channelBox:active {
     background-color: rgba(255, 192, 203, 0.1);
     border: .5px solid white;
     border-radius: .375rem;
+}
+
+.showSubscribers {
+    font-size: .7rem;
+    color: var(--themeTextGrey);
+}
+
+.subscribeBtn {
+    padding: 0.2rem .8rem;
+    width: fit-content;
+}
+
+.subscribeBtn>small{
+    font-size: .75rem;
+}
+
+.subscribeBtn:hover {
+    background-color: var(--iconHover) !important;
+    color: white !important;
 }

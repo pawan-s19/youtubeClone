@@ -13,18 +13,29 @@
     <div class="menu-vid-parent d-flex flex-fill">
         <%-include('sideMenu') %>
         <div class="right-section p-3">
-            <h5 class="text-white">Subscriptions</h5>
-            <div class="channelsWrapper mt-4">
-                <a class="text-decoration-none text-light" href="/channel/id/home">
-                    <div class="channelBox">
-                        <div title="Go To Channel" class="profile">
-                            <img src="/Sample_Profile/pf2.jpg" alt="">
+            <h5 class="text-white ms-2">Subscriptions</h5>
+            <div class="channelsWrapper mt-4 gap-4">
+                <div class="singleChannelWrapper">
+                    <a class="text-decoration-none text-light" href="/channel/id/home">
+                        <div class="channelBox">
+                            <div title="Go To Channel" class="profile">
+                                <img src="/Sample_Profile/pf2.jpg" alt="">
+                            </div>
+                            <div class="text-center">
+                                <small class="fw-semibold">Aj technicals point</small>
+                                <br>
+                                <small class="showSubscribers">583 Subscribers</small>
+                            </div>
                         </div>
-                        <div>
-                            <small>Lalit</small>
-                        </div>
+                    </a>
+                    <div>
+                        <a class="text-decoration-none text-light" href="">
+                            <div class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
+                              <small>Subscribe</small>
+                            </div>
+                        </a>    
                     </div>
-                </a>
+                </div>
             </div>
         </div>
     </div>
