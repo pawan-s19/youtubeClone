@@ -6,7 +6,7 @@ var logger = require("morgan");
 
 const cloudinary = require("cloudinary");
 
-var expressSession = require("cookie-session");
+var expressSession = require("express-session");
 
 
 var indexRouter = require("./routes/index");
