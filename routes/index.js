@@ -536,30 +536,36 @@ router.get("/subscribe", (req, res, next) => {
   }
 });
 
-router.get("/subscribe/:id", isLoggedIn, function (req, res) {
-  userModel
-    .findOne({ username: req.session.passport.user.username })
-    .then(function (user) {
-      channelModel
-        .findOne({ _id: req.params.id })
-        .then(function (channeltobesubscribe) {
-          let index = channeltobesubscribe.channelSubscription.indexOf(
-            user._id
-          );
-
-          if (index === -1) {
-            channeltobesubscribe.channelSubscription.push(user._id);
-            console.log("pushuser");
-          } else {
-            console.log("removeuser");
-            channeltobesubscribe.channelSubscription.splice(index, 1);
-          }
-          channeltobesubscribe.save().then(function () {
-            res.redirect(req.headers.referer);
+router.get("/subscribe/:id", isLoggedIn ,function (req, res) {
+  try {
+    userModel.findOne({ username: req.session.passport.user.username })
+      .then(function (user) {
+        channelModel.findOne({ _id: req.params.id })
+          .then(function (channeltobesubscribe) {
+            let index = channeltobesubscribe.channelSubscription.indexOf(
+              user._id
+            );
+            if (index === -1) {
+              channeltobesubscribe.channelSubscription.push(user._id);
+              user.channelSubscribeByUser.push(channeltobesubscribe._id)
+              user.save();
+              console.log("pushuser");
+            } else {
+              console.log("removeuser");
+              channeltobesubscribe.channelSubscription.splice(index, 1);
+              user.channelSubscribeByUser.splice(index, 1)
+              user.save()
+            }
+            channeltobesubscribe.save().then(function () {
+              res.redirect(req.headers.referer);
+            });
           });
-        });
-    });
+      });
+  } catch (err) {
+    res.send(err);
+  }
 });
+
 
 router.get("/channel/:id/:section", async function (req, res) {
   try {
@@ -598,6 +604,7 @@ router.get("/watchLaterVideos", async function (req, res) {
     res.send("kmlmlk");
   }
 });
+
 router.get("/category/:plc", async (req, res) => {
   try {
     const videos = await videoModel
@@ -619,6 +626,7 @@ router.get("/category/:plc", async (req, res) => {
     res.send(err);
   }
 });
+
 router.get("/search", async (req, res) => {
   try {
     let LoggedInUser;
@@ -640,7 +648,7 @@ router.get("/search", async (req, res) => {
           }
         });
     }
-
+    
     if (contentType === "search") {
       let searchQuery = req.query.keyword;
 
@@ -658,6 +666,7 @@ router.get("/search", async (req, res) => {
         $or: [{ channelName: { $regex: searchQuery, $options: "i" } }],
       });
       let mixedArray = [...channels, ...videos];
+
       return res.render("searchResult", {
         user: LoggedInUser,
         mixedArray,
@@ -771,9 +780,12 @@ router.get("/feed/history", async function (req, res) {
 });
 
 // user subscribed channels
-router.get("/feed/subscriptions", async (req, res) => {
+router.get("/feed/subscriptions", isLoggedIn, async (req, res) => {
   try {
     let LoggedInUser;
+
+    let allChannels = await channelModel.find().populate("channelOwner");
+
     if (req.session.passport?.user) {
       LoggedInUser = await userModel
         .findOne({
@@ -782,9 +794,13 @@ router.get("/feed/subscriptions", async (req, res) => {
         .populate({
           path: "notifications",
           populate: { path: "userId channelId videoId" },
+        }).populate({
+          path: 'channelSubscribeByUser',
+          populate: {path: "channelOwner"}
         });
     }
-    res.render("subscriptions", { user: LoggedInUser });
+    // return res.send(allChannels);
+    res.render("subscriptions", { user: LoggedInUser, allChannels });
   } catch (error) {
     res.send(error);
   }
