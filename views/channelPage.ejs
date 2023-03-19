@@ -75,65 +75,18 @@
                     </div>
                 </a>
             </div>
-            <div class="content">
-                <% videos.forEach(function(elem){ %>
-                    <div class="videoAndTextWrapper d-flex align-items-top gap-2 mb-2 " videoId="<%=elem._id%>">
-    
-                      <div class="sm-video-wrapper rounded-2 overflow-hidden">
-                        <video oncontextmenu="return false;" disablepictureinpicture muted
-                          controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"></video>
-                        <img src="<%=elem.thumbnail.secure_url%>" alt="">
-                      </div>
-    
-                      <div class="videoTitleAndStats">
-                        <p class="m-0 fw-semibold ">
-                          <%=elem.title%>
-                        </p>
-                        <div class="sm-video-stats text-muted mt-2">
-                          <a class="anchorWrap text-light" href="/channel">
-                            <small class="d-block">
-                              <%=elem.userId?.channel.channelName%>
-                            </small>
-                          </a>
-                          <small class="listDot">
-                            <%if(elem.views.length==0){%>
-                              No views
-                              <% }else{%>
-                                <%=elem.views.length%> Views
-                                  <% }%>
-                          </small>
-                          <small>
-                            <%=moment(elem.createdAt).fromNow() %>
-                          </small>
-                        </div>
-                      </div>
-                      <div class="optionsMenu text-light">
-                        <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                        <ul class="dropdown-menu">
-                          <li>
-                            <a class="dropdown-item d-flex align-items-center gap-2" href="/addToWatchLater/<%=elem._id%>">
-                              <i class="ri-time-line"></i>
-                              <p class="m-0">Save to Watch Later</p>
-                            </a>
-                          </li>
-                          <li>
-                            <a class="dropdown-item d-flex align-items-center gap-2" data-bs-toggle="modal"
-                              data-bs-target="#playlistModal" data-bs-whatever="<%=elem._id%>" href="">
-                              <i class="ri-play-list-add-line"></i>
-                              <p class="m-0">Save to Playlist</p>
-                            </a>
-                          </li>
-                          <li>
-                            <a class="dropdown-item d-flex align-items-center gap-2" href="#">
-                              <i class="ri-share-forward-line"></i>
-                              <p class="m-0">Share</p>
-                            </a>
-                          </li>
-    
-                        </ul>
-                      </div>
-                    </div>
-                    <% }) %>
+            <div class="content text-white">
+                <% if(section === 'home'){ %>
+                  <%-include('./channelpages/home') %>
+                <% }else if(section === 'videos'){ %>
+                  <%-include('./channelpages/videos') %>
+                <% }else if(section === 'playlists'){ %>
+                  <%-include('./channelpages/playlists') %>
+                <% }else if(section === 'channels'){ %>
+                  <%-include('./channelpages/channels') %>
+                <% }else{ %>
+                  <%-include('./channelpages/about') %>
+                <% } %>
             </div>
         </div>
     </div>

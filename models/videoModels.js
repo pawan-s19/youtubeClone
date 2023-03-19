@@ -15,7 +15,10 @@ const videoModel = new mongoose.Schema(
     },
     duration: Number,
     views: [{ type: mongoose.Schema.Types.ObjectId, ref: "userModel" }],
-
+    viewCount: {
+      type: Number,
+      default: 0
+    },
     status: {
       type: String,
       enum: ["private", "public"],

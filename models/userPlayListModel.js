@@ -14,8 +14,10 @@ const playListModel = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "commentModel" 
     }],
+    isPrivate: {
+        type: Boolean,
+        default: true
+    }
 })
 
 module.exports = mongoose.model("userPlayListModel", playListModel);
-
-
