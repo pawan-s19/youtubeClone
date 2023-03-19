@@ -1,85 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/stylesheets/boilerPlate.css">
-    <link rel="stylesheet" href="/stylesheets/manageChannel.css">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/stylesheets/boilerPlate.css">
+  <link rel="stylesheet" href="/stylesheets/manageChannel.css">
+  <title>Document</title>
 </head>
+
 <body>
-    <%-include('navbar') %>
-        <div class="menu-vid-parent d-flex flex-fill">
-        <%-include('sideMenu') %>
+  <%-include('navbar') %>
+    <div class="menu-vid-parent d-flex flex-fill">
+      <%-include('sideMenu') %>
         <div class="right-section p-3">
-            <div class="formWrapper">
-                <form class="needs-validation p-2 flex-fill" 
-                action=""
-                method="post"
-                enctype="multipart/form-data" 
-                novalidate>
-                    <div class="mb-4">
-                      <label for="validationCustom01" class="form-label">Title</label>
-                      <input name="title" type="text" class="form-control" id="validationCustom01" value="demovalue" required>
-                      <div class="valid-feedback">
-                        Looks good!
-                      </div>
-                    </div>
-                    <div class="mb-4">
-                      <label for="validationCustom02" class="form-label">Description</label>
-                      <textarea placeholder="Write something here..." name="description" type="text" class="form-control" id="validationCustom02"></textarea>
-                      <div class="valid-feedback">
-                        Looks good!
-                      </div>
-                    </div>
-                    <div class="mb-4">
-                      <label for="validationCustomUsername" class="form-label">Thumbnail</label>
-                      <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend"><i class="ri-image-add-fill"></i></span>
-                        <input name="thumbnail" type="file" class="form-control thumbnail" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
-                        <div class="invalid-feedback">
-                          Please choose a Thumbnail
-                        </div>
-                      </div>
-                    </div>
-                    <div class="mb-4">
-                      <label for="validationCustom03" class="form-label">Visibility</label>
-                      <!-- <input type="radio" id="validationCustom03" required> -->
-                      <div class="form-check">
-                        <input value="public" name="status" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                        <label class="form-check-label" for="flexRadioDefault2">
-                          Public
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input value="private" name="status" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                        <label class="form-check-label" for="flexRadioDefault1">
-                          Private
-                        </label>
-                      </div>
-                    </div>
-                    <!-- <div class="col-12">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-                        <label class="form-check-label" for="invalidCheck">
-                          Agree to terms and conditions
-                        </label>
-                        <div class="invalid-feedback">
-                          You must agree before submitting.
-                        </div>
-                      </div>
-                    </div> -->
-                    <div>
-                      <button class="btn btn-primary" type="submit">Submit form</button>
-                    </div>
-                </form>
-            </div>
+          <div class="formWrapper">
+            <form class="needs-validation p-2 flex-fill" action="/update/picture/banner" method="post" enctype="multipart/form-data"
+              novalidate>
+              <div class="mb-2">
+                <label for="validationCustomUsername" class="form-label fs-4" style="font-family: gilroy;">Picture</label>
+                <br>
+                <label for="validationCustomUsername" class="form-label fs-6" style="font-family: gilroy;">Your profile picture will appear where your channel is presented on YouTube, such as next to your videos and comments</label>
+                <div class="input-group has-validation">
+                  <span class="input-group-text" id="inputGroupPrepend"><i class="ri-image-add-fill"></i></span>
+                  <input name="picture" type="file" class="form-control thumbnail" id="validationCustomUsername"
+                    aria-describedby="inputGroupPrepend" required>
+                  <label for="validationCustomUsername" class="form-label fs-6 mt-2" style="font-family: gilroy;" >It's recommended that you use a picture that's at least 98 x 98 pixels and 4 MB or less. Use a PNG or GIF (no animations) file. Make sure that your picture follows the YouTube Community Guidelines.</label>
+                  <div class="invalid-feedback">
+                    Please choose a Picture
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-2">
+                <label for="validationCustomUsername" class="form-label fs-4" style="font-family: gilroy;">Banner image</label>
+                <br>
+                <label for="validationCustomUsername" class="form-label fs-6" style="font-family: gilroy;">This image will appear across the top of your channel.</label>
+                <div class="input-group has-validation">
+                  <span class="input-group-text" id="inputGroupPrepend"><i class="ri-image-add-fill"></i></span>
+                  <input name="banner" type="file" class="form-control thumbnail" id="validationCustomUsername"
+                    aria-describedby="inputGroupPrepend" required>
+                  <div class="invalid-feedback">
+                    Please choose a Banner
+                  </div>
+                </div>
+                <label for="validationCustomUsername" class="form-label fs-6 mt-2" style="font-family: gilroy;" >For the best results on all devices, use an image that's at least 2048 x 1152 pixels and 6 MB or less.</label>
+              </div>
+
+              <div class="mb-2">
+                <label for="validationCustom02" class="form-label fs-4" style="font-family: gilroy;">Description</label>
+                <textarea placeholder="Write something here..." name="descriptionchannel" type="text" class="form-control"
+                  id="validationCustom02"></textarea>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+              </div>
+  
+              <div>
+                <button class="btn btn-outline-primary mt-3" type="submit">Upload</button>
+              </div>
+            </form>
+          </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-    crossorigin="anonymous"></script>
+      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+      crossorigin="anonymous"></script>
     <script src="/javascripts/manageChannel.js"></script>
 </body>
+
 </html>
