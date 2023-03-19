@@ -73,10 +73,25 @@
                                         </a>
                                     </div>
                                     <div class="iconTextWrapper mt-2 d-flex flex-nowrap align-items-start gap-3">
-                                        <a class="linkTo text-light" href="#">
-                                            <div class="profileIconCtn">
-                                                <img src="/Sample_Profile/pf1.jpg" alt="">
-                                            </div>
+                                        <a class="linkTo text-light" href="/channel/<%=elem.userId.channel._id%>/home">
+                                            <%if(elem.userId.channel.channelProfile.url){%>
+                                                <div class="profileIconCtn">
+                                                    <img src="<%=elem.userId.channel?.channelProfile.url%>" alt="">
+                                                </div>
+                                                <%}else{%>
+                                                    <div style=" color: white;
+                                                    display: flex;
+                                                    align-items: center;
+                                                    justify-content: center;
+                                                    border-radius: 50%;
+                                                    width: 40px;
+                                                    height: 40px;
+                                                    font-size: 20px;
+                                                    background-color: #3b3b3b;">
+                                                        <%=elem.userId.channel.channelName.charAt(0).toUpperCase()%>
+                                                    </div>
+                                                    <%}%>
+
                                         </a>
                                         <div class="videoTextCtn">
                                             <a class="linkTo text-light" href="#">

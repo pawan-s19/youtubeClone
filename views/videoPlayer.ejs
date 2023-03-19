@@ -34,9 +34,14 @@
               <div class="btns-container d-flex align-items-center justify-content-between flex-wrap gap-2">
                 <div class="subscribeBtnWrapper d-flex align-items-center gap-2">
                   <div class="channelLinkWrapper d-flex align-items-center gap-2">
-                    <a class="anchorWrap text-light" href="">
+                    <a class="anchorWrap text-light" href="/channel/<%=video.userId.channel._id%>/home">
                       <div title="Go To Channel" class="profile">
-                        <img src="/Sample_Profile/pf2.jpg" alt="">
+                        <% if(video.userId.channel.channelProfile.url){%>
+                          <img src="<%=video.userId.channel?.channelProfile.url%>" alt="">
+
+                          <%}else{%>
+                            <%=video.userId.channel.channelName.charAt(0).toUpperCase()%>
+                              <%}%>
                       </div>
                     </a>
                     <div class="subscriberCount d-flex flex-column">
@@ -46,12 +51,12 @@
                         </h6>
                       </a>
                       <small class="m-0 text-secondary">
-                        <%=video.userId.channel.subscriberCount.length%> subscribers
+                        <%=video.userId.channel.channelSubscription.length%> subscribers
                       </small>
                     </div>
                   </div>
                   <% if(video.userId._id !==user?._id){ %>
-                    <a class="anchorWrap text-light ms-3" href="">
+                    <a class="anchorWrap text-light ms-3" href="/subscribe/<%=video.userId.channel._id%>">
                       <div class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
                         <small>Subscribe</small>
                       </div>
