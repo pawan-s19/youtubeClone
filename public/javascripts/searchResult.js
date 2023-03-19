@@ -44,3 +44,10 @@ allVideosSec.forEach((wrapper) => {
     }
   });
 });
+
+let errorMessage = document.querySelector(".error-message");
+let clearHistory = document.querySelector(".clear-history");
+if (window.location.href.toString().includes("history")) {
+  errorMessage.textContent = "No videos watched recently";
+  clearHistory.style.display = "flex";
+}

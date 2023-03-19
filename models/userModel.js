@@ -35,20 +35,27 @@ const UserSchema = new Schema({
   password: {
     type: String,
   },
-  
+
   notifications: [
     { type: mongoose.Schema.Types.ObjectId, ref: "notificationModel" },
   ],
-  userPlaylist: [{ type: mongoose.Schema.Types.ObjectId , ref: "userPlayListModel" }],
-  watchLater: [{ type: mongoose.Schema.Types.ObjectId, ref: 'videoModel' }],
-  likedVideos: [{ 
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "videoModels" 
-  }],
-  channelSubscribeByUser: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "channelModel" 
-  }]
+  userPlaylist: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "userPlayListModel" },
+  ],
+  watchLater: [{ type: mongoose.Schema.Types.ObjectId, ref: "videoModel" }],
+  likedVideos: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "videoModels",
+    },
+  ],
+  channelSubscribeByUser: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "channelModel",
+    },
+  ],
+  history: [{ type: mongoose.Schema.Types.ObjectId, ref: "videoModel" }],
 });
 
 UserSchema.plugin(plm);
