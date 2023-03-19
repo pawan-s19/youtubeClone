@@ -849,11 +849,12 @@ router.get("/feed/subscriptions", isLoggedIn, async (req, res) => {
   }
 });
 
-router.get("/feed/library", async (req, res) => {
+router.get("/feed/library", isLoggedIn ,async (req, res) => {
   try {
     const videos = await videoModel
       .find({})
       .populate({ path: "userId", populate: { path: "channel" } });
+
     let LoggedInUser;
     if (req.session.passport?.user) {
       LoggedInUser = await userModel
@@ -863,8 +864,12 @@ router.get("/feed/library", async (req, res) => {
         .populate({
           path: "notifications",
           populate: { path: "userId channelId videoId" },
+        }).populate({
+          path: "userPlaylist",
+          populate: { path: "videos" }
         });
     }
+    
     res.render("library", { user: LoggedInUser, videos, moment });
   } catch (err) {
     res.send(err);
@@ -888,8 +893,8 @@ router.post("/comment/edit/:id", async function (req, res) {
   res.redirect(req.headers.referer);
 });
 
-// show user playlists
-router.get("/user/playlist", async (req, res) => {
+// show all playlists of user
+router.get('/user/playlist', async (req, res) => {
   try {
     res.send("user playlists");
   } catch (error) {
@@ -897,7 +902,38 @@ router.get("/user/playlist", async (req, res) => {
   }
 });
 
-router.get("/user/manage/channel", async (req, res) => {
+// show playlist and play it's first video
+router.get('/user/playlist', async (req, res) => {
+  try {
+    res.send('show playlist videos and play first video')
+  } catch (error) {
+      res.send(error)
+  }
+});
+
+router.get('/remove/playlist/:playlistId', async (req, res) => {
+  try {
+    let plid = req.params.playlistId;
+
+    await userplaylistModel.findByIdAndRemove(plid);
+    res.redirect(req.headers.referer);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+router.post('/update/name/playlist/:playlistId', async (req, res) => {
+  try {
+    let plid = req.params.playlistId;
+
+    await userplaylistModel.findByIdAndUpdate({_id: plid}, {playListName: req.body.newname}, {new: true});
+    res.redirect(req.headers.referer);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+router.get('/user/manage/channel', async (req, res)=>{
   try {
     const videos = await videoModel
       .find({ status: "public" })
