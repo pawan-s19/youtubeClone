@@ -275,8 +275,9 @@ router.post(
             path: "channel",
             populate: { path: "channelSubscription" },
           });
+        console.log(user);
         user.channel.video.push(req.params.id); //saves the video id in user's channel array
-        await user.save();
+        await user.channel.save();
         user.channel.channelSubscription.forEach(async function (elem) {
           let notification = await notificationModel.create({
             userId: elem._id,
