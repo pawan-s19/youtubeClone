@@ -577,7 +577,7 @@ router.get("/subscribe/:id", isLoggedIn, function (req, res) {
   }
 });
 
-router.get("/channel/:id/:section", async function (req, res) {
+router.get("/channel/:id/:section", isLoggedIn, async function (req, res) {
     // let user = await userModel.findOne({_id:req.session.passport.user._id})
     // res.render("index",{user:user});
     let section = req.params.section;
@@ -605,13 +605,15 @@ router.get("/channel/:id/:section", async function (req, res) {
             populate: { path: "userId channelId videoId" },
           }).populate({
             path: "userPlaylist",
+            match: { isPrivate: false },
             populate: { path: "videos" }
           }).populate({
             path: "channel",
-            match: { isPrivate: false },
             populate: { path: "video" }
           });
       }
+
+      // return res.send(LoggedInUser)
 
       res.render("channelPage", {
         user: LoggedInUser,

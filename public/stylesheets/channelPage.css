@@ -130,6 +130,11 @@ a{
     background-color: var(--themeBg);
     position: sticky;
     top: -1px;
+    z-index: 2;
+}
+
+.channelPageNav>a:first-child{
+    margin-left: 3rem !important;
 }
 
 .channelPageNav::-webkit-scrollbar{
@@ -146,6 +151,10 @@ a{
 
 .channelNavigationBox:hover{
     color: white;
+}
+
+.content {
+    padding: 1.5rem 3rem;
 }
 
 @media only screen and (max-width: 1016px) {
@@ -189,6 +198,12 @@ a{
     }
     .channelNavigationBox{
         padding: .2rem 1rem;
+    }
+    .content {
+        padding: .3rem .4rem;
+    }
+    .channelPageNav>a:first-child{
+        margin-left: 0rem !important;
     }
 }
 

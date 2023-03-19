@@ -8,7 +8,80 @@
     <title>Document</title>
 </head>
 <body>
-    videos
+    <div class="homeSectionWrapper">
+        <div class="all-videos-ctn">
+            <%user.channel?.video.forEach(function(elem){%>
+                <div class="video-wrapper">
+                    <div class="video-container">
+                        <a class="linkTo text-light" href="/watch/<%=elem._id%>">
+                            <video oncontextmenu="return false;" disablepictureinpicture muted
+                                controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
+                                data-bs-videoId="<%=elem.video_id%>" src=""></video>
+                            <img src="<%=elem.thumbnail.secure_url%>" alt="">
+                            <small style="pointer-events: none;"
+                                class="m-0 p-1 badge bg-dark">8:20</small>
+                        </a>
+                    </div>
+                    <div class="iconTextWrapper mt-2 d-flex flex-nowrap align-items-start gap-3">
+                        <!-- <a class="linkTo text-light" href="#">
+                            <div class="profileIconCtn">
+                                <img src="/Sample_Profile/pf1.jpg" alt="">
+                            </div>
+                        </a> -->
+                        <div class="videoTextCtn">
+                            <a class="linkTo text-light" href="#">
+                                <p class="m-0 fw-bold text-light mb-1">
+                                    <%=elem.title%>
+                                </p>
+                            </a>
+                            <div class="text-secondary">
+                                <a class="linkTo text-secondary" href="#">
+                                    <small class="listDot">
+                                        <%if(elem.views.length==0){%>
+                                            No views
+                                            <% }else{%>
+                                                <%=elem.views.length%> Views
+                                                    <% }%>
+                                    </small>
+                                    <small class="listDot last">
+                                        <%=moment(elem.createdAt).fromNow()%>
+                                    </small>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="optionsMenu text-light">
+                            <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown"
+                                aria-expanded="false"></i>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center gap-2"
+                                        href="/addToWatchLater/<%=elem._id%>">
+                                        <i class="ri-time-line"></i>
+                                        <p class="m-0">Save to Watch Later</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center gap-2"
+                                        data-bs-toggle="modal" data-bs-target="#playlistModal"
+                                        data-bs-whatever="<%=elem._id%>"
+                                        data-bs-createdPls="<%=user?.userPlaylist%>">
+                                        <i class="ri-play-list-add-line"></i>
+                                        <p class="m-0">Save to Playlist</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                                        <i class="ri-share-forward-line"></i>
+                                        <p class="m-0">Share</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            <%})%>
+        </div>
+    </div>
     <script src="/javascripts/channelpages/videos.js"></script>
 </body>
 </html>
