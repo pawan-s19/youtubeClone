@@ -80,7 +80,7 @@ allVideosSec.forEach((wrapper) => {
     }
   });
   wrapper.addEventListener("click", function (e) {
-    if (!e.target.classList.contains("ri-more-2-line")) {
+    if (!e.target.classList.contains("ri-more-2-line") && !e.target.classList.contains('notOpen')) {
       let id = this.getAttribute("videoId");
       window.location = `/watch/${id}`;
     }

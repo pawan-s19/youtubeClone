@@ -578,7 +578,7 @@ router.get("/subscribe/:id", isLoggedIn, function (req, res) {
   }
 });
 
-router.get("/channel/:id/:section", isLoggedIn, async function (req, res) {
+router.get("/channel/:id/:section", async function (req, res) {
     // let user = await userModel.findOne({_id:req.session.passport.user._id})
     // res.render("index",{user:user});
     let section = req.params.section;
@@ -601,10 +601,10 @@ router.get("/channel/:id/:section", isLoggedIn, async function (req, res) {
       .populate({ path: "userId", populate: { path: "channel" } });
 
     let LoggedInUser;
-    if (req.session.passport?.user) {
+    // if (req.session.passport?.user) {
       LoggedInUser = await userModel
         .findOne({
-          _id: req.session.passport.user._id,
+          _id: req.params.id,
         })
         .populate({
           path: "notifications",
@@ -619,7 +619,7 @@ router.get("/channel/:id/:section", isLoggedIn, async function (req, res) {
           path: "channel",
           populate: { path: "video" },
         });
-    }
+    // }
 
     res.render("channelPage", {
       user: LoggedInUser,
@@ -632,7 +632,7 @@ router.get("/channel/:id/:section", isLoggedIn, async function (req, res) {
   }
 });
 
-router.get("/addToWatchLater/:id", async function (req, res) {
+router.get("/addToWatchLater/:id", isLoggedIn, async function (req, res) {
   try {
     let user = await userModel.findOne({ _id: req.session.passport.user._id });
     if (user.watchLater.indexOf(req.params.id) === -1) {
@@ -913,7 +913,7 @@ router.get("/feed/library", isLoggedIn, async (req, res) => {
   }
 });
 
-router.get("/comment/delete/:id", async function (req, res) {
+router.get("/comment/delete/:id", isLoggedIn ,async function (req, res) {
   let comment = await commentModel.findOne({ _id: req.params.id });
   if (comment.userId.indexOf(req.session.passport?.user._id) !== -1) {
     comment.deleteOne({ _id: req.params.id });
