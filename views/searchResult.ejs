@@ -17,6 +17,10 @@
     <div class="menu-vid-parent d-flex flex-fill">
       <%-include('sideMenu') %>
         <div class="right-section padbtm">
+          <div style="display: none !important;" class="clear-history d-flex w-100 mb-4"><a href="/clear/history"
+              class="ms-auto btn btn-light">Clear
+              watch History</a>
+          </div>
           <% if(mixedArray.length> 0){ %>
             <% mixedArray.forEach(function(elem){ %>
               <%if(elem.video_id){%>
@@ -155,35 +159,38 @@
                             <%=elem?.description%>
                           </small>
                         </div>
-                        <% if(JSON.stringify(elem.channelOwner) !== JSON.stringify(user?._id)){ %>
+                        <% if(JSON.stringify(elem.channelOwner) !==JSON.stringify(user?._id)){ %>
                           <div class=" channelInfoWrapper d-flex s-center align-items-center gap-2 mt-3">
                             <a class="anchorWrap text-light ms-3" href="/subscribe/<%=elem._id%>">
                               <%if(elem.channelSubscription.includes(user?._id)){%>
-                              <div title="Unsubscribe this channel" class="subscribedBtn text-white rounded-pill text-nowrap text-dark fw-semibold">
-                                <small>
+                                <div title="Unsubscribe this channel"
+                                  class="subscribedBtn text-white rounded-pill text-nowrap text-dark fw-semibold">
+                                  <small>
                                     Subscribed
                                   </small>
                                 </div>
                                 <%}else{%>
-                                  <div title="Subscribe this channel" class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
+                                  <div title="Subscribe this channel"
+                                    class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
                                     <small>
-                                        Subscribe
-                                      </small>
-                                    </div>
-                                <% }%>
+                                      Subscribe
+                                    </small>
+                                  </div>
+                                  <% }%>
                             </a>
                           </div>
-                        <% } %>
+                          <% } %>
                       </div>
                       <div auto class="optionsMenu text-light">
                         <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown" aria-expanded="false"></i>
                         <ul class="dropdown-menu">
 
                           <li>
-                            <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                            <div class="dropdown-item share-channel d-flex align-items-center gap-2"
+                              shareChannelId="<%=elem._id%>">
                               <i class="ri-share-forward-line"></i>
                               <p class="m-0">Share</p>
-                            </a>
+                            </div>
                           </li>
                         </ul>
                       </div>
@@ -216,7 +223,7 @@
                   <%}%>
                     <% }) %>
                       <% }else{ %>
-                        <h4 class="text-light">No Results Found</h4>
+                        <h4 class="text-light error-message">No Results Found</h4>
                         <% } %>
         </div>
     </div>
