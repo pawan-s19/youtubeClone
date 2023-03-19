@@ -578,22 +578,51 @@ router.get("/subscribe/:id", isLoggedIn, function (req, res) {
 });
 
 router.get("/channel/:id/:section", async function (req, res) {
-  try {
     // let user = await userModel.findOne({_id:req.session.passport.user._id})
     // res.render("index",{user:user});
-    const videos = await videoModel
+    let section = req.params.section;
+
+    if(section === 'home' || section === 'videos' || section === 'playlists' || section === 'channels' || section === 'about'){
+
+      const videos = await videoModel
       .find({})
       .populate({ path: "userId", populate: { path: "channel" } });
-    let user = req.session.passport?.user;
-    res.render("channelPage", {
-      user,
-      videos,
-      moment,
-      section: req.params.section,
-    });
-  } catch (err) {
-    res.send(err);
-  }
+
+      const popularVideos = await videoModel
+      .find()
+      .sort({"viewCount":-1})
+      .limit(10)
+      .populate({ path: "userId", populate: { path: "channel" } });
+      
+      let LoggedInUser;
+      if (req.session.passport?.user) {
+        LoggedInUser = await userModel
+          .findOne({
+            _id: req.session.passport.user._id,
+          })
+          .populate({
+            path: "notifications",
+            populate: { path: "userId channelId videoId" },
+          }).populate({
+            path: "userPlaylist",
+            populate: { path: "videos" }
+          }).populate({
+            path: "channel",
+            match: { isPrivate: false },
+            populate: { path: "video" }
+          });
+      }
+
+      res.render("channelPage", {
+        user: LoggedInUser,
+        videos,
+        moment,
+        section: section,
+      });
+
+    }else{
+      return res.status(404).send('Sorry, cant find that');
+    }
 });
 
 router.get("/addToWatchLater/:id", async function (req, res) {
