@@ -690,6 +690,7 @@ router.get("/search", async (req, res) => {
         user: LoggedInUser,
         mixedArray,
         moment,
+        type: contentType,
       });
     } else if (contentType === "history") {
       if (!LoggedInUser) {
@@ -704,6 +705,7 @@ router.get("/search", async (req, res) => {
         user: LoggedInUser,
         mixedArray: LoggedInUser.history,
         moment,
+        type: contentType,
       });
     } else if (contentType === "watchlater") {
       if (!LoggedInUser) {
@@ -712,8 +714,9 @@ router.get("/search", async (req, res) => {
 
       return res.render("searchResult", {
         user: LoggedInUser,
-        videos: LoggedInUser?.watchLater,
+        mixedArray: LoggedInUser?.watchLater,
         moment,
+        type: contentType,
       });
       // res.send(LoggedInUser.watchLater);
     } else if (contentType === "likedvideos") {
@@ -916,45 +919,45 @@ router.get("/user/manage/channel", async (req, res) => {
   }
 });
 
-router.post('/update/picture/banner', async function(req,res){
-
+router.post("/update/picture/banner", async function (req, res) {
   const form = formidable({ multiples: true });
 
-      form.parse(req, async (err, fields, files) => {
-        const {descriptionchannel} = fields;
-        
-        let user = await userModel.findOne({_id:req.session.passport.user._id})
-        let userchannel = user.channel
-        
-        const profile = await cloudinary.v2.uploader.upload(
-          files.picture.filepath,
-          {
-            folder: `youtubechannelpics`,
-            fetch_format: "webp",
-          }
-        );
-        const banner = await cloudinary.v2.uploader.upload(
-          files.banner.filepath,
-          {
-            folder: `youtubechannelpics`,
-            fetch_format: "webp",
-          }
-        );
-        if(userchannel){
-          await channelModel.findOneAndUpdate({_id:userchannel},{
-             channelDiscription:descriptionchannel,
-             channelProfile:{
-              public_id:profile.public_id,
-              url:profile.secure_url
-             },
-             channelBanner:{
-              public_id:banner.public_id,
-              url:banner.secure_url
-             }
-           },{new:true})
-         }
-         res.redirect('/')
-      });
-})
+  form.parse(req, async (err, fields, files) => {
+    const { descriptionchannel } = fields;
+
+    let user = await userModel.findOne({ _id: req.session.passport.user._id });
+    let userchannel = user.channel;
+
+    const profile = await cloudinary.v2.uploader.upload(
+      files.picture.filepath,
+      {
+        folder: `youtubechannelpics`,
+        fetch_format: "webp",
+      }
+    );
+    const banner = await cloudinary.v2.uploader.upload(files.banner.filepath, {
+      folder: `youtubechannelpics`,
+      fetch_format: "webp",
+    });
+    if (userchannel) {
+      await channelModel.findOneAndUpdate(
+        { _id: userchannel },
+        {
+          channelDiscription: descriptionchannel,
+          channelProfile: {
+            public_id: profile.public_id,
+            url: profile.secure_url,
+          },
+          channelBanner: {
+            public_id: banner.public_id,
+            url: banner.secure_url,
+          },
+        },
+        { new: true }
+      );
+    }
+    res.redirect("/");
+  });
+});
 
 module.exports = router;
