@@ -54,7 +54,12 @@
                             <div class="channelInfoWrapper d-flex align-items-center gap-2 mt-2">
                               <a class="anchorWrap text-light" href="/channel">
                                 <div title="Go To Channel" class="profile">
-                                  <img src="/Sample_Profile/pf2.jpg" alt="">
+                                  <% if(elem.userId.channel.channelProfile.url){%>
+                                    <img src="<%=elem.userId.channel?.channelProfile.url%>" alt="">
+
+                                    <%}else{%>
+                                      <%=elem.userId.channel.channelName.charAt(0).toUpperCase()%>
+                                        <%}%>
                                 </div>
                               </a>
                               <a class="anchorWrap text-light" href="/channel">
@@ -123,9 +128,12 @@
                           channelId="<%=elem._id%>">
                           <div class="sm-channel-wrapper">
 
-                            <img
-                              src="https://plus.unsplash.com/premium_photo-1664453546814-19c8fab391e3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=600&q=60"
-                              alt="">
+                            <% if(elem.channelProfile.url){%>
+                              <img src="<%=elem?.channelProfile.url%>" alt="">
+
+                              <%}else{%>
+                                <%=elem.channelName.charAt(0).toUpperCase()%>
+                                  <%}%>
                           </div>
                           <div class="videoTitleAndStats d-flex align-items-top flex-nowrap justify-content-between">
                             <div class="onlyStats t-center">
@@ -166,7 +174,7 @@
                               </div>
                               <% if(JSON.stringify(elem.channelOwner) !==JSON.stringify(user?._id)){ %>
                                 <div class=" channelInfoWrapper d-flex s-center align-items-center gap-2 mt-3">
-                                  <a class="anchorWrap text-light ms-3" href="/subscribe/<%=elem._id%>">
+                                  <a class="anchorWrap text-light " href="/subscribe/<%=elem._id%>">
                                     <%if(elem.channelSubscription.includes(user?._id)){%>
                                       <div title="Unsubscribe this channel"
                                         class="subscribedBtn text-white rounded-pill text-nowrap text-dark fw-semibold">

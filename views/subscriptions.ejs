@@ -24,7 +24,13 @@
                                         href="/channel/<%=elem.channelOwner._id%>/home">
                                         <div class="channelBox">
                                             <div title="Go To Channel" class="profile">
-                                                <img src="/Sample_Profile/pf2.jpg" alt="">
+                                                <% if(elem.channelProfile.url){%>
+                                                    <img src="<%=elem.channelProfile.url%>" alt="">
+
+
+                                                    <%}else{%>
+                                                        <%=elem.channelName.charAt(0).toUpperCase()%>
+                                                            <%}%>
                                             </div>
                                             <div class="text-center">
                                                 <small class="fw-semibold">
@@ -67,7 +73,13 @@
                                                     href="/channel/<%=elem.channelOwner._id%>/home">
                                                     <div class="channelBox">
                                                         <div title="Go To Channel" class="profile">
-                                                            <img src="/Sample_Profile/pf2.jpg" alt="">
+                                                            <% if(elem.channelProfile.url){%>
+                                                                <img src="<%=elem.channelProfile.url%>" alt="">
+
+
+                                                                <%}else{%>
+                                                                    <%=elem.channelName.charAt(0).toUpperCase()%>
+                                                                        <%}%>
                                                         </div>
                                                         <div class="text-center">
                                                             <small class="fw-semibold">
