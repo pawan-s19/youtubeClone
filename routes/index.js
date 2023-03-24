@@ -754,7 +754,6 @@ router.get("/category/:plc", async (req, res) => {
       .findOne({
         _id: req.session.passport.user._id,
       })
-      .populate("channelOwner");
   }
   const videos = await videoModel
     .find({
@@ -1128,7 +1127,8 @@ router.get("/play/playlist/:plId", async (req, res) => {
         populate: { path: "userId channelId videoId" },
       })
       .populate("userPlaylist")
-      .populate("channelSubscribeByUser");
+      .populate("channelSubscribeByUser")
+      .populate("channel");
 
     let playlist = await userplaylistModel.findById(req.params.plId).populate({
       path: "videos",
@@ -1142,6 +1142,13 @@ router.get("/play/playlist/:plId", async (req, res) => {
         },
         {
           path: "comment",
+          populate: {
+            path: "userId",
+
+            populate: {
+              path: "channel",
+            },
+          },
         },
       ],
     });
