@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/stylesheets/modal.css">
+    <link rel="stylesheet" href="/stylesheets/sideMenumodal.css">
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -15,10 +15,11 @@
       href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
       rel="stylesheet"
     />
+    
     <title>Document</title>
 </head>
 <body>
-    <div class="offcanvas offcanvas-start text-bg-dark" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+    <div class="offcanvas offcanvas-start sideMenumodalWrapper text-bg-dark" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
         <div class="offcanvas-header bgTheme justify-content-start">
             <i class="Navicon ri-menu-fill me-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"></i>
             <div class="nav-left">
@@ -27,8 +28,141 @@
               </a>
             </div>
         </div>
-        <div class="offcanvas-body canvasbody bgTheme">
-            
+        <div class="offcanvas-body pt-0 canvasbody bgTheme">
+          <!-- home|subscriptions -->
+          <section>
+            <div class="contentWrapper">
+              <a class="linkToChannel withIcon text-light flexWrapper" href="/">
+                <i class="ri-home-4-line"></i>
+                <p class="menuLinkText m-0 fw-normal">Home</p>
+              </a>
+            </div>
+            <div class="contentWrapper">
+              <a class="linkToChannel withIcon text-light flexWrapper" href="/feed/subscriptions">
+                <i class="ri-clapperboard-line"></i>
+                <p class="menuLinkText m-0 fw-normal">Subscriptions</p>
+              </a>
+            </div>
+          </section>
+          <hr>
+          <!-- library | history | watchlater | likedvideos -->
+          <section>
+            <div class="contentWrapper">
+              <a class="linkToChannel withIcon text-light flexWrapper" href="/feed/library">
+                <i class="ri-slideshow-4-line"></i>
+                <p class="menuLinkText m-0 fw-normal">Library</p>
+              </a>
+            </div>
+            <div class="contentWrapper">
+              <a class="linkToChannel withIcon text-light flexWrapper" href="/search?contentType=history">
+                <i class="ri-history-line"></i>
+                <p class="menuLinkText m-0 fw-normal">History</p>
+              </a>
+            </div>
+            <div class="contentWrapper">
+              <a class="linkToChannel withIcon text-light flexWrapper" href="/search?contentType=watchlater">
+                <i class="ri-time-line"></i>
+                <p class="menuLinkText m-0 fw-normal">Watch Later</p>
+              </a>
+            </div>
+            <div class="contentWrapper">
+              <a class="linkToChannel withIcon text-light flexWrapper" href="/search?contentType=likedvideos">
+                <i class="ri-thumb-up-line"></i>
+                <p class="menuLinkText m-0 fw-normal">Liked Videos</p>
+              </a>
+            </div>
+          </section>
+          <hr>
+          <!-- show all subscriptions -->
+          <section class="subscriptionSection">
+            <h6 class="fw-normal mb-1 sectionTitleMenu">Subscriptions</h6>
+            <div class="contentWrapper">
+              <% user?.channelSubscribeByUser?.forEach(function(elem){ %>
+                <a class="linkToChannel text-light flexWrapper" href="/channel/<%=elem.channelOwner%>/home">
+                  <div title="" class="profileIconCtn">
+                    <% if(elem?.channelProfile?.url){ %>
+                      <img src="<%=elem?.channelProfile?.url%>" alt="">
+                    <% }else{ %>
+                      <p class="m-0 text-white"><%=elem?.channelName?.charAt(0)%></p>
+                    <% } %>
+                  </div>
+                  <p title="" class="menuLinkText m-0 fw-normal"><%=elem?.channelName%></p>
+                </a>
+              <% }) %>
+            </div>
+            <!-- browse channels -->
+            <div class="contentWrapper">
+              <a class="linkToChannel withIcon text-light flexWrapper" href="/feed/channel">
+                <i class="ri-add-circle-line"></i>
+                <p class="menuLinkText m-0 fw-normal">Browse Channels</p>
+              </a>
+            </div>
+          </section>
+          <hr>
+          <!-- more options to explore -->
+          <section>
+            <h6 class="fw-normal mb-1 sectionTitleMenu">Explore</h6>
+            <div class="contentWrapper">
+              <a class="linkToChannel withIcon text-light flexWrapper" href="/">
+                <i class="ri-fire-line"></i>
+                <p class="menuLinkText m-0 fw-normal">Trending</p>
+              </a>
+            </div>
+            <div class="contentWrapper">
+              <a class="linkToChannel withIcon text-light flexWrapper" href="/feed/subscriptions">
+                <i class="ri-shopping-bag-3-line"></i>
+                <p class="menuLinkText m-0 fw-normal">Shopping</p>
+              </a>
+            </div>
+            <div class="contentWrapper">
+              <a class="linkToChannel withIcon text-light flexWrapper" href="/feed/subscriptions">
+                <i class="ri-music-2-line"></i>
+                <p class="menuLinkText m-0 fw-normal">Music</p>
+              </a>
+            </div>
+            <div class="contentWrapper">
+              <a class="linkToChannel withIcon text-light flexWrapper" href="/feed/subscriptions">
+                <i class="ri-movie-2-line"></i>
+                <p class="menuLinkText m-0 fw-normal">Movies</p>
+              </a>
+            </div>
+            <div class="contentWrapper">
+              <a class="linkToChannel withIcon text-light flexWrapper" href="/feed/subscriptions">
+                <i class="ri-live-line"></i>
+                <p class="menuLinkText m-0 fw-normal">Live</p>
+              </a>
+            </div>
+            <div class="contentWrapper">
+              <a class="linkToChannel withIcon text-light flexWrapper" href="/feed/subscriptions">
+                <i class="ri-gamepad-line"></i>
+                <p class="menuLinkText m-0 fw-normal">Gaming</p>
+              </a>
+            </div>
+            <div class="contentWrapper">
+              <a class="linkToChannel withIcon text-light flexWrapper" href="/feed/subscriptions">
+                <i class="ri-newspaper-line"></i>
+                <p class="menuLinkText m-0 fw-normal">News</p>
+              </a>
+            </div>
+            <div class="contentWrapper">
+              <a class="linkToChannel withIcon text-light flexWrapper" href="/feed/subscriptions">
+                <i class="ri-trophy-line"></i>
+                <p class="menuLinkText m-0 fw-normal">Sports</p>
+              </a>
+            </div>
+            <div class="contentWrapper">
+              <a class="linkToChannel withIcon text-light flexWrapper" href="/feed/subscriptions">
+                <i class="ri-lightbulb-line"></i>
+                <p class="menuLinkText m-0 fw-normal">Learning</p>
+              </a>
+            </div>
+            <div class="contentWrapper">
+              <a class="linkToChannel withIcon text-light flexWrapper" href="/feed/subscriptions">
+                <i class="ri-code-box-line"></i>
+                <p class="menuLinkText m-0 fw-normal">Coding</p>
+              </a>
+            </div>
+          </section>
         </div>
     </div>
 </body>

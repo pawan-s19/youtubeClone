@@ -21,53 +21,47 @@
             <div class="clear-history d-flex w-100 mb-4"><a href="/clear/history" class="ms-auto btn btn-light">Clear
                 watch History</a>
             </div>
-            <%}else{%>
-              <%}%>
-                <% if(mixedArray.length> 0){ %>
-                  <% mixedArray.forEach(function(elem){ %>
-                    <%if(elem.video_id){%>
-                      <div class="videoAndTextWrapper d-flex align-items-top gap-4 text-light mb-3"
-                        videoId="<%=elem._id%>">
-                        <div class="sm-video-wrapper">
-                          <video oncontextmenu="return false;" disablepictureinpicture muted
-                            controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
-                            src="/play/<%=elem.video_id%>"></video>
-                          <img src="<%=elem.thumbnail.secure_url%>" alt="">
+          <%}else{%>
+          <%}%>
+            <% if(mixedArray.length> 0){ %>
+              <% mixedArray.forEach(function(elem){ %>
+                <%if(elem.video_id){%>
+                  <div class="videoAndTextWrapper d-flex align-items-top gap-4 text-light mb-3"
+                    videoId="<%=elem._id%>">
+                    <div class="sm-video-wrapper">
+                      <video oncontextmenu="return false;" disablepictureinpicture muted
+                        controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
+                        src="/play/<%=elem.video_id%>"></video>
+                      <img src="<%=elem.thumbnail.secure_url%>" alt="">
+                    </div>
+                    <div class="videoTitleAndStats d-flex align-items-top flex-nowrap justify-content-between">
+                      <div class="onlyStats">
+                        <p title="<%=elem?.title%>" class="m-0 fw-semibold ">
+                          <%=elem?.title%>
+                        </p>
+                        <div class="sm-video-stats text-muted">
+                          <small class="listDot">
+                            <%if(elem.views.length==0){%>
+                              No views
+                              <% }else{%>
+                                <%=elem.views.length%> Views
+                                  <% }%>
+                          </small>
+                          <small>
+                            <%=moment(elem.createdAt).fromNow()%>
+                          </small>
                         </div>
-                        <div class="videoTitleAndStats d-flex align-items-top flex-nowrap justify-content-between">
-                          <div class="onlyStats">
-                            <p title="<%=elem?.title%>" class="m-0 fw-semibold ">
-                              <%=elem?.title%>
-                            </p>
-                            <div class="sm-video-stats text-muted">
-                              <small class="listDot">
-                                <%if(elem.views.length==0){%>
-                                  No views
-                                  <% }else{%>
-                                    <%=elem.views.length%> Views
-                                      <% }%>
-                              </small>
-                              <small>
-                                <%=moment(elem.createdAt).fromNow()%>
-                              </small>
-                            </div>
-                            <div class="channelInfoWrapper d-flex align-items-center gap-2 mt-2">
-                              <a class="anchorWrap text-light" href="/channel">
-                                <div title="Go To Channel" class="profile">
-                                  <% if(elem.userId.channel.channelProfile.url){%>
+                        <div class="channelInfoWrapper d-flex align-items-center gap-2 mt-2">
+                          <a class="anchorWrap text-light" href="/channel">
+                            <div title="Go To Channel" class="profile">
+                              <% if(elem.userId.channel.channelProfile.url){%>
                                     <img src="<%=elem.userId.channel?.channelProfile.url%>" alt="">
 
-                                    <%}else{%>
-                                      <%=elem.userId.channel.channelName.charAt(0).toUpperCase()%>
-                                        <%}%>
-                                </div>
-                              </a>
-                              <a class="anchorWrap text-light" href="/channel">
-                                <small title="<%=elem.userId?.channel.channelName%>" class="text-muted">
-                                  <%=elem.userId?.channel.channelName%>
-                                </small>
-                              </a>
+                                <%}else{%>
+                                  <%=elem.userId.channel.channelName.charAt(0).toUpperCase()%>
+                                    <%}%>
                             </div>
+
                             <div class="channelDescription mt-2">
                               <small title="From the video description" class=" text-muted">
                                 <%=elem?.description%>
@@ -98,152 +92,202 @@
                               </li>
                             </ul>
                           </div>
+
+                          </a>
+                          <a class="anchorWrap text-light" href="/channel">
+                            <small title="<%=elem.userId?.channel.channelName%>" class="text-muted">
+                              <%=elem.userId?.channel.channelName%>
+                            </small>
+                          </a>
                         </div>
-                        <!-- <div auto class="optionsMenu text-light">
-                            <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown" aria-expanded="false" ></i>
-                            <ul class="dropdown-menu">
-                              <li>
-                                <a class="dropdown-item d-flex align-items-center gap-2" href="#">
-                                  <i class="ri-time-line"></i>
-                                  <p class="m-0">Save to Watch Later</p>
-                                </a>
-                              </li>
-                              <li>
-                                <a class="dropdown-item d-flex align-items-center gap-2" href="#">
-                                  <i class="ri-play-list-add-line"></i>
-                                  <p class="m-0">Save to Playlist</p>
-                                </a>
-                              </li>
-                              <li>
-                                <a class="dropdown-item d-flex align-items-center gap-2" href="#">
-                                  <i class="ri-share-forward-line"></i>
-                                  <p class="m-0">Share</p>
-                                </a>
-                              </li>
-                            </ul>
-                          </div> -->
+                        <div class="channelDescription mt-2">
+                          <small title="From the video description" class=" text-muted">
+                            <%=elem?.description%>
+                          </small>
+
+                        </div>
                       </div>
-                      <%}else{%>
-
-                        <div class="videoAndTextWrapper p-center d-flex align-items-top gap-4 text-light mb-5"
-                          channelId="<%=elem._id%>">
-                          <div class="sm-channel-wrapper">
-
-                            <% if(elem.channelProfile.url){%>
-                              <img src="<%=elem?.channelProfile.url%>" alt="">
-
-                              <%}else{%>
-                                <%=elem.channelName.charAt(0).toUpperCase()%>
-                                  <%}%>
+                      <div auto class="optionsMenu text-light">
+                        <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                        <ul class="dropdown-menu">
+                          <% if(type == 'likedvideos'){ %>
+                            <li>
+                              <a class="dropdown-item d-flex align-items-center gap-2" href="/like/<%=elem._id%>">
+                                <i class="ri-delete-bin-fill"></i>
+                                <p class="m-0">Remove from liked videos</p>
+                              </a>
+                            </li>
+                          <% }else{ %>
+                          <% } %>
+                          <% if(type == 'watchlater'){ %>
+                          <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2" href="/remove/watchlater/<%=elem._id%>">
+                              <i class="ri-time-line"></i>
+                              <p class="m-0">Remove from Watch Later</p>
+                            </a>
+                          </li>
+                          <% }else{ %>
+                            <li>
+                              <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                                <i class="ri-time-line"></i>
+                                <p class="m-0">Save to Watch Later</p>
+                              </a>
+                            </li>
+                          <% } %>
+                          <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                              <i class="ri-play-list-add-line"></i>
+                              <p class="m-0">Save to Playlist</p>
+                            </a>
+                          </li>
+                          <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                              <i class="ri-share-forward-line"></i>
+                              <p class="m-0">Share</p>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <!-- <div auto class="optionsMenu text-light">
+                        <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown" aria-expanded="false" ></i>
+                        <ul class="dropdown-menu">
+                          <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                              <i class="ri-time-line"></i>
+                              <p class="m-0">Save to Watch Later</p>
+                            </a>
+                          </li>
+                          <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                              <i class="ri-play-list-add-line"></i>
+                              <p class="m-0">Save to Playlist</p>
+                            </a>
+                          </li>
+                          <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                              <i class="ri-share-forward-line"></i>
+                              <p class="m-0">Share</p>
+                            </a>
+                          </li>
+                        </ul>
+                      </div> -->
+                  </div>
+                <%}else{%>
+                  <div class="videoAndTextWrapper p-center d-flex align-items-top gap-4 text-light mb-5"
+                    channelId="<%=elem?.channelOwner?._id%>">
+                    <div class="sm-channel-wrapper">
+                      <% if(elem.channelProfile.url){%>
+                        <img src="<%=elem?.channelProfile.url%>" alt="">
+                        <%}else{%>
+                          <%=elem.channelName.charAt(0).toUpperCase()%>
+                            <%}%>
+                    </div>
+                    <div class="videoTitleAndStats d-flex align-items-top flex-nowrap justify-content-between">
+                      <div class="onlyStats t-center">
+                        <p title="<%=elem?.title%>" class="m-0 fw-semibold mb-2">
+                          <%=elem?.channelName.toUpperCase()%>
+                        </p>
+                        <div class="sm-video-stats" style="color:rgb(219, 219, 219)">
+                          <div class="mb-1">
+                            <small class="listDot">
+                              @<%=elem?.channelName.replace( /\s+/g,"").toUpperCase()%>&nbsp;
+                            </small>
+                            <small>
+                              <%=elem?.channelSubscription.length%> subscribers
+                            </small>
                           </div>
-                          <div class="videoTitleAndStats d-flex align-items-top flex-nowrap justify-content-between">
-                            <div class="onlyStats t-center">
-                              <p title="<%=elem?.title%>" class="m-0 fw-semibold mb-2">
-                                <%=elem?.channelName.toUpperCase()%>
-                              </p>
-                              <div class="sm-video-stats" style="color:rgb(219, 219, 219)">
-
-                                <div class="mb-1">
-                                  <small class="listDot">
-                                    @<%=elem?.channelName.replace( /\s+/g,"").toUpperCase()%>&nbsp;
-                                  </small>
-                                  <small>
-                                    <%=elem?.channelSubscription.length%> subscribers
-                                  </small>
-                                </div>
-
-                                <small style=" text-overflow: ellipsis;
-                          overflow: hidden;
-                          line-height: 18px;
-                          display: -webkit-box;
-                          -webkit-line-clamp: 2; /* number of lines to show */
-                          line-clamp: 2;
-                          -webkit-box-orient: vertical;
-                          ">
-                                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis est rem et,
-                                  deserunt,
-                                  tenetur pariatur debitis eligendi quam reiciendis asperiores suscipit quaerat
-                                  provident
-                                  consectetur tempora alias repudiandae eaque vero facere deleniti fuga? Nihil officia
-                                  deleniti eaque rerum veritatis natus cumque!
-                                </small>
-                              </div>
-                              <div class="channelDescription mt-2">
-                                <small title="From the video description" class=" text-muted">
-                                  <%=elem?.description%>
-                                </small>
-                              </div>
-                              <% if(JSON.stringify(elem.channelOwner) !==JSON.stringify(user?._id)){ %>
-                                <div class=" channelInfoWrapper d-flex s-center align-items-center gap-2 mt-3">
-                                  <a class="anchorWrap text-light " href="/subscribe/<%=elem._id%>">
-                                    <%if(elem.channelSubscription.includes(user?._id)){%>
-                                      <div title="Unsubscribe this channel"
-                                        class="subscribedBtn text-white rounded-pill text-nowrap text-dark fw-semibold">
-                                        <small>
-                                          Subscribed
-                                        </small>
-                                      </div>
-                                      <%}else{%>
-                                        <div title="Subscribe this channel"
-                                          class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
-                                          <small>
-                                            Subscribe
-                                          </small>
-                                        </div>
-                                        <% }%>
-                                  </a>
-                                </div>
-                                <% } %>
-                            </div>
-                            <div auto class="optionsMenu text-light">
-                              <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown" aria-expanded="false"></i>
-                              <ul class="dropdown-menu">
-
-                                <li>
-                                  <div class="dropdown-item share-channel d-flex align-items-center gap-2"
-                                    shareChannelId="<%=elem._id%>">
-                                    <i class="ri-share-forward-line"></i>
-                                    <p class="m-0">Share</p>
-                                  </div>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <!-- <div auto class="optionsMenu text-light">
-                              <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown" aria-expanded="false" ></i>
-                              <ul class="dropdown-menu">
-                                <li>
-                                  <a class="dropdown-item d-flex align-items-center gap-2" href="#">
-                                    <i class="ri-time-line"></i>
-                                    <p class="m-0">Save to Watch Later</p>
-                                  </a>
-                                </li>
-                                <li>
-                                  <a class="dropdown-item d-flex align-items-center gap-2" href="#">
-                                    <i class="ri-play-list-add-line"></i>
-                                    <p class="m-0">Save to Playlist</p>
-                                  </a>
-                                </li>
-                                <li>
-                                  <a class="dropdown-item d-flex align-items-center gap-2" href="#">
-                                    <i class="ri-share-forward-line"></i>
-                                    <p class="m-0">Share</p>
-                                  </a>
-                                </li>
-                              </ul>
-                            </div> -->
+                          <small style=" text-overflow: ellipsis;
+                    overflow: hidden;
+                    line-height: 18px;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2; /* number of lines to show */
+                    line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    ">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis est rem et,
+                            deserunt,
+                            tenetur pariatur debitis eligendi quam reiciendis asperiores suscipit quaerat
+                            provident
+                            consectetur tempora alias repudiandae eaque vero facere deleniti fuga? Nihil officia
+                            deleniti eaque rerum veritatis natus cumque!
+                          </small>
                         </div>
-
-                        <%}%>
-                          <% }) %>
-                            <% }else{ %>
-                              <h4 class="text-light error-message">
-                                <%if(type=="history"){%>
-                                  No videos watched recently
-                                  <%}else{%>
-                                    No results found<%}%>
-                              </h4>
-                              <% } %>
+                        <div class="channelDescription mt-2">
+                          <small title="From the video description" class=" text-muted">
+                            <%=elem?.description%>
+                          </small>
+                        </div>
+                        <% if(JSON.stringify(elem.channelOwner) !==JSON.stringify(user?._id)){ %>
+                          <div class=" channelInfoWrapper d-flex s-center align-items-center gap-2 mt-3">
+                            <a class="anchorWrap text-light " href="/subscribe/<%=elem._id%>">
+                              <%if(elem.channelSubscription.includes(user?._id)){%>
+                                <div title="Unsubscribe this channel"
+                                  class="subscribedBtn text-white rounded-pill text-nowrap text-dark fw-semibold">
+                                  <small>
+                                    Subscribed
+                                  </small>
+                                </div>
+                                <%}else{%>
+                                  <div title="Subscribe this channel"
+                                    class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
+                                    <small>
+                                      Subscribe
+                                    </small>
+                                  </div>
+                                  <% }%>
+                            </a>
+                          </div>
+                          <% } %>
+                      </div>
+                      <div auto class="optionsMenu text-light">
+                        <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                        <ul class="dropdown-menu">
+                          <li>
+                            <div class="dropdown-item share-channel d-flex align-items-center gap-2"
+                              shareChannelId="<%=elem._id%>">
+                              <i class="ri-share-forward-line"></i>
+                              <p class="m-0">Share</p>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <!-- <div auto class="optionsMenu text-light">
+                        <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown" aria-expanded="false" ></i>
+                        <ul class="dropdown-menu">
+                          <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                              <i class="ri-time-line"></i>
+                              <p class="m-0">Save to Watch Later</p>
+                            </a>
+                          </li>
+                          <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                              <i class="ri-play-list-add-line"></i>
+                              <p class="m-0">Save to Playlist</p>
+                            </a>
+                          </li>
+                          <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                              <i class="ri-share-forward-line"></i>
+                              <p class="m-0">Share</p>
+                            </a>
+                          </li>
+                        </ul>
+                      </div> -->
+                  </div>
+                <%}%>
+              <% }) %>
+            <% }else{ %>
+              <h4 class="text-light error-message">
+                <%if(type=="history"){%>
+                  No videos watched recently
+                <%}else{%>
+                    No results found
+                <%}%>
+              </h4>
+          <% } %>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"

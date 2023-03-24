@@ -25,7 +25,7 @@
                 <div class="modal-body notification">
                     <%if(user?.notifications.length> 0){%>
                         <%user?.notifications.forEach(function(elem){%>
-                            <a style="text-decoration: none; color:white" href="/watch/<%=elem.videoId._id%>">
+                            <a style="text-decoration: none; color:white" href="/watch/<%=elem.videoId?._id%>">
                                 <div class="notification-grid d-flex justify-content-between px-3 mb-5">
                                     <div class="notification-channel-profile">
                                         <img class="notification-channel-profile-image"
@@ -34,16 +34,16 @@
                                     <div class="notification-dets mx-4">
                                         <div class="notif-text-container">
                                             <p>
-                                                <%=elem.channelId.channelName%> uploaded: <%=elem.videoId.title%>
+                                                <%=elem.channelId?.channelName%> uploaded: <%=elem.videoId?.title%>
                                             </p>
                                         </div>
                                         <h6 class="text-muted">
-                                            <%=moment(elem.videoId.createdAt).fromNow()%>
+                                            <%=moment(elem.videoId?.createdAt).fromNow()%>
                                         </h6>
                                     </div>
                                     <div class="notification-video me-3">
                                         <img class="notification-channel-profile-image"
-                                            src="<%=elem.videoId.thumbnail.secure_url%>">
+                                            src="<%=elem.videoId?.thumbnail.secure_url%>">
                                     </div>
 
                                 </div>

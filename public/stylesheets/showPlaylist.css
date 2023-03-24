@@ -1,0 +1,260 @@
+.singlePlaylistWrapper{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: top;
+    padding: 0px 2rem;
+    /* background-color: red; */
+}
+
+.playlistDetails{
+    width: 400px;
+    border-radius: .375rem;
+    color: white;
+    padding: 1.5rem 1.5rem 0rem 1.5rem;
+    /* background-color: yellow; */
+    background-image: url(/Sample_Images/thumb4.jpg);
+}   
+
+.playlist-details-wrapper{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: scroll;
+    border-radius: .375rem;
+    /* background-color: pink; */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.playlistDetsBtmPart{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+
+.playlist-details-wrapper::-webkit-scrollbar {
+    width: 10px;
+}
+
+.playlist-details-wrapper::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: rgba(255, 237, 255, 0.484);
+}
+
+.playlist-details-wrapper::-webkit-scrollbar-thumb:hover {
+    background: rgba(221, 160, 221, 0.84);
+}
+
+
+.playlistThumbnail{
+    width: 100%;
+    height: fit-content;
+    border-radius: .375rem;
+    background-color: royalblue;
+    position: relative;
+}
+
+.playlistOverlay{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.644);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity .2s ease-in-out;
+}
+
+.playlistOverlay:hover{
+    opacity: 1;
+}
+
+.playlistThumbnail>img,.singlePlaylistVidThumbnail>img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.playlistTitle>h5{
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.playlistOwnerName{
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.playlistStatsWrapper>span{
+    font-size: .8rem;
+    color: var(--themeTextGrey);
+}
+
+.playlistButtonsWrapper{
+    width: 100%;
+    display: flex;
+}
+
+.playlistButtonsWrapper>a{
+    text-decoration: none;
+    padding: .4rem .6rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-radius: .5rem;
+    color: black !important;
+    border: 1px solid transparent;
+}
+
+.playlistButtonsWrapper>a:last-child{
+    background-color: var(--iconBackFaded);
+    color: white !important;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.playlistButtonsWrapper>a:last-child:active{
+    border: 1px solid white;
+    background-color: var(--iconHover);
+}
+
+.playlistDescriptionBox>pre{
+    width: 100%;
+    white-space: pre-wrap;
+}
+
+.playlistVideoWrapper{
+    width: 100%;
+    height: 100%;
+    /* background-color: plum; */
+    display: flex;
+    flex-direction: row;
+}
+
+ol{
+    width: 100%;
+}
+
+.singleVideoLongCtn{
+    display: flex;
+    align-items: center;
+    color: var(--themeTextGrey);
+    font-weight: bold;
+    width: 100%;
+    gap: .5rem;
+    /* background-color: red; */
+}
+
+.singleVideoLongCtn:hover{
+    cursor: pointer;
+    background-color: var(--iconBackFaded);
+}
+
+ol a{
+    display: flex;
+    align-items: top;
+    gap: .5rem;
+    width: 100%;
+}
+
+.singlePlaylistVidThumbnail{
+    width: 180px;
+    height: 100px;
+    flex-shrink: 0;
+    border-radius: .5rem;
+    overflow: hidden;
+}
+
+.videoStatsAndText>h6{
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.videoStatsAndText small{
+    font-size: .8rem;
+    font-weight: normal;
+}
+
+
+.statsSection>small::after {
+  content: "·";
+  margin-left: 4px;
+  font-weight: 900;
+}
+
+.statsSection>small.lastDot::after {
+  content: "";
+}
+
+.custom-tooltip{
+    --bs-tooltip-bg: white !important;
+    --bs-tooltip-color: rgb(0, 0, 0) !important;
+}
+
+@media only screen and (max-width: 1060px) {
+    .singlePlaylistWrapper{
+        flex-direction: column;
+    }
+    .playlistDetails{
+        width: 100%;
+        padding: 1rem;
+    }
+    /* .playlist-details-wrapper{
+        flex-direction: row;
+    } */
+    .playlistThumbnail{
+        flex-shrink: 0;
+        max-width: 300px;
+        max-height: 200px;
+    }
+    .playlistDescriptionBox{
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 630px) {
+    .singlePlaylistWrapper{
+        padding: 0;
+    }
+    .playlistButtonsWrapper>a{
+        padding: .1rem .2rem;
+    }
+    .playlistDetails{
+        padding: .5rem;
+    }
+    .singleVideoLongCtn{
+        align-items: flex-start;
+    }   
+}
+
+@media only screen and (max-width: 376px) {
+    .playlistButtonsWrapper>a{
+        white-space: nowrap;
+    }
+    .playlistVideoWrapper a{
+        flex-direction: column;
+    }
+}

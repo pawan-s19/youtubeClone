@@ -1,7 +1,3 @@
-// let vidCtn = document.querySelector('.videoContainer');
-// let video = document.querySelector('.videoContainer video');
-// let vidCtnPoster = document.querySelector('.videoContainer img');
-
 // vidCtn.addEventListener('mouseover', () => {
 //     vidCtnPoster.style.display = 'none'
 //     video.muted = true;

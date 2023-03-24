@@ -46,7 +46,7 @@ const UserSchema = new Schema({
   likedVideos: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "videoModels",
+      ref: "videoModel",
     },
   ],
   channelSubscribeByUser: [

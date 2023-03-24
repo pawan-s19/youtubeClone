@@ -33,18 +33,20 @@
                                 </a>
                             </div>
                             <%videos?.forEach(function(elem){%>
-                                <div class="tags-wrapper tags-wrapper rounded-3">
-                                    <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                        href="/category/<%=elem?.category%>">
-                                        <small>
-                                            <%=elem?.category%>
-                                        </small>
-                                    </a>
-                                </div>
-                                <%})%>
+                                <%elem?.category.forEach(function(category){%>
+                                    <div class="tags-wrapper tags-wrapper rounded-3">
+                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                            href="/category/<%=category%>">
+                                            <small>
+                                                <%=category%>
+                                            </small>
+                                        </a>
+                                    </div>
+                                    <%})%>
+                                        <%})%>
 
 
-                                    <!-- <div class="tags-wrapper rounded-3">
+                                            <!-- <div class="tags-wrapper rounded-3">
                                         <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
                                             href="#">
                                             <small>Recently Uploaded</small>
@@ -68,8 +70,10 @@
                                                 controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
                                                 data-bs-videoId="<%=elem.video_id%>" src=""></video>
                                             <img src="<%=elem.thumbnail.secure_url%>" alt="">
-                                            <!-- <small style="pointer-events: none;"
-                                                class="m-0 p-1 badge bg-dark">8:20</small> -->
+
+                                            <small style="pointer-events: none;"
+                                                class="m-0 p-1 badge bg-dark"><%=elem?.duration%></small>
+
                                         </a>
                                     </div>
                                     <div class="iconTextWrapper mt-2 d-flex flex-nowrap align-items-start gap-3">

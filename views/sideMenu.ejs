@@ -10,31 +10,51 @@
 <body>
     <div class="left-menu-bar">
         <a href="/" class="active text-decoration-none menu-btn-wrapper d-flex flex-column align-items-center py-3 rounded-3">
-            <i class="ri-home-4-line"></i>
+            <i data-bs-line="ri-home-4-line" data-bs-fill="ri-home-4-fill" class="home iTag ri-home-4-line"></i>
             <small>Home</small>
         </a>
         <a href="/feed/subscriptions" class="text-decoration-none menu-btn-wrapper d-flex flex-column align-items-center py-3 rounded-3">
-            <i class="ri-clapperboard-line"></i>
+            <i data-bs-line="ri-clapperboard-line" data-bs-fill="ri-clapperboard-fill" class="subscriptions iTag ri-clapperboard-line"></i>
             <small>Subscriptions</small>
         </a>
         <a href="/feed/library" class="text-decoration-none menu-btn-wrapper d-flex flex-column align-items-center py-3 rounded-3">
-            <i class="ri-slideshow-4-line"></i>
+            <i data-bs-line="ri-slideshow-4-line" data-bs-fill="ri-slideshow-4-fill" class="library iTag ri-slideshow-4-line"></i>
             <small>Library</small>
         </a>
         <a href="/search?contentType=history" class="text-decoration-none menu-btn-wrapper d-flex flex-column align-items-center py-3 rounded-3">
-            <i class="ri-history-line"></i>
+            <i data-bs-line="ri-history-line" data-bs-fill="ri-history-fill" class="history iTag ri-history-line"></i>
             <small>History</small>
         </a>
     </div>
     <script>
-        let allATags = document.querySelectorAll('.left-menu-bar a');
-        console.log(allATags)
-        allATags.forEach(function(a) {
-            a.addEventListener('click', function(){
-                console.log(this.firstChild.classList)
-            })
-        })
+        const params = new Proxy(new URLSearchParams(window.location.search), {
+            get: (searchParams, prop) => searchParams.get(prop),
+        });
+        // Get the value of "some_key" in eg "https://example.com/?some_key=some_value"
+        let value = params.contentType; // "some_value"
+        let activeIcon = null;
+        let allIcons = document.querySelectorAll('.iTag');
 
+        if(!value){
+            value = window.location.pathname.split('/').pop();
+        }
+
+        if(value === ''){
+            activeIcon = document.querySelector('.home');
+        }else{
+            activeIcon = document.querySelector(`.${value}`);
+        }
+
+        if(activeIcon){
+            let iclass = activeIcon.classList[0]
+            allIcons.forEach((e) => {
+                // console.log(e.classList.contains(iclass))
+                if(e.classList.contains(iclass)){
+                    e.classList.remove(e.getAttribute('data-bs-line'))
+                    e.classList.add(e.getAttribute('data-bs-fill'))
+                }
+            })
+        }
     </script>
 </body>
 </html>

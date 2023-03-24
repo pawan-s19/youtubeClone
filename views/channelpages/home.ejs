@@ -14,10 +14,82 @@
                 <div class="d-flex align-items-center gap-3">
                     <p class="m-0">Popular Videos</p>
                 </div>
-                <a class="seeAllWrapper d-flex align-items-center gap-2 text-white" href="/search?contentType=likedvideos">
+                <a class="seeAllWrapper d-flex align-items-center gap-2 text-white" href="#">
                     <i class="ri-play-fill"></i>
                     Play all
                 </a>
+            </div>
+            <div class="all-videos-ctn mt-3">
+                <%popularVideos?.forEach(function(elem){%>
+                    <div class="video-wrapper">
+                        <div class="video-container">
+                            <a class="linkTo text-light" href="/watch/<%=elem._id%>">
+                                <video oncontextmenu="return false;" disablepictureinpicture muted
+                                    controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
+                                    data-bs-videoId="<%=elem.video_id%>" src=""></video>
+                                <img src="<%=elem.thumbnail.secure_url%>" alt="">
+                                <small style="pointer-events: none;"
+                                    class="m-0 p-1 badge bg-dark"><%=elem?.duration%></small>
+                            </a>
+                        </div>
+                        <div class="iconTextWrapper mt-2 d-flex flex-nowrap align-items-start gap-3">
+                            <!-- <a class="linkTo text-light" href="#">
+                                <div class="profileIconCtn">
+                                    <img src="/Sample_Profile/pf1.jpg" alt="">
+                                </div>
+                            </a> -->
+                            <div class="videoTextCtn">
+                                <a class="linkTo text-light" href="#">
+                                    <p class="m-0 fw-bold text-light mb-1">
+                                        <%=elem.title%>
+                                    </p>
+                                </a>
+                                <div class="text-secondary">
+                                    <a class="linkTo text-secondary" href="#">
+                                        <small class="listDot">
+                                            <%if(elem.views.length==0){%>
+                                                No views
+                                                <% }else{%>
+                                                    <%=elem.views.length%> Views
+                                                        <% }%>
+                                        </small>
+                                        <small class="listDot last">
+                                            <%=moment(elem.createdAt).fromNow()%>
+                                        </small>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="optionsMenu text-light">
+                                <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown"
+                                    aria-expanded="false"></i>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item d-flex align-items-center gap-2"
+                                            href="/addToWatchLater/<%=elem._id%>">
+                                            <i class="ri-time-line"></i>
+                                            <p class="m-0">Save to Watch Later</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item d-flex align-items-center gap-2"
+                                            data-bs-toggle="modal" data-bs-target="#playlistModal"
+                                            data-bs-whatever="<%=elem._id%>"
+                                            data-bs-createdPls="<%=user?.userPlaylist%>">
+                                            <i class="ri-play-list-add-line"></i>
+                                            <p class="m-0">Save to Playlist</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                                            <i class="ri-share-forward-line"></i>
+                                            <p class="m-0">Share</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                <%})%>
             </div>
         </div>
         <hr class="text-white mt-4">
@@ -26,15 +98,15 @@
                 <div class="d-flex align-items-center gap-3">
                     <p class="m-0">Created Playlists</p>
                 </div>
-                <a class="seeAllWrapper d-flex align-items-center gap-2 text-white" href="/search?contentType=watchlater">
+                <a class="seeAllWrapper d-flex align-items-center gap-2 text-white" href="#">
                     <i class="ri-play-fill"></i>
-                    Play all
+                    See all
                 </a>
             </div>
             <div class="playlistWrapper d-flex flex-wrap gap-2 mt-3">
-                <% user.userPlaylist.forEach(function(elem){ %>
+                <% ChannelOwner.userPlaylist.forEach(function(elem){ %>
                     <div class="singlePlaylistWrapper text-white">
-                        <a class="text-white text-decoration-none" href="/playlist/<%=elem._id%>">
+                        <a class="text-white text-decoration-none" href="/play/playlist/<%=elem._id%>">
                             <div class="playlistVideoWrapper">
                                 <img src="<%=elem.videos[elem.videos.length - 1].thumbnail.secure_url%>" alt="">
                                 <div class="playlistVideoCountWrapper">
@@ -49,28 +121,30 @@
                             <p class="playlistName mt-2 mb-1"><%=elem.playListName%></p>
                             
                         </a>
-                        <a class="text-decoration-none" href="view/playlist/<%=elem._id%>">
+                        <a class="text-decoration-none" href="/view/playlist/<%=elem._id%>">
                             <small class="viewPl">View Full Playlist</small>
                         </a>
-                        <div class="dropdown">
-                            <i class="ri-more-2-fill plMenu" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"></i>
-                            
-                            <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" data-bs-toggle="collapse" href="#PlNameCollapse" role="button" aria-expanded="false" aria-controls="PlNameCollapse"><i class="ri-pencil-fill"></i> Modify Name</a></li>
-                              <div class="collapse" id="PlNameCollapse">
-                                  <div class="card card-body">
-                                    <form method="POST" action="/update/name/playlist/<%=elem._id%>">
-                                        <div class="mb-3">
-                                          <label for="exampleInputEmail1" class="form-label">New Name</label>
-                                          <input name="newname" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                      </form>
+                        <%if(JSON.stringify(elem.creater) === JSON.stringify(user?._id)){ %>
+                            <div class="dropdown">
+                                <i class="ri-more-2-fill plMenu" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"></i>
+                                
+                                <ul class="dropdown-menu">
+                                  <li><a class="dropdown-item" data-bs-toggle="collapse" href="#PlNameCollapse" role="button" aria-expanded="false" aria-controls="PlNameCollapse"><i class="ri-pencil-fill"></i> Modify Name</a></li>
+                                  <div class="collapse" id="PlNameCollapse">
+                                      <div class="card card-body">
+                                        <form method="POST" action="/update/name/playlist/<%=elem._id%>">
+                                            <div class="mb-3">
+                                              <label for="exampleInputEmail1" class="form-label">New Name</label>
+                                              <input name="newname" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                          </form>
+                                      </div>
                                   </div>
-                              </div>
-                              <li><a class="dropdown-item" href="/remove/playlist/<%=elem._id%>"><i class="ri-delete-bin-3-fill"></i> Delete Playlist</a></li>
-                            </ul>
-                        </div>
+                                  <li><a class="dropdown-item" href="/remove/playlist/<%=elem._id%>"><i class="ri-delete-bin-3-fill"></i> Delete Playlist</a></li>
+                                </ul>
+                            </div>
+                        <% } %>
                     </div>
                 <% }) %>
             </div>
@@ -81,13 +155,62 @@
                 <div class="d-flex align-items-center gap-3">
                     <p class="m-0">Subscriptions</p>
                 </div>
-                <a class="seeAllWrapper d-flex align-items-center gap-2 text-white" href="/search?contentType=watchlater">
+                <a class="seeAllWrapper d-flex align-items-center gap-2 text-white" href="/feed/subscriptions">
                     <i class="ri-play-fill"></i>
                     See all
                 </a>
             </div>
-            <div class="subscriptionWrapper">
-                
+            <div class="subscriptionWrapper mt-3">
+                <div class="channelsWrapper mt-4 gap-4 text-white">
+                    <% if(ChannelOwner?.channelSubscribeByUser.length> 0){ %>
+                        <% ChannelOwner?.channelSubscribeByUser.forEach(function(elem){ %>
+                            <div class="singleChannelWrapper">
+                                <a class="text-decoration-none text-light"
+                                    href="/channel/<%=elem.channelOwner?._id%>/home">
+                                    <div class="channelBox">
+                                        <div title="Go To Channel" class="profile">
+                                            <% if(elem.channelProfile?.url){%>
+                                                <img src="<%=elem.channelProfile?.url%>" alt="">
+                                            <%}else{%>
+                                                <%=elem.channelName?.charAt(0).toUpperCase()%>
+                                            <%}%>
+                                        </div>
+                                        <div class="text-center">
+                                            <small class="fw-semibold">
+                                                <%=elem.channelName%>
+                                            </small>
+                                            <br>
+                                            <small class="showSubscribers">
+                                                <%=elem.channelSubscription?.length%> Subscribers
+                                            </small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <% if(JSON.stringify(elem.channelOwner?._id) !==JSON.stringify(user?._id)){ %>
+                                    <div>
+                                        <a class="anchorWrap text-light" href="/subscribe/<%=elem._id%>">
+                                            <%if(elem.channelSubscription?.includes(user?._id)){%>
+                                                <div title="Unsubscribe this channel"
+                                                    class="subscribedBtn text-white rounded-pill text-nowrap text-dark fw-semibold">
+                                                    <small>
+                                                        Subscribed
+                                                    </small>
+                                                </div>
+                                            <%}else{%>
+                                                <div title="Subscribe this channel"
+                                                    class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
+                                                    <small>
+                                                        Subscribe
+                                                    </small>
+                                                </div>
+                                            <% }%>
+                                        </a>
+                                    </div>
+                                    <% } %>
+                            </div>
+                        <% }) %>
+                    <% } %>
+                </div>
             </div>
         </div>
     </div>
