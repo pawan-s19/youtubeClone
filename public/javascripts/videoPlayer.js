@@ -17,6 +17,9 @@ let showMore = document.querySelector(".showMore");
 let editcomment = document.querySelectorAll('.comment-edit');
 let commentform = document.querySelector('.comment-form');
 
+var copyLinkButton = document.querySelector('.copyLinkButton')
+
+
 // console.log(dropdownmenu)
 
 editcomment.forEach(function(e){
@@ -82,6 +85,12 @@ allVideosSec.forEach((wrapper) => {
     }
   });
 });
+
+copyLinkButton.addEventListener("click", async (e) => {
+    await navigator.clipboard.writeText(window.location.href);
+    console.log(window.location.href)
+});
+
 
 // document.querySelector('.videoAndTextWrapper').addEventListener('mouseover', () => {
 //     document.querySelector('.optionsMenu').style.visibility = 'initial'

@@ -705,7 +705,7 @@ router.get("/addToWatchLater/:id", isLoggedIn, async function (req, res) {
       user.watchLater.push(req.params.id);
       user.save();
     }
-    res.redirect("/");
+    res.redirect(req.header.referer);
   } catch (error) {
     res.send(error);
   }
@@ -883,7 +883,7 @@ router.get("/clear/history", async (req, res) => {
 
 router.get("/signInPage", async (req, res) => {
   try {
-    
+
     const videos = await videoModel
       .find({})
       .populate({ path: "userId", populate: { path: "channel" } });
@@ -911,6 +911,7 @@ router.post("/createplaylist/:id", isLoggedIn, async function (req, res) {
       playListName: req.body.playListname,
       creater: user._id,
       videos: req.params.id,
+      isPrivate: req.body.flexRadioDefault
     });
     user.userPlaylist.push(playlist._id);
     user.save();
@@ -1231,7 +1232,9 @@ router.get("/user/manage/channel", async (req, res) => {
           path: "notifications",
           populate: { path: "userId channelId videoId" },
         })
-        .populate("userPlaylist");
+        .populate("userPlaylist")
+        .populate("channel")
+        
     }
     res.render("manageChannel", { user: LoggedInUser, videos, moment });
   } catch (error) {

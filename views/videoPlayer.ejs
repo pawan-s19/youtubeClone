@@ -262,8 +262,9 @@
                   <div class="optionsMenu text-light">
                     <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown" aria-expanded="false"></i>
                     <ul class="dropdown-menu">
-                      <li>
-                        <a class="dropdown-item d-flex align-items-center gap-2" href="/addToWatchLater/<%=elem._id%>">
+                      <li class="notOpen">
+                        <a class="dropdown-item d-flex align-items-center gap-2 notOpen"
+                          href="/addToWatchLater/<%=elem._id%>">
                           <i class="ri-time-line"></i>
                           <p class="m-0">Save to Watch Later</p>
                         </a>
@@ -275,10 +276,11 @@
                           <p class="m-0 notOpen">Save to Playlist</p>
                         </a>
                       </li>
-                      <li>
-                        <a class="dropdown-item d-flex align-items-center gap-2" href="#">
-                          <i class="ri-share-forward-line"></i>
-                          <p class="m-0">Share</p>
+                      <li class="notOpen">
+                        <a class="dropdown-item d-flex align-items-center gap-2 notOpen" data-bs-toggle="modal"
+                          data-bs-target="#shareVideoModal" href="">
+                          <i class="ri-share-forward-line notOpen"></i>
+                          <p class="m-0 notOpen">Share</p>
                         </a>
                       </li>
 

@@ -61,6 +61,38 @@
                                   <%=elem.userId.channel.channelName.charAt(0).toUpperCase()%>
                                     <%}%>
                             </div>
+
+                            <div class="channelDescription mt-2">
+                              <small title="From the video description" class=" text-muted">
+                                <%=elem?.description%>
+                              </small>
+                            </div>
+                          </div>
+                          <div auto class="optionsMenu text-light">
+                            <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                            <ul class="dropdown-menu">
+                              <li class="notOpen">
+                                <a class="dropdown-item d-flex align-items-center gap-2 notOpen" href="/addToWatchLater/<%=elem._id%>" >
+                                  <i class="ri-time-line"></i>
+                                  <p class="m-0">Save to Watch Later</p>
+                                </a>
+                              </li>
+                              <li class="notOpen">
+                                <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                                  <i class="ri-play-list-add-line notOpen"
+                                  ></i>
+                                  <p class="m-0 notOpen">Save to Playlist</p>
+                                </a>
+                              </li>
+                              <li class="notOpen">
+                                <a class="dropdown-item d-flex align-items-center gap-2 notOpen" href="#">
+                                  <i class="ri-share-forward-line notOpen"></i>
+                                  <p class="m-0 notOpen">Share</p>
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+
                           </a>
                           <a class="anchorWrap text-light" href="/channel">
                             <small title="<%=elem.userId?.channel.channelName%>" class="text-muted">
@@ -72,6 +104,7 @@
                           <small title="From the video description" class=" text-muted">
                             <%=elem?.description%>
                           </small>
+
                         </div>
                       </div>
                       <div auto class="optionsMenu text-light">
