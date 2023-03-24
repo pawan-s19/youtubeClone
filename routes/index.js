@@ -44,34 +44,36 @@ router.get("/", async function (req, res, next) {
           path: "notifications",
           populate: { path: "userId channelId videoId" },
         })
-        .populate("userPlaylist");
+        .populate("userPlaylist")
+        .populate("channelSubscribeByUser");
     }
+    
     res.render("home2", { user: LoggedInUser, videos, moment });
   } catch (err) {
     res.send(err);
   }
 });
 
-router.get("/home2", async (req, res) => {
-  try {
-    // let user = await userModel.findOne({_id:req.session.passport.user._id})
-    // res.render("index",{user:user});
-    const videos = await videoModel
-      .find({})
-      .populate({ path: "userId", populate: { path: "channel" } });
+// router.get("/home2", async (req, res) => {
+//   try {
+//     // let user = await userModel.findOne({_id:req.session.passport.user._id})
+//     // res.render("index",{user:user});
+//     const videos = await videoModel
+//       .find({})
+//       .populate({ path: "userId", populate: { path: "channel" } });
 
-    let user = await userModel
-      .findOne({ _id: req.session.passport.user._id })
-      .populate({
-        path: "notifications",
-        populate: { path: "userId channelId videoId" },
-      });
-    console.log(user);
-    res.render("home2", { user, videos, moment });
-  } catch (err) {
-    res.send(err);
-  }
-});
+//     let user = await userModel
+//       .findOne({ _id: req.session.passport.user._id })
+//       .populate({
+//         path: "notifications",
+//         populate: { path: "userId channelId videoId" },
+//       });
+//     console.log(user);
+//     res.render("home2", { user, videos, moment });
+//   } catch (err) {
+//     res.send(err);
+//   }
+// });
 
 router.get("/signup", function (req, res, next) {
   res.render("register");
@@ -195,6 +197,7 @@ router.post("/upload/video", upload().single("file"), async (req, res) => {
     let video = await videoModel.create({
       video_id: req.file.id,
       userId: req.session.passport.user._id,
+      duration: req.body.duration
     });
 
     let size = formatBytes(req.file.size);
@@ -249,7 +252,7 @@ router.post(
 
       form.parse(req, async (err, fields, files) => {
         console.log(fields);
-        const { title, description, status } = fields;
+        const { title, description, status, category, duration } = fields;
         const { secure_url, public_id } = await cloudinary.v2.uploader.upload(
           files.thumbnail.filepath,
           {
@@ -264,6 +267,7 @@ router.post(
             title,
             description,
             status,
+            category,
             thumbnail: { secure_url, public_id },
           }
         );
@@ -275,6 +279,8 @@ router.post(
             populate: { path: "channelSubscription" },
           });
         console.log(user);
+        user.channel.video.push(req.params.id); //saves the video id in user's channel array
+        await user.channel.save();
         user.channel.channelSubscription.forEach(async function (elem) {
           let notification = await notificationModel.create({
             userId: elem._id,
@@ -284,8 +290,8 @@ router.post(
           elem.notifications.unshift(notification._id);
           await elem.save();
         });
+        res.redirect("/");
       });
-      res.redirect("/");
     } catch (err) {
       res.send(err);
     }
@@ -302,7 +308,7 @@ router.get("/watch/:id", async (req, res, next) => {
 
     // all videos
     const videos = await videoModel
-      .find({})
+      .find({ status: "public" })
       .populate({ path: "userId", populate: { path: "channel" } });
     // if (req.session.passport?.user) {
     //   let userId = req.session.passport.user._id;
@@ -321,7 +327,13 @@ router.get("/watch/:id", async (req, res, next) => {
         .populate({
           path: "notifications",
           populate: { path: "userId channelId videoId" },
+        })
+        .populate({
+          path: 'channelSubscribeByUser'
         });
+
+      LoggedInUser.history.unshift(video._id);
+      await LoggedInUser.save();
       let notificationToRemove = await notificationModel.findOne({
         videoId: video._id,
       });
@@ -335,6 +347,7 @@ router.get("/watch/:id", async (req, res, next) => {
 
       if (video.views.indexOf(userId) == -1) {
         video.views.push(userId);
+        video.viewCount = video.views.length;
       }
     }
     await video.save();
@@ -365,19 +378,25 @@ router.get("/play/:id", async (req, res) => {
 router.get("/like/:id", isLoggedIn, async (req, res, next) => {
   try {
     let video = await videoModel.findOne({ _id: req.params.id });
-    let userId = req.session.passport.user._id;
-    if (video.likes.indexOf(userId) !== -1) {
+    let userId = await userModel.findOne({
+      _id: req.session.passport.user._id,
+    });
+    if (video.likes.indexOf(userId._id) !== -1) {
       //if user has already liked the video
-      video.likes.splice(video.likes.indexOf(userId), 1);
-    } else if (video.disLikes.indexOf(userId) !== -1) {
+      video.likes.splice(video.likes.indexOf(userId._id), 1);
+      userId.likedVideos.splice(userId.likedVideos.indexOf(video._id), 1);
+    } else if (video.disLikes.indexOf(userId._id) !== -1) {
       //if user has disliked the video
-      video.disLikes.splice(video.disLikes.indexOf(userId), 1);
-      video.likes.push(userId);
+      video.disLikes.splice(video.disLikes.indexOf(userId._id), 1);
+      video.likes.push(userId._id);
+      userId.likedVideos.push(userId._id);
     } else {
       //if user has not liked nor disliked the video
-      video.likes.push(userId);
+      video.likes.push(userId._id);
+      userId.likedVideos.push(video._id);
     }
     await video.save();
+    await userId.save();
     res.redirect(req.headers.referer);
   } catch (err) {
     res.send(err);
@@ -387,24 +406,29 @@ router.get("/like/:id", isLoggedIn, async (req, res, next) => {
 router.get("/dislike/:id", isLoggedIn, async (req, res) => {
   try {
     let video = await videoModel.findOne({ _id: req.params.id });
-    let userId = req.session.passport.user._id;
-    if (video.disLikes.indexOf(userId) !== -1) {
+    let userId = await userModel.findOne({
+      _id: req.session.passport.user._id,
+    });
+    if (video.disLikes.indexOf(userId._id) !== -1) {
       //if user has already disliked
-      video.disLikes.splice(video.disLikes.indexOf(userId), 1);
-    } else if (video.likes.indexOf(userId) !== -1) {
+      video.disLikes.splice(video.disLikes.indexOf(userId._id), 1);
+    } else if (video.likes.indexOf(userId._id) !== -1) {
       //if user has liked the video
-      video.likes.splice(video.likes.indexOf(userId), 1);
-      video.disLikes.push(userId);
+      video.likes.splice(video.likes.indexOf(userId._id), 1);
+      video.disLikes.push(userId._id);
+      userId.likedVideos.splice(userId.likedVideos.indexOf(video._id), 1);
     } else {
       //if user has not disliked nor liked
-      video.disLikes.push(userId);
+      video.disLikes.push(userId._id);
     }
     await video.save();
+    await userId.save();
     res.redirect(req.headers.referer);
   } catch (err) {
     res.send(err);
   }
 });
+
 router.get("/uploadPage", isLoggedIn, hasChannel, (req, res, next) => {
   res.render("uploadPage");
 });
@@ -503,7 +527,7 @@ function isLoggedIn(req, res, next) {
   if (req.isAuthenticated() || req.user) {
     return next();
   } else {
-    res.redirect("/signInPage");
+    res.redirect(`/signInPage`);
   }
 }
 
@@ -528,7 +552,7 @@ router.get("/subscribe", (req, res, next) => {
   }
 });
 
-router.get("/subscribe/:id", function (req, res) {
+router.get("/subscribe/:id", isLoggedIn, function (req, res) {
   try {
     userModel
       .findOne({ username: req.session.passport.user.username })
@@ -539,16 +563,19 @@ router.get("/subscribe/:id", function (req, res) {
             let index = channeltobesubscribe.channelSubscription.indexOf(
               user._id
             );
-
             if (index === -1) {
               channeltobesubscribe.channelSubscription.push(user._id);
+              user.channelSubscribeByUser.push(channeltobesubscribe._id);
+              user.save();
               console.log("pushuser");
             } else {
               console.log("removeuser");
               channeltobesubscribe.channelSubscription.splice(index, 1);
+              user.channelSubscribeByUser.splice(index, 1);
+              user.save();
             }
             channeltobesubscribe.save().then(function () {
-              res.redirect("/subscribe");
+              res.redirect(req.headers.referer);
             });
           });
       });
@@ -557,21 +584,81 @@ router.get("/subscribe/:id", function (req, res) {
   }
 });
 
-router.get("/channel/:id/:base", async function (req, res) {
-  try {
+router.get("/channel/:id/:section", async function (req, res) {
     // let user = await userModel.findOne({_id:req.session.passport.user._id})
     // res.render("index",{user:user});
+    let section = req.params.section;
+
+  if (
+    section === "home" ||
+    section === "videos" ||
+    section === "playlists" ||
+    section === "channels" ||
+    section === "about"
+  ) {
     const videos = await videoModel
-      .find({})
+      .find({status: "public"})
       .populate({ path: "userId", populate: { path: "channel" } });
-    let user = req.session.passport?.user;
-    res.render("channel", { user, videos, moment });
-  } catch (err) {
-    res.send(err);
+
+    let LoggedInUser = await userModel.findOne({ _id: req.session.passport?.user._id })
+    .populate({
+      path: "channelSubscribeByUser"
+    })
+    .populate({
+      path: "channel"
+    })
+
+    let ChannelOwner;
+    // if (req.session.passport?.user) {
+      ChannelOwner = await userModel
+        .findOne({
+          _id: req.params.id,
+        })
+        .populate({
+          path: "notifications",
+          populate: { path: "userId channelId videoId" },
+        })
+        .populate({
+          path: "userPlaylist",
+          match: { isPrivate: false },
+          populate: { path: "videos" },
+        })
+        .populate({
+          path: "channel",
+          populate: { path: "video" },
+        })
+        .populate({
+          path: "channelSubscribeByUser"
+        });
+    // }
+
+    let ChannelOwnerWithPopularVideos = await userModel
+    .findOne({
+      _id: req.params.id
+    })
+    .populate({
+      path: "channel",
+      populate: { path: "video",options: { sort: '-viewCount' } },
+    })
+    .select(['-name', '-email', '-userPlaylist', '-watchLater', '-likedVideos', '-channelSubscribeByUser', '-history', '-notifications', '-photoUrl', '-role']);
+
+
+    // return res.send(LoggedInUser);
+
+    res.render("channelPage", {
+      user: LoggedInUser,
+      ChannelOwner,
+      videos,
+      popularVideos: ChannelOwnerWithPopularVideos?.channel.video,
+      moment,
+      section: section,
+    });
+  } else {
+    return res.status(404).send("Sorry, cant find that");
   }
 });
 
-router.get("/addToWatchLater/:id", async function (req, res) {
+router.get("/addToWatchLater/:id", isLoggedIn, async function (req, res) {
   try {
     let user = await userModel.findOne({ _id: req.session.passport.user._id });
     if (user.watchLater.indexOf(req.params.id) === -1) {
@@ -579,6 +666,20 @@ router.get("/addToWatchLater/:id", async function (req, res) {
       user.save();
     }
     res.redirect("/");
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+router.get("/remove/watchlater/:id", isLoggedIn, async function (req, res) {
+  try {
+    let user = await userModel.findOne({ _id: req.session.passport.user._id });
+    let index = user.watchLater.indexOf(req.params.id);
+    if (index !== -1) {
+      user.watchLater.splice(index, 1);
+      await user.save();
+    }
+    res.redirect(req.headers.referer);
   } catch (error) {
     res.send(error);
   }
@@ -595,8 +696,37 @@ router.get("/watchLaterVideos", async function (req, res) {
   }
 });
 
-router.get("/search", async (req, res) => {
+router.get("/category/:plc", async (req, res) => {
   try {
+    if (req.session.passport?.user) {
+      LoggedInUser = await userModel
+        .findOne({
+          _id: req.session.passport.user._id,
+        })
+        .populate("channelOwner");
+    }
+    const videos = await videoModel
+      .find({
+        $or: [
+          { title: { $regex: req.params.plc, $options: "i" } },
+          { description: { $regex: req.params.plc, $options: "i" } },
+          { category: { $regex: req.params.plc, $options: "i" } },
+        ],
+      })
+      .populate({ path: "userId", populate: { path: "channel" } });
+    let mixedArray = [...videos];
+    return res.render("searchResult", {
+      user: LoggedInUser,
+      mixedArray,
+      moment,
+      type: 'category'
+    });
+  } catch (err) {
+    res.send(err);
+  }
+});
+
+router.get("/search", async (req, res) => {
     let LoggedInUser;
     let contentType = req.query.contentType;
 
@@ -608,34 +738,6 @@ router.get("/search", async (req, res) => {
         .populate({
           path: "notifications",
           populate: { path: "userId channelId videoId" },
-        });
-    }
-
-    if (contentType === "search") {
-      let searchQuery = req.query.keyword;
-
-      const videos = await videoModel
-        .find({})
-        .populate({ path: "userId", populate: { path: "channel" } });
-      return res.render("searchResult", { user: LoggedInUser, videos, moment });
-    } else if (contentType === "history") {
-      if (!LoggedInUser) {
-        return res.redirect("/signInPage");
-      }
-
-      const videos = await videoModel
-        .find({})
-        .populate({ path: "userId", populate: { path: "channel" } });
-      // return res.send(videos)
-      return res.render("searchResult", { user: LoggedInUser, videos, moment });
-    } else if (contentType === "watchlater") {
-      if (!LoggedInUser) {
-        return res.redirect("/signInPage");
-      }
-
-      LoggedInUser = await userModel
-        .findOne({
-          _id: req.session.passport.user._id,
         })
         .populate({
           path: "watchLater",
@@ -643,21 +745,95 @@ router.get("/search", async (req, res) => {
             path: "userId",
             populate: "channel",
           },
+        })
+        .populate({
+          path: "history",
+          populate: { path: "userId", populate: { path: "channel" } }
+        })
+        .populate({
+          path: "likedVideos",
+          populate: { path: "userId", populate: { path: "channel" } }
+        })
+        .populate({
+          path: "channelSubscribeByUser"
         });
-      // return res.send(LoggedInUser.watchLater)
+    }
+
+    if (contentType === "search") {
+      let searchQuery = req.query.keyword;
+
+      const videos = await videoModel
+        .find({
+          $or: [
+            { title: { $regex: searchQuery, $options: "i" } },
+            { description: { $regex: searchQuery, $options: "i" } },
+            { category: { $regex: searchQuery, $options: "i" } },
+          ],
+        })
+        .populate({ path: "userId", populate: { path: "channel" } });
+
+      const channels = await channelModel.find({
+        $or: [{ channelName: { $regex: searchQuery, $options: "i" } }],
+      });
+      let mixedArray = [...channels, ...videos];
+
       return res.render("searchResult", {
         user: LoggedInUser,
-        videos: LoggedInUser?.watchLater,
+        mixedArray,
         moment,
+        type: contentType,
+      });
+    } else if (contentType === "history") {
+      if (!LoggedInUser) {
+        return res.redirect("/signInPage");
+      }
+
+      const videos = await videoModel
+        .find({status: "public"})
+        .populate({ path: "userId", populate: { path: "channel" } });
+      // return res.send(videos)
+      return res.render("searchResult", {
+        user: LoggedInUser,
+        mixedArray: LoggedInUser.history,
+        moment,
+        type: contentType,
+      });
+    } else if (contentType === "watchlater") {
+      if (!LoggedInUser) {
+        return res.redirect("/signInPage");
+      }
+
+      return res.render("searchResult", {
+        user: LoggedInUser,
+        mixedArray: LoggedInUser?.watchLater,
+        moment,
+        type: contentType,
       });
       // res.send(LoggedInUser.watchLater);
     } else if (contentType === "likedvideos") {
       if (!LoggedInUser) {
         return res.redirect("/signInPage");
       }
+      
+      return res.render("searchResult", {
+        user: LoggedInUser,
+        mixedArray: LoggedInUser?.likedVideos,
+        moment,
+        type: contentType,
+      });
     } else {
       return res.send("you are lost");
     }
+});
+
+router.get("/clear/history", async (req, res) => {
+  try {
+    let loggedInUser = await userModel.findOne({
+      _id: req.session.passport?.user._id,
+    });
+    loggedInUser?.history.splice(0, loggedInUser.history.length);
+    await loggedInUser.save();
+    res.redirect(req.headers.referer);
   } catch (err) {
     res.send(err);
   }
@@ -665,6 +841,7 @@ router.get("/search", async (req, res) => {
 
 router.get("/signInPage", async (req, res) => {
   try {
+    
     const videos = await videoModel
       .find({})
       .populate({ path: "userId", populate: { path: "channel" } });
@@ -717,7 +894,7 @@ router.get("/addToPlaylist/:plid/:id", async function (req, res) {
 router.get("/feed/history", async function (req, res) {
   try {
     const videos = await videoModel
-      .find({})
+      .find({status: "public"})
       .populate({ path: "userId", populate: { path: "channel" } });
     let LoggedInUser;
     if (req.session.passport?.user) {
@@ -738,9 +915,14 @@ router.get("/feed/history", async function (req, res) {
 });
 
 // user subscribed channels
-router.get("/feed/subscriptions", async (req, res) => {
+router.get("/feed/subscriptions", isLoggedIn, async (req, res) => {
   try {
     let LoggedInUser;
+
+    let allChannels = await channelModel
+      .find({ channelOwner: { $ne: req.session.passport?.user._id } })
+      .populate("channelOwner");
+
     if (req.session.passport?.user) {
       LoggedInUser = await userModel
         .findOne({
@@ -749,19 +931,25 @@ router.get("/feed/subscriptions", async (req, res) => {
         .populate({
           path: "notifications",
           populate: { path: "userId channelId videoId" },
+        })
+        .populate({
+          path: "channelSubscribeByUser",
+          populate: { path: "channelOwner" },
         });
     }
-    res.render("subscriptions", { user: LoggedInUser });
+    // return res.send(allChannels);
+    res.render("subscriptions", { user: LoggedInUser, allChannels, moment });
   } catch (error) {
     res.send(error);
   }
 });
 
-router.get("/feed/library", async (req, res) => {
+router.get("/feed/library", isLoggedIn, async (req, res) => {
   try {
     const videos = await videoModel
-      .find({})
+      .find({status: "public"})
       .populate({ path: "userId", populate: { path: "channel" } });
+
     let LoggedInUser;
     if (req.session.passport?.user) {
       LoggedInUser = await userModel
@@ -771,15 +959,36 @@ router.get("/feed/library", async (req, res) => {
         .populate({
           path: "notifications",
           populate: { path: "userId channelId videoId" },
+        })
+        .populate({
+          path: "userPlaylist",
+          options: {limit: 8},
+          populate: { path: "videos" },
+        })
+        .populate({
+          path: "history",
+          options: {limit: 8},
+          populate: { path: "userId", populate: { path: "channel" } }
+        })
+        .populate({
+          path: "likedVideos",
+          options: {limit: 8} 
+        })
+        .populate({
+          path: "watchLater",
+          options: {limit: 8}
+        }).populate({
+          path: "channelSubscribeByUser"
         });
     }
+    
     res.render("library", { user: LoggedInUser, videos, moment });
   } catch (err) {
     res.send(err);
   }
 });
 
-router.get("/comment/delete/:id", async function (req, res) {
+router.get("/comment/delete/:id", isLoggedIn ,async function (req, res) {
   let comment = await commentModel.findOne({ _id: req.params.id });
   if (comment.userId.indexOf(req.session.passport?.user._id) !== -1) {
     comment.deleteOne({ _id: req.params.id });
@@ -794,6 +1003,257 @@ router.post("/comment/edit/:id", async function (req, res) {
     comment.save();
   }
   res.redirect(req.headers.referer);
+});
+
+// show all playlists of user
+router.get("/feed/playlist", async (req, res) => {
+  try {
+    let LoggedInUser = await userModel
+        .findOne({
+          _id: req.session.passport.user._id,
+        })
+        .populate({
+          path: "userPlaylist",
+          populate: { path: "videos" },
+        });
+
+    res.redirect(req.headers.referer);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+// show single playlist of user
+router.get("/view/playlist/:plId", async (req, res) => {
+  try {
+    let LoggedInUser = await userModel
+        .findOne({
+          _id: req.session.passport.user._id,
+        })
+        .populate({
+          path: "notifications",
+          populate: { path: "userId channelId videoId" },
+        })
+        .populate("userPlaylist")
+        .populate("channelSubscribeByUser");
+
+    let playlist = await userplaylistModel.findById(req.params.plId)
+    .populate({
+      path: "videos",
+      options: {sort: {_id: -1}},
+      populate: {
+        path: "userId",
+        populate: "channel"
+      }
+    })
+    .populate({
+      path: "creater",
+      populate: {path: "channel"}
+    });
+
+    // return res.send(playlist)
+    
+    res.render('showPlaylist', {
+      user: LoggedInUser,
+      moment,
+      playlist
+    });
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+// show playlist and play it's first video
+router.get("/play/playlist/:plId", async (req, res) => {
+  try {
+    let index = Number(req.query.index) || 0;
+    
+    let LoggedInUser = await userModel
+        .findOne({
+          _id: req.session.passport?.user._id,
+        })
+        .populate({
+          path: "notifications",
+          populate: { path: "userId channelId videoId" },
+        })
+        .populate("userPlaylist")
+        .populate("channelSubscribeByUser");
+
+    let playlist = await userplaylistModel.findById(req.params.plId)
+    .populate({
+      path: "videos",
+      options: {sort: {_id: -1}},
+      populate: [{
+        path: "userId",
+        populate: {
+          path: "channel"
+        }
+      },{
+        path: "comment"
+      }]
+    });
+
+    let allVideos = await videoModel
+      .find({ status: "public" })
+      .populate({ path: "userId", populate: { path: "channel" } });
+
+    let currentVideoId = playlist.videos[index]?.video_id || playlist.videos[0].video_id;
+    let currentVideo = playlist.videos[index] || playlist.videos[0];
+
+    let previousIndex;
+    let nextIndex;
+    if(index > 0){
+      previousIndex = index - 1;
+    }else{
+      previousIndex = 0;
+    }
+
+    if(index < playlist.videos.length-1){
+      nextIndex = index + 1;
+    }else{
+      nextIndex = 0;
+    }
+    
+
+    // return res.send(currentVideo)
+    res.render("playlistPlayer", { 
+      playlist,
+      videoArray: playlist.videos,
+      currentVideoId,
+      currentVideo,
+      previousIndex,
+      nextIndex,
+      user: LoggedInUser,
+      index,
+      moment,
+      videos: allVideos
+    });
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+router.get("/remove/playlist/:playlistId", async (req, res) => {
+  try {
+    let plid = req.params.playlistId;
+
+    await userplaylistModel.findByIdAndRemove(plid);
+    res.redirect(req.headers.referer);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+router.post("/update/name/playlist/:playlistId", async (req, res) => {
+  try {
+    let plid = req.params.playlistId;
+
+    await userplaylistModel.findByIdAndUpdate(
+      { _id: plid },
+      { playListName: req.body.newname },
+      { new: true }
+    );
+    res.redirect(req.headers.referer);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+router.get('/change/visibility/playlist/:plId', async (req, res) => {
+  let plid = req.params.plId;
+
+  let foundPlaylist = await userplaylistModel.findById(plid);
+
+  if(foundPlaylist && foundPlaylist.isPrivate){
+    foundPlaylist.isPrivate = false;
+    await foundPlaylist.save();
+  }else{
+    foundPlaylist.isPrivate = true;
+    await foundPlaylist.save();
+  }
+  res.redirect(req.headers.referer);
+});
+
+router.get("/user/manage/channel", async (req, res) => {
+  try {
+    const videos = await videoModel
+      .find()
+      .populate({ path: "userId", populate: { path: "channel" } });
+    let LoggedInUser;
+    if (req.session.passport?.user) {
+      LoggedInUser = await userModel
+        .findOne({
+          _id: req.session.passport.user._id,
+        })
+        .populate({
+          path: "notifications",
+          populate: { path: "userId channelId videoId" },
+        })
+        .populate("userPlaylist");
+    }
+    res.render("manageChannel", { user: LoggedInUser, videos, moment });
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+
+router.post("/update/picture/banner", async function (req, res) {
+  const form = formidable({ multiples: true });
+
+  form.parse(req, async (err, fields, files) => {
+    const { descriptionchannel } = fields;
+
+    let user = await userModel.findOne({ _id: req.session.passport.user._id });
+    let userchannel = user.channel;
+
+    const profile = await cloudinary.v2.uploader.upload(
+      files.picture.filepath,
+      {
+        folder: `youtubechannelpics`,
+        fetch_format: "webp",
+      }
+    );
+    const banner = await cloudinary.v2.uploader.upload(files.banner.filepath, {
+      folder: `youtubechannelpics`,
+      fetch_format: "webp",
+    });
+    if (userchannel) {
+      await channelModel.findOneAndUpdate(
+        { _id: userchannel },
+        {
+          channelDiscription: descriptionchannel,
+          channelProfile: {
+            public_id: profile.public_id,
+            url: profile.secure_url,
+          },
+          channelBanner: {
+            public_id: banner.public_id,
+            url: banner.secure_url,
+          },
+        },
+        { new: true }
+      );
+    }
+    res.redirect("/");
+  });
+});
+
+router.get('/feed/channel', async (req, res) => {
+  try {
+    let allChannels = await channelModel
+      .find({ channelOwner: { $ne: req.session.passport?.user._id } })
+      .populate("channelOwner");
+
+    res.render("searchResult", {
+      user: req.session.passport?.user,
+      mixedArray: allChannels,
+      moment,
+      type: 'category'
+    });
+  } catch (error) {
+    res.send(error);
+  }
 });
 
 module.exports = router;

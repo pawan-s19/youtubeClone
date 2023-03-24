@@ -24,7 +24,7 @@
           <div class="videoPlayerSection">
             <div class="videoDetsWrapper text-light">
               <div class="videoContainer">
-                <video oncontextmenu="return false;" disablepictureinpicture autoplay controls controlsList="nodownload"
+                <video autofocus oncontextmenu="return false;" disablepictureinpicture autoplay controls controlsList="nodownload"
                   src="/play/<%=video.video_id%>"></video>
                 <!-- <img src="https://img.freepik.com/premium-psd/vertical-modern-furniture-poster-a4-size_145156-526.jpg?w=2000"  alt=""> -->
               </div>
@@ -34,9 +34,14 @@
               <div class="btns-container d-flex align-items-center justify-content-between flex-wrap gap-2">
                 <div class="subscribeBtnWrapper d-flex align-items-center gap-2">
                   <div class="channelLinkWrapper d-flex align-items-center gap-2">
-                    <a class="anchorWrap text-light" href="">
+                    <a class="anchorWrap text-light" href="/channel/<%=video.userId.channel._id%>/home">
                       <div title="Go To Channel" class="profile">
-                        <img src="/Sample_Profile/pf2.jpg" alt="">
+                        <% if(video.userId.channel.channelProfile.url){%>
+                          <img src="<%=video.userId.channel?.channelProfile.url%>" alt="">
+
+                          <%}else{%>
+                            <%=video.userId.channel.channelName.charAt(0).toUpperCase()%>
+                              <%}%>
                       </div>
                     </a>
                     <div class="subscriberCount d-flex flex-column">
@@ -46,15 +51,27 @@
                         </h6>
                       </a>
                       <small class="m-0 text-secondary">
-                        <%=video.userId.channel.subscriberCount.length%> subscribers
+                        <%=video.userId.channel.channelSubscription.length%> subscribers
                       </small>
                     </div>
                   </div>
-                  <% if(video.userId._id !==user?._id){ %>
-                    <a class="anchorWrap text-light ms-3" href="">
-                      <div class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
-                        <small>Subscribe</small>
-                      </div>
+                  <% if(JSON.stringify(video?.userId?._id) !== JSON.stringify(user?._id)){ %>
+                    <a class="anchorWrap text-light ms-3" href="/subscribe/<%=video?.userId?._id%>">
+                      <%if(JSON.stringify(user?.channelSubscribeByUser)?.includes(video?.userId?.channel._id)){%>
+                        <div title="Unsubscribe this channel"
+                            class="subscribedBtn text-white rounded-pill text-nowrap text-dark fw-semibold">
+                            <small>
+                                Subscribed
+                            </small>
+                        </div>
+                      <%}else{%>
+                            <div title="Subscribe this channel"
+                                class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
+                                <small>
+                                    Subscribe
+                                </small>
+                            </div>
+                      <% }%>
                     </a>
                     <% } %>
                 </div>
@@ -237,11 +254,11 @@
                           <p class="m-0">Save to Watch Later</p>
                         </a>
                       </li>
-                      <li>
-                        <a class="dropdown-item d-flex align-items-center gap-2" data-bs-toggle="modal"
-                          data-bs-target="#playlistModal" data-bs-whatever="<%=elem._id%>" href="">
-                          <i class="ri-play-list-add-line"></i>
-                          <p class="m-0">Save to Playlist</p>
+                      <li class="notOpen">
+                        <a class="dropdown-item d-flex align-items-center gap-2 notOpen" data-bs-toggle="modal"
+                          data-bs-target="#playlistModal" data-bs-whatever="<%=elem._id%>">
+                          <i class="ri-play-list-add-line notOpen"></i>
+                          <p class="m-0 notOpen">Save to Playlist</p>
                         </a>
                       </li>
                       <li>

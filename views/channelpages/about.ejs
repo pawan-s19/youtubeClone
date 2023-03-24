@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/channelpages/about.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="aboutSectionWrapper">
+        <div class="descriptionAndLinksWrapper">
+            <div class="descriptionWrapper pb-2">
+                <div class="sectionTitleWrapper">
+                    <i class="ri-article-line"></i>
+                    <p class="sectionTitle">Description</p>
+                </div>
+                <% if(user?.channel?.channelDiscription?.length > 0){ %>
+                    <small><%=user?.channel?.channelDiscription%></small>
+                <% }else{ %>
+                    <small>No description provided</small>
+                <% } %>
+            </div>
+            <hr>
+            <div class="linksWrapper pt-2 pb-3">
+                <div class="sectionTitleWrapper">
+                    <i class="ri-link"></i>
+                    <p class="sectionTitle">Links</p>
+                </div>
+                <div class="linksCtn">
+                    <a class="anchorWrap" href="">Instagram</a>
+                    <a class="anchorWrap" href="">Twitter</a>
+                    <a class="anchorWrap" href="">Linkedin</a>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="statsWrapper">
+            <!-- <div class="sectionTitleWrapper">
+                <i class="ri-line-chart-fill"></i>
+                <p class="sectionTitle">Stats</p>
+            </div>
+            <hr>
+            <small>Joined Sep, 12 2016</small>
+            <hr>
+            <small>433,232 views</small>
+            <hr> -->
+            <div class="statCard card bg-transparent border-light text-white mb-3" style="max-width: 18rem;">
+                <div class="card-header sectionTitleWrapper">
+                    <i class="ri-line-chart-fill"></i>
+                    <p class="sectionTitle">Stats</p>
+                </div>
+                <div class="card-body text-light ms-3">
+                  <p class="card-text singleStat">Joined Sep, 12 2016</p>
+                  <p class="card-text singleStat">433,232 views</p>
+                </div>
+              </div>
+        </div>
+    </div>
+    <script src="/javascripts/channelpages/about.js"></script>
+</body>
+</html>

@@ -15,7 +15,10 @@ const videoModel = new mongoose.Schema(
     },
     duration: Number,
     views: [{ type: mongoose.Schema.Types.ObjectId, ref: "userModel" }],
-
+    viewCount: {
+      type: Number,
+      default: 0
+    },
     status: {
       type: String,
       enum: ["private", "public"],
@@ -30,6 +33,8 @@ const videoModel = new mongoose.Schema(
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "userModel" }],
     disLikes: [{ type: mongoose.Schema.Types.ObjectId, ref: "userModel" }],
     comment: [{ type: mongoose.Schema.Types.ObjectId, ref: "commentModel" }],
+    category: { type: String },
+    duration: { type: String, default: '00:00' }
   },
   { timestamps: true }
 );

@@ -45,8 +45,8 @@
 }
 
 /* .channelBox:hover {
-    background-color: var(--iconBackFaded);
-} */
+      background-color: var(--iconBackFaded);
+  } */
 
 .channelBox:active {
   background-color: rgba(255, 192, 203, 0.1);
@@ -73,6 +73,11 @@
   background-color: var(--iconHover) !important;
   color: white !important;
 }
+/* 
+  .subscribeBtn,
+  .subscribedBtn {
+      padding: 0.4rem 1rem;
+  } */
 
 .subscribedBtn {
   background-color: var(--iconHover) !important;

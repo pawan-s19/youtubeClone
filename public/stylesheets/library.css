@@ -23,4 +23,220 @@
     opacity: .8;
 }
 
+/* playlist styling starts here */
+.playlistWrapper{
+    width: 100%;
+}
+
+.playlistVideoWrapper{
+    width: 210px;
+    height: 130px;
+    border-radius: .375rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.playlistVideoWrapper>img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: .375rem;
+}
+
+.playlistVideoCountWrapper{
+    width: 40%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.345);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.playAllOverlay{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.756);
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+
+.singlePlaylistWrapper:hover .playAllOverlay{
+    display: flex;
+}
+
+.playlistName{
+    width: 200px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.viewPl{
+    color: var(--themeTextGrey);
+}
+
+.plMenu{
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    bottom: 26px;
+}
+
+.plBtmMenu{
+    bottom: 46px;
+}
+
+@media only screen and (max-width: 376px) {
+    .singlePlaylistWrapper{
+        width: 100%;
+    }
+    .playlistVideoWrapper{
+        width: 100%;
+        height: 180px;
+    }
+}
+
 /* now videos styling starts */
+
+/* // video grid styling start form here */
+
+.all-videos-ctn {
+    display: grid;
+    /* grid-gap: 10px; */
+    grid-template-columns: repeat(auto-fill, 18vmax) !important;
+    justify-content: space-between;
+    height: calc(100% - 2.5rem);
+    overflow-y: scroll;
+}
+
+.all-videos-ctn::-webkit-scrollbar {
+    width: 10px;
+}
+
+.all-videos-ctn::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: rgba(255, 237, 255, 0.484);
+}
+
+.all-videos-ctn::-webkit-scrollbar-thumb:hover {
+    background: rgba(221, 160, 221, 0.84);
+}
+
+.video-container {
+    /* height: fit-content; */
+    position: relative;
+}
+
+.video-container video {
+    width: 100%;
+    border-radius: 5px;
+    object-fit: contain;
+}
+
+.video-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 0.375rem;
+}
+
+.video-container video::-webkit-media-controls-fullscreen-button {
+    display: none;
+}
+
+.video-container video::-webkit-media-controls-play-button {
+    display: none;
+}
+
+.video-container small {
+    position: absolute;
+    bottom: 10px;
+    right: 3px;
+}
+
+.iconTextWrapper {
+    width: 100%;
+    gap: 0rem !important;
+}
+
+
+.profileIconCtn {
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .profileIconCtn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+.videoTextCtn {
+    flex-basis: 100%;
+}
+
+.videoTextCtn p {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 12px !important;
+    line-height: 14px;
+    font-weight: 500 !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* number of lines to show */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    color: rgb(219, 219, 219);
+}
+
+.videoTextCtn .listDot::after {
+    content: "·";
+    margin-left: 4px;
+    font-weight: 900;
+}
+
+.videoTextCtn .listDot.last::after {
+    content: "";
+}
+
+.linkTo {
+    color: rgb(108, 117, 125);
+    text-decoration: none;
+}
+
+.linkTo small {
+    font-size: .8rem !important;
+}
+
+.optionsMenu {
+    visibility: hidden;
+    cursor: pointer;
+}
+
+/* // video grid styling ends here */
+
+/* Specifically for mobile to adjust video css */
+@media only screen and (max-width: 376px) {
+    .all-videos-ctn {
+        grid-template-columns: repeat(auto-fill, 100%);
+    }
+
+    .video-container video {
+        height: 100%;
+    }
+}
