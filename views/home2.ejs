@@ -14,39 +14,39 @@
 
 <body>
     <div>
-        <%-include('navbar') %>
-            <div class="menu-vid-parent d-flex flex-fill">
-                <%-include('sideMenu') %>
-                    <div class="right-section p-3">
-                        <div class="tags-ctn d-flex align-items-center gap-3">
-                            <div class="explore tags-wrapper rounded-3" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+
+        <div class="menu-vid-parent d-flex flex-fill">
+
+            <div class="right-section p-3">
+                <div class="tags-ctn d-flex align-items-center gap-3">
+                    <div class="explore tags-wrapper rounded-3" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                            href="#">
+                            <i class="ri-compass-3-line"></i>
+                        </a>
+                    </div>
+                    <div class="tags-wrapper-selected tags-wrapper rounded-3">
+                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                            href="#">
+                            <small>All</small>
+                        </a>
+                    </div>
+                    <%videos?.forEach(function(elem){%>
+                        <%elem?.category.forEach(function(category){%>
+                            <div class="tags-wrapper tags-wrapper rounded-3">
                                 <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <i class="ri-compass-3-line"></i>
+                                    href="/category/<%=category%>">
+                                    <small>
+                                        <%=category%>
+                                    </small>
                                 </a>
                             </div>
-                            <div class="tags-wrapper-selected tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>All</small>
-                                </a>
-                            </div>
-                            <%videos?.forEach(function(elem){%>
-                                <%elem?.category.forEach(function(category){%>
-                                    <div class="tags-wrapper tags-wrapper rounded-3">
-                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                            href="/category/<%=category%>">
-                                            <small>
-                                                <%=category%>
-                                            </small>
-                                        </a>
-                                    </div>
-                                    <%})%>
-                                        <%})%>
+                            <%})%>
+                                <%})%>
 
 
-                                            <!-- <div class="tags-wrapper rounded-3">
+                                    <!-- <div class="tags-wrapper rounded-3">
                                         <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
                                             href="#">
                                             <small>Recently Uploaded</small>
@@ -59,31 +59,32 @@
                                         </a>
                                     </div> -->
 
-                        </div>
-                        <div class="all-videos-ctn mt-3">
+                </div>
+                <div class="all-videos-ctn mt-3">
 
-                            <%videos.forEach(function(elem){%>
-                                <div class="video-wrapper">
-                                    <div class="video-container">
-                                        <a class="linkTo text-light" href="/watch/<%=elem._id%>">
-                                            <video oncontextmenu="return false;" disablepictureinpicture muted
-                                                controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
-                                                data-bs-videoId="<%=elem.video_id%>" src=""></video>
-                                            <img src="<%=elem.thumbnail.secure_url%>" alt="">
+                    <%videos.forEach(function(elem){%>
+                        <div class="video-wrapper">
+                            <div class="video-container">
+                                <a class="linkTo text-light" href="/watch/<%=elem._id%>">
+                                    <video oncontextmenu="return false;" disablepictureinpicture muted
+                                        controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
+                                        data-bs-videoId="<%=elem.video_id%>" src=""></video>
+                                    <img src="<%=elem.thumbnail.secure_url%>" alt="">
 
-                                            <small style="pointer-events: none;"
-                                                class="m-0 p-1 badge bg-dark"><%=elem?.duration%></small>
+                                    <small style="pointer-events: none;" class="m-0 p-1 badge bg-dark">
+                                        <%=elem?.duration%>
+                                    </small>
 
-                                        </a>
-                                    </div>
-                                    <div class="iconTextWrapper mt-2 d-flex flex-nowrap align-items-start gap-3">
-                                        <a class="linkTo text-light" href="/channel/<%=elem.userId.channel._id%>/home">
-                                            <%if(elem.userId.channel.channelProfile.url){%>
-                                                <div class="profileIconCtn">
-                                                    <img src="<%=elem.userId.channel?.channelProfile.url%>" alt="">
-                                                </div>
-                                                <%}else{%>
-                                                    <div style=" color: white;
+                                </a>
+                            </div>
+                            <div class="iconTextWrapper mt-2 d-flex flex-nowrap align-items-start gap-3">
+                                <a class="linkTo text-light" href="/channel/<%=elem.userId.channel._id%>/home">
+                                    <%if(elem.userId.channel.channelProfile.url){%>
+                                        <div class="profileIconCtn">
+                                            <img src="<%=elem.userId.channel?.channelProfile.url%>" alt="">
+                                        </div>
+                                        <%}else{%>
+                                            <div style=" color: white;
                                                     display: flex;
                                                     align-items: center;
                                                     justify-content: center;
@@ -92,76 +93,76 @@
                                                     height: 40px;
                                                     font-size: 20px;
                                                     background-color: #3b3b3b;">
-                                                        <%=elem.userId.channel.channelName.charAt(0).toUpperCase()%>
-                                                    </div>
-                                                    <%}%>
+                                                <%=elem.userId.channel.channelName.charAt(0).toUpperCase()%>
+                                            </div>
+                                            <%}%>
 
+                                </a>
+                                <div class="videoTextCtn">
+                                    <a class="linkTo text-light" href="#">
+                                        <p class="m-0 fw-bold text-light mb-2">
+                                            <%=elem.title%>
+                                        </p>
+                                    </a>
+                                    <div class="text-secondary">
+                                        <a class="linkTo text-secondary" href="#">
+                                            <small class="m-0 channelName">
+                                                <%=elem.userId?.channel.channelName%>
+                                            </small>
                                         </a>
-                                        <div class="videoTextCtn">
-                                            <a class="linkTo text-light" href="#">
-                                                <p class="m-0 fw-bold text-light mb-2">
-                                                    <%=elem.title%>
-                                                </p>
-                                            </a>
-                                            <div class="text-secondary">
-                                                <a class="linkTo text-secondary" href="#">
-                                                    <small class="m-0 channelName">
-                                                        <%=elem.userId?.channel.channelName%>
-                                                    </small>
-                                                </a>
-                                            </div>
-                                            <div class="text-secondary">
-                                                <a class="linkTo text-secondary" href="#">
-                                                    <small class="listDot m-0 sm-channelName">
-                                                        <%=elem.userId?.channel.channelName%>
-                                                    </small>
-                                                    <small class="listDot">
-                                                        <%if(elem.views.length==0){%>
-                                                            No views
-                                                            <% }else{%>
-                                                                <%=elem.views.length%> Views
-                                                                    <% }%>
-                                                    </small>
-                                                    <small class="listDot last">
-                                                        <%=moment(elem.createdAt).fromNow()%>
-                                                    </small>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="optionsMenu text-light">
-                                            <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown"
-                                                aria-expanded="false"></i>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a class="dropdown-item d-flex align-items-center gap-2"
-                                                        href="/addToWatchLater/<%=elem._id%>">
-                                                        <i class="ri-time-line"></i>
-                                                        <p class="m-0">Save to Watch Later</p>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item d-flex align-items-center gap-2"
-                                                        data-bs-toggle="modal" data-bs-target="#playlistModal"
-                                                        data-bs-whatever="<%=elem._id%>"
-                                                        data-bs-createdPls="<%=user?.userPlaylist%>">
-                                                        <i class="ri-play-list-add-line"></i>
-                                                        <p class="m-0">Save to Playlist</p>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item d-flex align-items-center gap-2" href="#">
-                                                        <i class="ri-share-forward-line"></i>
-                                                        <p class="m-0">Share</p>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                    </div>
+                                    <div class="text-secondary">
+                                        <a class="linkTo text-secondary" href="#">
+                                            <small class="listDot m-0 sm-channelName">
+                                                <%=elem.userId?.channel.channelName%>
+                                            </small>
+                                            <small class="listDot">
+                                                <%if(elem.views.length==0){%>
+                                                    No views
+                                                    <% }else{%>
+                                                        <%=elem.views.length%> Views
+                                                            <% }%>
+                                            </small>
+                                            <small class="listDot last">
+                                                <%=moment(elem.createdAt).fromNow()%>
+                                            </small>
+                                        </a>
                                     </div>
                                 </div>
-                                <%})%>
+                                <div class="optionsMenu text-light">
+                                    <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown"
+                                        aria-expanded="false"></i>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item d-flex align-items-center gap-2"
+                                                href="/addToWatchLater/<%=elem._id%>">
+                                                <i class="ri-time-line"></i>
+                                                <p class="m-0">Save to Watch Later</p>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item d-flex align-items-center gap-2"
+                                                data-bs-toggle="modal" data-bs-target="#playlistModal"
+                                                data-bs-whatever="<%=elem._id%>"
+                                                data-bs-createdPls="<%=user?.userPlaylist%>">
+                                                <i class="ri-play-list-add-line"></i>
+                                                <p class="m-0">Save to Playlist</p>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                                                <i class="ri-share-forward-line"></i>
+                                                <p class="m-0">Share</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                        <%})%>
+                </div>
             </div>
+        </div>
     </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
