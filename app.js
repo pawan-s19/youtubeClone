@@ -7,7 +7,7 @@ var logger = require("morgan");
 const cloudinary = require("cloudinary");
 
 var expressSession = require("express-session");
-
+const MemoryStore = require("memorystore")(expressSession);
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./models/userModel");
@@ -65,6 +65,9 @@ app.use(
     resave: false,
     saveUninitialized: false,
     secret: "humara app",
+    store: new MemoryStore({
+      checkPeriod: 86400000, // prune expired entries every 24h
+    }),
   })
 );
 app.use(passport.initialize());
