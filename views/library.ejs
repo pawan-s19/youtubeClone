@@ -26,12 +26,84 @@
                         See all 
                     </a>
                 </div>
-                <p class="text-faded my-3">
-                    Videos you watch will show up here.
-                </p>
-                <div class="typeVideoWrapper">
-                    <!-- all video html here -->
-                </div>
+                <% if(user?.history.length > 0){ %>
+                    <div class="all-videos-ctn mt-3">
+                        <% user.history.forEach(function(elem){ %>
+                            <div class="video-wrapper">
+                                <div class="video-container">
+                                    <a class="linkTo text-light" href="/watch/<%=elem._id%>">
+                                        <video oncontextmenu="return false;" disablepictureinpicture muted
+                                            controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
+                                            data-bs-videoId="<%=elem.video_id%>" src=""></video>
+                                        <img src="<%=elem.thumbnail.secure_url%>" alt="">
+                                        <small style="pointer-events: none;"
+                                            class="m-0 p-1 badge bg-dark"><%=elem?.duration%></small>
+                                    </a>
+                                </div>
+                                <div class="iconTextWrapper mt-2 d-flex flex-nowrap align-items-start">
+                                    <a class="linkTo text-light" href="#">
+                                        <div class="profileIconCtn">
+                                            <img src="/Sample_Profile/pf1.jpg" alt="">
+                                        </div>
+                                    </a>
+                                    <div class="videoTextCtn">
+                                        <a class="linkTo text-light" href="#">
+                                            <p class="m-0 fw-bold text-light mb-1">
+                                                <%=elem.title%>
+                                            </p>
+                                        </a>
+                                        <div class="text-secondary">
+                                            <a class="linkTo text-secondary" href="#">
+                                                <small class="listDot">
+                                                    <%if(elem.views.length==0){%>
+                                                        No views
+                                                        <% }else{%>
+                                                            <%=elem.views.length%> Views
+                                                                <% }%>
+                                                </small>
+                                                <small class="listDot last">
+                                                    <%=moment(elem.createdAt).fromNow()%>
+                                                </small>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="optionsMenu text-light">
+                                        <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown"
+                                            aria-expanded="false"></i>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="dropdown-item d-flex align-items-center gap-2"
+                                                    href="/addToWatchLater/<%=elem._id%>">
+                                                    <i class="ri-time-line"></i>
+                                                    <p class="m-0">Save to Watch Later</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item d-flex align-items-center gap-2"
+                                                    data-bs-toggle="modal" data-bs-target="#playlistModal"
+                                                    data-bs-whatever="<%=elem._id%>"
+                                                    data-bs-createdPls="<%=user?.userPlaylist%>">
+                                                    <i class="ri-play-list-add-line"></i>
+                                                    <p class="m-0">Save to Playlist</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                                                    <i class="ri-share-forward-line"></i>
+                                                    <p class="m-0">Share</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                <% }else{ %>
+                    <p class="text-faded my-3">
+                        Videos you watch will show up here.
+                    </p>
+                <% } %>
             </div>
             <hr class="text-white mt-4">
             <div class="section-wrapper text-white">
@@ -40,18 +112,18 @@
                         <i class="ri-play-list-add-fill"></i>
                         <p class="m-0">Playlists</p>
                     </div>
-                    <a class="seeAllWrapper" href="/user/playlist">
+                    <a class="seeAllWrapper" href="/feed/playlist">
                         See all 
                     </a>
                 </div>
                 <!-- all video html here -->
-                <% if(user.userPlaylist.length > 0){ %>
+                <% if(user?.userPlaylist.length > 0){ %>
                     <div class="playlistWrapper d-flex flex-wrap gap-2 mt-3">
                         <% user.userPlaylist.forEach(function(elem){ %>
                             <div class="singlePlaylistWrapper text-white">
-                                <a class="text-white text-decoration-none" href="/playlist/<%=elem._id%>">
+                                <a class="text-white text-decoration-none" href="/play/playlist/<%=elem._id%>">
                                     <div class="playlistVideoWrapper">
-                                        <img src="<%=elem.videos[elem.videos.length - 1].thumbnail.secure_url%>" alt="">
+                                        <img src="<%=elem.videos[elem.videos.length - 1]?.thumbnail.secure_url%>" alt="">
                                         <div class="playlistVideoCountWrapper">
                                             <span><%=elem.videos.length%></span>
                                             <i class="ri-play-list-2-line"></i>
@@ -64,31 +136,49 @@
                                     <p class="playlistName mt-2 mb-1"><%=elem.playListName%></p>
                                     
                                 </a>
-                                <a class="text-decoration-none" href="view/playlist/<%=elem._id%>">
+                                <% if(elem.isPrivate){ %>
+                                    <div style="width: fit-content" class="badge bg-dark d-flex gap-2">
+                                        <i class="ri-lock-2-fill"></i>
+                                        Private
+                                    </div>
+                                <% } %>
+                                <a class="text-decoration-none" href="/view/playlist/<%=elem._id%>">
                                     <small class="viewPl">View Full Playlist</small>
                                 </a>
-                                <div class="dropdown">
-                                    <i class="ri-more-2-fill plMenu" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"></i>
-                                    
-                                    <ul class="dropdown-menu">
-                                      <li><a class="dropdown-item" data-bs-toggle="collapse" href="#PlNameCollapse" role="button" aria-expanded="false" aria-controls="PlNameCollapse"><i class="ri-pencil-fill"></i> Modify Name</a></li>
-                                      <div class="collapse" id="PlNameCollapse">
-                                          <div class="card card-body">
-                                            <form method="POST" action="/update/name/playlist/<%=elem._id%>">
-                                                <div class="mb-3">
-                                                  <label for="exampleInputEmail1" class="form-label">New Name</label>
-                                                  <input name="newname" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                                </div>
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                              </form>
+                                <%if(JSON.stringify(elem.creater) === JSON.stringify(user._id)){ %>
+                                    <div class="dropdown">
+                                        <!-- <i class="ri-more-2-fill" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"></i> -->
+                                        <% if(elem.isPrivate){ %>
+                                            <i class="ri-more-2-fill plMenu plBtmMenu" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"></i>
+                                            <% }else{ %>
+                                            <i class="ri-more-2-fill plMenu" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"></i>
+                                        <% } %>
+                                        
+                                        <ul class="dropdown-menu">
+                                          <li><a class="dropdown-item d-flex align-items-end gap-2" data-bs-toggle="collapse" href="#PlNameCollapse" role="button" aria-expanded="false" aria-controls="PlNameCollapse"><i class="ri-pencil-fill"></i> Modify Name</a></li>
+                                          <div class="collapse" id="PlNameCollapse">
+                                              <div class="card card-body">
+                                                <form method="POST" action="/update/name/playlist/<%=elem._id%>">
+                                                    <div class="mb-3">
+                                                      <label for="exampleInputEmail1" class="form-label">New Name</label>
+                                                      <input name="newname" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                </form>
+                                              </div>
                                           </div>
-                                      </div>
-                                      <li><a class="dropdown-item" href="/remove/playlist/<%=elem._id%>"><i class="ri-delete-bin-3-fill"></i> Delete Playlist</a></li>
-                                    </ul>
-                                </div>
+                                          <li><a class="dropdown-item d-flex align-items-end gap-2" href="/remove/playlist/<%=elem._id%>"><i class="ri-delete-bin-3-fill"></i> Delete Playlist</a></li>
+                                          <% if(elem.isPrivate){ %>
+                                            <li><a class="dropdown-item d-flex align-items-end gap-2" href="/change/visibility/playlist/<%=elem._id%>"><i class="ri-lock-unlock-fill"></i> Change to Public</a></li>
+                                            <% }else{ %>
+                                                <li><a class="dropdown-item d-flex align-items-end gap-2" href="/change/visibility/playlist/<%=elem._id%>"><i class="ri-lock-2-fill"></i> Change to Private</a></li>
+                                        <% } %>
+                                        </ul>
+                                    </div>
+                                <% } %>
                             </div>
                             <% }) %>
-                        </div>
+                    </div>
                     <% }else{ %>
                         <p class="text-faded my-3">
                             Playlists you create or save will show up here.
@@ -106,9 +196,84 @@
                         See all 
                     </a>
                 </div>
-                <p class="text-faded my-3">
-                    Use the thumbs up icon to like videos. Your list shows up right here.
-                </p>
+                <% if(user?.likedVideos.length > 0){ %>
+                    <div class="all-videos-ctn mt-3">
+                        <% user.likedVideos.forEach(function(elem){ %>
+                            <div class="video-wrapper">
+                                <div class="video-container">
+                                    <a class="linkTo text-light" href="/watch/<%=elem._id%>">
+                                        <video oncontextmenu="return false;" disablepictureinpicture muted
+                                            controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
+                                            data-bs-videoId="<%=elem.video_id%>" src=""></video>
+                                        <img src="<%=elem.thumbnail.secure_url%>" alt="">
+                                        <small style="pointer-events: none;"
+                                            class="m-0 p-1 badge bg-dark"><%=elem?.duration%></small>
+                                    </a>
+                                </div>
+                                <div class="iconTextWrapper mt-2 d-flex flex-nowrap align-items-start">
+                                    <a class="linkTo text-light" href="#">
+                                        <div class="profileIconCtn">
+                                            <img src="/Sample_Profile/pf1.jpg" alt="">
+                                        </div>
+                                    </a>
+                                    <div class="videoTextCtn">
+                                        <a class="linkTo text-light" href="#">
+                                            <p class="m-0 fw-bold text-light mb-1">
+                                                <%=elem.title%>
+                                            </p>
+                                        </a>
+                                        <div class="text-secondary">
+                                            <a class="linkTo text-secondary" href="#">
+                                                <small class="listDot">
+                                                    <%if(elem.views.length==0){%>
+                                                        No views
+                                                        <% }else{%>
+                                                            <%=elem.views.length%> Views
+                                                                <% }%>
+                                                </small>
+                                                <small class="listDot last">
+                                                    <%=moment(elem.createdAt).fromNow()%>
+                                                </small>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="optionsMenu text-light">
+                                        <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown"
+                                            aria-expanded="false"></i>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="dropdown-item d-flex align-items-center gap-2"
+                                                    href="/addToWatchLater/<%=elem._id%>">
+                                                    <i class="ri-time-line"></i>
+                                                    <p class="m-0">Save to Watch Later</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item d-flex align-items-center gap-2"
+                                                    data-bs-toggle="modal" data-bs-target="#playlistModal"
+                                                    data-bs-whatever="<%=elem._id%>"
+                                                    data-bs-createdPls="<%=user?.userPlaylist%>">
+                                                    <i class="ri-play-list-add-line"></i>
+                                                    <p class="m-0">Save to Playlist</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                                                    <i class="ri-share-forward-line"></i>
+                                                    <p class="m-0">Share</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                <% }else{ %>
+                    <p class="text-faded my-3">
+                        Use the thumbs up icon to like videos. Your list shows up right here.
+                    </p>
+                <% } %>
             </div>
             <hr class="text-white mt-4">
             <div class="section-wrapper text-white">
@@ -121,9 +286,84 @@
                         See all 
                     </a>
                 </div>
-                <p class="text-faded my-3">
-                    Here You can see your watch history
-                </p>
+                <% if(user?.watchLater.length > 0){ %>
+                    <div class="all-videos-ctn mt-3">
+                        <% user?.watchLater.forEach(function(elem){ %>
+                            <div class="video-wrapper">
+                                <div class="video-container">
+                                    <a class="linkTo text-light" href="/watch/<%=elem._id%>">
+                                        <video oncontextmenu="return false;" disablepictureinpicture muted
+                                            controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
+                                            data-bs-videoId="<%=elem.video_id%>" src=""></video>
+                                        <img src="<%=elem.thumbnail.secure_url%>" alt="">
+                                        <small style="pointer-events: none;"
+                                            class="m-0 p-1 badge bg-dark"><%=elem?.duration%></small>
+                                    </a>
+                                </div>
+                                <div class="iconTextWrapper mt-2 d-flex flex-nowrap align-items-start">
+                                    <a class="linkTo text-light" href="#">
+                                        <div class="profileIconCtn">
+                                            <img src="/Sample_Profile/pf1.jpg" alt="">
+                                        </div>
+                                    </a>
+                                    <div class="videoTextCtn">
+                                        <a class="linkTo text-light" href="#">
+                                            <p class="m-0 fw-bold text-light mb-1">
+                                                <%=elem.title%>
+                                            </p>
+                                        </a>
+                                        <div class="text-secondary">
+                                            <a class="linkTo text-secondary" href="#">
+                                                <small class="listDot">
+                                                    <%if(elem.views.length==0){%>
+                                                        No views
+                                                        <% }else{%>
+                                                            <%=elem.views.length%> Views
+                                                                <% }%>
+                                                </small>
+                                                <small class="listDot last">
+                                                    <%=moment(elem.createdAt).fromNow()%>
+                                                </small>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="optionsMenu text-light">
+                                        <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown"
+                                            aria-expanded="false"></i>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="dropdown-item d-flex align-items-center gap-2"
+                                                    href="/addToWatchLater/<%=elem._id%>">
+                                                    <i class="ri-time-line"></i>
+                                                    <p class="m-0">Save to Watch Later</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item d-flex align-items-center gap-2"
+                                                    data-bs-toggle="modal" data-bs-target="#playlistModal"
+                                                    data-bs-whatever="<%=elem._id%>"
+                                                    data-bs-createdPls="<%=user?.userPlaylist%>">
+                                                    <i class="ri-play-list-add-line"></i>
+                                                    <p class="m-0">Save to Playlist</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                                                    <i class="ri-share-forward-line"></i>
+                                                    <p class="m-0">Share</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                <% }else{ %>
+                    <p class="text-faded my-3">
+                        Videos you save to watch later will show up here.
+                    </p>
+                <% } %>
             </div>
         </div>
     </div>

@@ -1,7 +1,3 @@
-// let vidCtn = document.querySelector('.videoContainer');
-// let video = document.querySelector('.videoContainer video');
-// let vidCtnPoster = document.querySelector('.videoContainer img');
-
 // vidCtn.addEventListener('mouseover', () => {
 //     vidCtnPoster.style.display = 'none'
 //     video.muted = true;
@@ -80,7 +76,7 @@ allVideosSec.forEach((wrapper) => {
     }
   });
   wrapper.addEventListener("click", function (e) {
-    if (!e.target.classList.contains("ri-more-2-line")) {
+    if (!e.target.classList.contains("ri-more-2-line") && !e.target.classList.contains('notOpen')) {
       let id = this.getAttribute("videoId");
       window.location = `/watch/${id}`;
     }

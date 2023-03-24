@@ -87,6 +87,11 @@ body {
   object-fit: contain;
 }
 
+.videoContainer > video:focus{
+  outline-color: rgba(255, 255, 255, 0.491);
+  outline-style: groove;
+}
+
 /* this is the magic to add thumbnail like thing */
 .videoContainer > img,
 .sm-video-wrapper > img {
@@ -117,9 +122,21 @@ body {
 
 .subscribeBtn {
   padding: 0.4rem 1rem;
+  width: fit-content;
 }
 
 .subscribeBtn:hover {
+  background-color: var(--iconHover) !important;
+  color: white !important;
+}
+
+.subscribedBtn {
+  padding: .4rem 1rem;
+  background-color: var(--iconHover) !important;
+  color: white !important;
+}
+
+.subscribedBtn:hover {
   background-color: var(--iconHover) !important;
   color: white !important;
 }

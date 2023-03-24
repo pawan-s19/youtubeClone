@@ -24,9 +24,11 @@
                         <div class="gifWrapper">
                             <img src="https://media.tenor.com/LUNANcnXLiUAAAAM/up-arrow.gif" alt="">
                         </div>
+                        <video class="videotag d-none" src=""></video>
                         <div class="mt-5">
                             <form class="text-center" action="/upload/video" enctype="multipart/form-data"
                                 method="post">
+                                <input type="hidden" name="duration" class="inpDuration">
                                 <input class="inpVid" name="file" placeholder="Upload A Video" type="file">
                                 <div class="selectFileBtn my-2 w-fitContent">
                                     Select Video
@@ -46,9 +48,11 @@
     <script>
         let selectFileBtn = document.querySelector('.selectFileBtn');
         let inpVid = document.querySelector('.inpVid');
+        let inpDuration = document.querySelector('.inpDuration');
         let uploadFileBtn = document.querySelector('.uploadFileBtn');
         let removeFileBtn = document.querySelector('.removeFileBtn');
         let modal = document.querySelector('.modal');
+        let videoTag = document.querySelector('.videotag');
 
         selectFileBtn.addEventListener('click', function (e) {
             inpVid.click();
@@ -59,6 +63,12 @@
                 uploadFileBtn.style.display = "initial";
                 removeFileBtn.style.display = "initial";
                 let fileType = e.srcElement.files[0].type;
+
+                let file = e.target.files[0];
+                if(file){
+                    let blobURL = URL.createObjectURL(file);
+                    videoTag.src = blobURL;
+                }
             }
         });
 
@@ -70,7 +80,23 @@
 
         modal.addEventListener('hide.bs.modal', function (e) {
             console.log('sdfj')
-        })
+        });
+
+        videoTag.addEventListener('loadeddata', (e) => {
+            // console.log(e.srcElement.duration)
+            let duration= e.srcElement.duration;
+            let mzminutes = Math.floor(duration / 60);
+            let mzseconds = Math.floor(duration - (mzminutes * 60));
+            mzminutes = appendZero(mzminutes)
+            mzseconds = appendZero(mzseconds)
+            inpDuration.value = `${mzminutes}:${mzseconds}`
+        });
+
+        function appendZero(t){
+            if (t<10) 
+            t = `0${t}`
+            return t;
+        }
 
         function formatBytes(bytes, decimals = 2) {
             if (!+bytes) return '0 Bytes'

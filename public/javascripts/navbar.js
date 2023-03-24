@@ -5,7 +5,7 @@ let micBtn = document.querySelectorAll('.mic');
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
 if(SpeechRecognition){
-    console.log('Support');
+    // console.log('Support');
     const recognition = new SpeechRecognition();
     recognition.continuous = true;
     recognition.interimResults = true;
