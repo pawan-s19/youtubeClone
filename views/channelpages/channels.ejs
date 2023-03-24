@@ -8,7 +8,58 @@
     <title>Document</title>
 </head>
 <body>
-    channel
+    <div class="channelsWrapper gap-4 text-white">
+        <% if(ChannelOwner?.channelSubscribeByUser.length> 0){ %>
+            <% ChannelOwner?.channelSubscribeByUser.forEach(function(elem){ %>
+                <div class="singleChannelWrapper">
+                    <a class="text-decoration-none text-light"
+                        href="/channel/<%=elem.channelOwner?._id%>/home">
+                        <div class="channelBox">
+                            <div title="Go To Channel" class="profile">
+                                <% if(elem.channelProfile?.url){%>
+                                    <img src="<%=elem.channelProfile?.url%>" alt="">
+                                <%}else{%>
+                                    <%=elem.channelName?.charAt(0).toUpperCase()%>
+                                <%}%>
+                            </div>
+                            <div class="text-center">
+                                <small class="fw-semibold">
+                                    <%=elem.channelName%>
+                                </small>
+                                <br>
+                                <small class="showSubscribers">
+                                    <%=elem.channelSubscription?.length%> Subscribers
+                                </small>
+                            </div>
+                        </div>
+                    </a>
+                    <% if(JSON.stringify(elem.channelOwner?._id) !==JSON.stringify(user?._id)){ %>
+                        <div>
+                            <a class="anchorWrap text-light" href="/subscribe/<%=elem._id%>">
+                                <%if(elem.channelSubscription?.includes(user?._id)){%>
+                                    <div title="Unsubscribe this channel"
+                                        class="subscribedBtn text-white rounded-pill text-nowrap text-dark fw-semibold">
+                                        <small>
+                                            Subscribed
+                                        </small>
+                                    </div>
+                                <%}else{%>
+                                    <div title="Subscribe this channel"
+                                        class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
+                                        <small>
+                                            Subscribe
+                                        </small>
+                                    </div>
+                                <% }%>
+                            </a>
+                        </div>
+                        <% } %>
+                </div>
+            <% }) %>
+        <% }else{ %>
+            <h5>No Featured Channels Yet !</h5>
+        <% } %>
+    </div>
     <script src="/javascripts/channelpages/channels.js"></script>
 </body>
 </html>

@@ -19,6 +19,7 @@
 
 let url;
 let thumbNailInput = document.querySelector(".thumbnail");
+let duration = document.querySelector(".duration");
 let video = document.querySelector(".video-tag");
 
 thumbNailInput.addEventListener("change", (e) => {
@@ -28,5 +29,7 @@ thumbNailInput.addEventListener("change", (e) => {
 
   reader.onload = function (e) {
     video.poster = e.target.result;
+    // console.log(video.duration.toFixed(2).split('.').join(':'))
+    duration.value = video.duration.toFixed(2).split('.').join(':');
   };
 });

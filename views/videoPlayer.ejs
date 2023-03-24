@@ -24,7 +24,7 @@
           <div class="videoPlayerSection">
             <div class="videoDetsWrapper text-light">
               <div class="videoContainer">
-                <video oncontextmenu="return false;" disablepictureinpicture autoplay controls controlsList="nodownload"
+                <video autofocus oncontextmenu="return false;" disablepictureinpicture autoplay controls controlsList="nodownload"
                   src="/play/<%=video.video_id%>"></video>
                 <!-- <img src="https://img.freepik.com/premium-psd/vertical-modern-furniture-poster-a4-size_145156-526.jpg?w=2000"  alt=""> -->
               </div>
@@ -55,11 +55,23 @@
                       </small>
                     </div>
                   </div>
-                  <% if(video.userId._id !==user?._id){ %>
-                    <a class="anchorWrap text-light ms-3" href="/subscribe/<%=video.userId.channel._id%>">
-                      <div class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
-                        <small>Subscribe</small>
-                      </div>
+                  <% if(JSON.stringify(video?.userId?._id) !== JSON.stringify(user?._id)){ %>
+                    <a class="anchorWrap text-light ms-3" href="/subscribe/<%=video?.userId?._id%>">
+                      <%if(JSON.stringify(user?.channelSubscribeByUser)?.includes(video?.userId?.channel._id)){%>
+                        <div title="Unsubscribe this channel"
+                            class="subscribedBtn text-white rounded-pill text-nowrap text-dark fw-semibold">
+                            <small>
+                                Subscribed
+                            </small>
+                        </div>
+                      <%}else{%>
+                            <div title="Subscribe this channel"
+                                class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
+                                <small>
+                                    Subscribe
+                                </small>
+                            </div>
+                      <% }%>
                     </a>
                     <% } %>
                 </div>

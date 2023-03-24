@@ -16,15 +16,19 @@
             <%-include('sideMenu') %>
                 <div class="right-section p-3">
                     <h5 class="text-white ms-2">
-                        <% if(user.channelSubscribeByUser.length> 0){ %>
+                        <% if(user?.channelSubscribeByUser.length> 0){ %>
                             Subscriptions
                         <% }else{ %>
-                            Recommended
+                            <% if(allChannels.length > 0){ %>
+                                Recommended
+                            <% }else{ %>
+                                No Channels to Recommmend <sub style="font-size: .35rem;">because no channel in database except yours 🤣</sub>
+                            <% } %>
                         <% } %>
                     </h5>
                     <div class="channelsWrapper mt-4 gap-4 text-white">
-                        <% if(user.channelSubscribeByUser.length> 0){ %>
-                            <% user.channelSubscribeByUser.forEach(function(elem){ %>
+                        <% if(user?.channelSubscribeByUser.length> 0){ %>
+                            <% user?.channelSubscribeByUser.forEach(function(elem){ %>
                                 <div class="singleChannelWrapper">
                                     <a class="text-decoration-none text-light"
                                         href="/channel/<%=elem.channelOwner._id%>/home">
@@ -51,7 +55,7 @@
                                     </a>
                                     <% if(JSON.stringify(elem.channelOwner._id) !==JSON.stringify(user?._id)){ %>
                                         <div>
-                                            <a class="anchorWrap text-light ms-3" href="/subscribe/<%=elem._id%>">
+                                            <a class="anchorWrap text-light" href="/subscribe/<%=elem._id%>">
                                                 <%if(elem.channelSubscription.includes(user?._id)){%>
                                                     <div title="Unsubscribe this channel"
                                                         class="subscribedBtn text-white rounded-pill text-nowrap text-dark fw-semibold">
@@ -80,7 +84,7 @@
                                         <div class="channelBox">
                                             <div title="Go To Channel" class="profile">
                                                 <% if(elem.channelProfile.url){%>
-                                                    <img src="<%=elem.channelProfile.url%>" alt="
+                                                    <img src="<%=elem.channelProfile.url%>" alt="">
                                                     <%}else{%>
                                                         <%=elem.channelName.charAt(0).toUpperCase()%>
                                                             <%}%>
@@ -97,7 +101,7 @@
                                         </div>
                                     </a>
                                     <div>
-                                        <a class="anchorWrap text-light ms-3"
+                                        <a class="anchorWrap text-light"
                                             href="/subscribe/<%=elem._id%>">
                                             <%if(elem.channelSubscription.includes(user?._id)){%>
                                                 <div title="Unsubscribe this channel"
