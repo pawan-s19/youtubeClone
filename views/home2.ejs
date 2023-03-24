@@ -33,18 +33,20 @@
                                 </a>
                             </div>
                             <%videos?.forEach(function(elem){%>
-                                <div class="tags-wrapper tags-wrapper rounded-3">
-                                    <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                        href="/category/<%=elem?.category%>">
-                                        <small>
-                                            <%=elem?.category%>
-                                        </small>
-                                    </a>
-                                </div>
-                                <%})%>
+                                <%elem?.category.forEach(function(category){%>
+                                    <div class="tags-wrapper tags-wrapper rounded-3">
+                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                            href="/category/<%=category%>">
+                                            <small>
+                                                <%=category%>
+                                            </small>
+                                        </a>
+                                    </div>
+                                    <%})%>
+                                        <%})%>
 
 
-                                    <!-- <div class="tags-wrapper rounded-3">
+                                            <!-- <div class="tags-wrapper rounded-3">
                                         <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
                                             href="#">
                                             <small>Recently Uploaded</small>

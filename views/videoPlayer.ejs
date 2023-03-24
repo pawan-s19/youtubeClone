@@ -125,7 +125,13 @@
               <div class="commentBoxWrapper d-flex gap-3 align-items-center">
                 <a class="anchorWrap text-light" href="">
                   <div title="Go To Channel" class="profile">
-                    <img src="/Sample_Profile/pf2.jpg" alt="">
+                    <%if(user?.channel?.channelProfile.url){%>
+
+                      <img src="<%=user?.channel?.channelProfile.url%>" alt="">
+                      <% }else{%>
+                        <img
+                          src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAIYAhgMBIgACEQEDEQH/xAAbAAEAAgMBAQAAAAAAAAAAAAAABAUDBgcBAv/EADcQAAICAQICBwUHAwUAAAAAAAABAgMEBREhMQYSIkFRYXETMlKB0TNCcpGhscEjguEHFTRiY//EABYBAQEBAAAAAAAAAAAAAAAAAAABAv/EABYRAQEBAAAAAAAAAAAAAAAAAAABEf/aAAwDAQACEQMRAD8A7iAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHjkkt29kYMnKjQtuc3yX1Ku26dz3nLfy7kJBY2Z9Ufc3n6GCWozfuwivVkIGsTUv/AHC3wj+R9w1F/frXyZBAwW1OXVY0t+q33SJG5QmfHyrKWlv1o/CyYauAY6boXR60H6rwMhFAAAAAAAACNmZCphwfbfJfySJNRi2+S5lJfY7bHOXfy8kWD5bcm3J7t954AVkAIeoanh6dBPLuUG+MYLjJ/ICYDX4dLtMlPqyjkQXxOtNfo9y7xsmjLpjbjWxtrf3ovcDKAAMlNsqp9aL9V4lvTZG2tTi+DKQlYFzhb1G+zL9xYurUAGVAAAAAEPUbOrR1fjexWEzU3/VhHwjuQyxAAFRB1jUI6Zp9mTJdaS7MIv70nyRzbIvtyrp3ZE3Oyb3lJm2dPZy9lhVp9lylJ+qSX8s08oFhouqW6VmRtg26ZPa2vulHx9UV4COs1zjZXGcHvGSUovxTPoqujE5T0HDcnu1FxXom0i1IoEABd0T9pVGfijIRNNe+Pt4NolmWgAAAABV6l/yF+EiE7VI9quXlsQTUQAARrfTnGdmnU3wX2Nna8k19djSDq91Nd9M6boKdc4uMovvRpWpdE8yixywdsinmlvtNevc/kBroLGOharKXVWDcvNrZF/oPRadN0MnUuo3B7wpT34/9vogL7RcZ4mk4lE1tONa6y8G+L/cmgAAABZ6Z9jL8RMIunx6uNF+O7JRloAAAAARs6r2lD2W7jxRUl+ynzKfY28PdlxRYlYACn6Q63DSqlXWlZlTXZi+UV8T+hUT83OxcCr2mXdGuL5J836LvKDK6ZURbWLiWWeErGo/U1HJyLsq6V2RZKyyXOUn+np5GIDaV00u37WDVt5WP6Fhh9L8G6SjkV2Y7fe+1H9PoaMCjrFNtd9cbKbI2Ql7sovdM+zmWlapk6Zep48t4N9uqXuz9fPzOhaZqFGpYkcih8HwlFvjF+DIJZ7CLnJRiuLex4TtOo4+2kvKP1FVPrgoRUVyS2PoAyoAAAAAGO+pXQcJfJ+BkAGvalNadj3XZHuVxct/H0OWZmTbmZVuRe952S3fl5eiO06lgY+o4c8XKg5VT5pPZrzRznW+hWdgylZgJ5ePz2X2i9V3/AC/I1KlasD2UZQk4zi4yT2aa2a+R4aZAAALfoxqT0/UoKb/oXNQsTfBeD+T/AHZW4uLkZlypxKbLrH92Ed3/AIN10DoLJyjfrMtkuKx63z/E/wCF+ZKsjasXFlc93wgufn5FrFdWKSWyR5GKjFKK2SWyR9GLdaAAAAAAAAAAAAAEHP0rB1FbZuJTd5zjxXo+ZS5HQTRrW3XG+nf4Ld/33NoAGnr/AE90zfjk5b/uj9CZjdCdEoe8sadz/wDWxtfktkbIAYwYuLRiV+zxqK6ofDXFRX6GY9AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH/9k=" />
+                        <%}%>
                   </div>
                 </a>
                 <form method="POST" class="commentForm" action="/comment/<%=video._id%>">
@@ -138,7 +144,15 @@
                     <div class="peopleCommentWrap d-flex align-items-top gap-3 mb-3">
                       <a class="anchorWrap text-light" href="">
                         <div title="Go To Channel" class="profile">
-                          <img src="/Sample_Profile/pf2.jpg" alt="">
+
+                          <%if(elem?.userId[0]?.channel?.channelProfile.url){%>
+
+                            <img src="<%=elem.userId[0].channel.channelProfile.url%>" alt="">
+                            <% }else{%>
+                              <img
+                                src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAIYAhgMBIgACEQEDEQH/xAAbAAEAAgMBAQAAAAAAAAAAAAAABAUDBgcBAv/EADcQAAICAQICBwUHAwUAAAAAAAABAgMEBREhMQYSIkFRYXETMlKB0TNCcpGhscEjguEHFTRiY//EABYBAQEBAAAAAAAAAAAAAAAAAAABAv/EABYRAQEBAAAAAAAAAAAAAAAAAAABEf/aAAwDAQACEQMRAD8A7iAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHjkkt29kYMnKjQtuc3yX1Ku26dz3nLfy7kJBY2Z9Ufc3n6GCWozfuwivVkIGsTUv/AHC3wj+R9w1F/frXyZBAwW1OXVY0t+q33SJG5QmfHyrKWlv1o/CyYauAY6boXR60H6rwMhFAAAAAAAACNmZCphwfbfJfySJNRi2+S5lJfY7bHOXfy8kWD5bcm3J7t954AVkAIeoanh6dBPLuUG+MYLjJ/ICYDX4dLtMlPqyjkQXxOtNfo9y7xsmjLpjbjWxtrf3ovcDKAAMlNsqp9aL9V4lvTZG2tTi+DKQlYFzhb1G+zL9xYurUAGVAAAAAEPUbOrR1fjexWEzU3/VhHwjuQyxAAFRB1jUI6Zp9mTJdaS7MIv70nyRzbIvtyrp3ZE3Oyb3lJm2dPZy9lhVp9lylJ+qSX8s08oFhouqW6VmRtg26ZPa2vulHx9UV4COs1zjZXGcHvGSUovxTPoqujE5T0HDcnu1FxXom0i1IoEABd0T9pVGfijIRNNe+Pt4NolmWgAAAABV6l/yF+EiE7VI9quXlsQTUQAARrfTnGdmnU3wX2Nna8k19djSDq91Nd9M6boKdc4uMovvRpWpdE8yixywdsinmlvtNevc/kBroLGOharKXVWDcvNrZF/oPRadN0MnUuo3B7wpT34/9vogL7RcZ4mk4lE1tONa6y8G+L/cmgAAABZ6Z9jL8RMIunx6uNF+O7JRloAAAAARs6r2lD2W7jxRUl+ynzKfY28PdlxRYlYACn6Q63DSqlXWlZlTXZi+UV8T+hUT83OxcCr2mXdGuL5J836LvKDK6ZURbWLiWWeErGo/U1HJyLsq6V2RZKyyXOUn+np5GIDaV00u37WDVt5WP6Fhh9L8G6SjkV2Y7fe+1H9PoaMCjrFNtd9cbKbI2Ql7sovdM+zmWlapk6Zep48t4N9uqXuz9fPzOhaZqFGpYkcih8HwlFvjF+DIJZ7CLnJRiuLex4TtOo4+2kvKP1FVPrgoRUVyS2PoAyoAAAAAGO+pXQcJfJ+BkAGvalNadj3XZHuVxct/H0OWZmTbmZVuRe952S3fl5eiO06lgY+o4c8XKg5VT5pPZrzRznW+hWdgylZgJ5ePz2X2i9V3/AC/I1KlasD2UZQk4zi4yT2aa2a+R4aZAAALfoxqT0/UoKb/oXNQsTfBeD+T/AHZW4uLkZlypxKbLrH92Ed3/AIN10DoLJyjfrMtkuKx63z/E/wCF+ZKsjasXFlc93wgufn5FrFdWKSWyR5GKjFKK2SWyR9GLdaAAAAAAAAAAAAAEHP0rB1FbZuJTd5zjxXo+ZS5HQTRrW3XG+nf4Ld/33NoAGnr/AE90zfjk5b/uj9CZjdCdEoe8sadz/wDWxtfktkbIAYwYuLRiV+zxqK6ofDXFRX6GY9AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH/9k=" />
+                              <% }%>
+
                         </div>
                       </a>
                       <div>

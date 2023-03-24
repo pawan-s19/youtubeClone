@@ -248,7 +248,6 @@ router.post(
       const form = formidable({ multiples: true });
 
       form.parse(req, async (err, fields, files) => {
-        console.log(fields);
         const { title, description, status, category } = fields;
         const { secure_url, public_id } = await cloudinary.v2.uploader.upload(
           files.thumbnail.filepath,
@@ -257,14 +256,14 @@ router.post(
             fetch_format: "webp",
           }
         );
-
         await videoModel.findOneAndUpdate(
           { _id: req.params.id },
           {
             title,
             description,
             status,
-            category,
+            category: category.split(" "),
+            categorySearch: category.split(" ").join(""),
             thumbnail: { secure_url, public_id },
           }
         );
@@ -275,18 +274,20 @@ router.post(
             path: "channel",
             populate: { path: "channelSubscription" },
           });
-        console.log(user);
         user.channel.video.push(req.params.id); //saves the video id in user's channel array
         await user.channel.save();
-        user.channel.channelSubscription.forEach(async function (elem) {
-          let notification = await notificationModel.create({
-            userId: elem._id,
-            channelId: user.channel._id,
-            videoId: req.params.id,
+
+        if (status === "public") {
+          user.channel.channelSubscription.forEach(async function (elem) {
+            let notification = await notificationModel.create({
+              userId: elem._id,
+              channelId: user.channel._id,
+              videoId: req.params.id,
+            });
+            elem.notifications.unshift(notification._id);
+            await elem.save();
           });
-          elem.notifications.unshift(notification._id);
-          await elem.save();
-        });
+        }
         res.redirect("/");
       });
     } catch (err) {
@@ -295,12 +296,44 @@ router.post(
   }
 );
 
+//CRUD FOR MANAGE CHANNEL
+router.post(
+  "/manage/channel/update/:videoId",
+  isLoggedIn,
+  hasChannel,
+  async (req, res) => {
+    form.parse(req, async (err, fields, files) => {
+      console.log(fields);
+      // const { title, description, status, category } = fields;
+      if (files.thumbnail.filepath) {
+        const { secure_url, public_id } = await cloudinary.v2.uploader.upload(
+          files.thumbnail.filepath,
+          {
+            folder: `youtubethumbnails`,
+            fetch_format: "webp",
+          }
+        );
+      }
+      await videoModel.findOneAndUpdate(
+        { _id: req.params.videoId },
+        {
+          title,
+          description,
+          status,
+          category,
+          thumbnail: { secure_url, public_id },
+        }
+      );
+    });
+  }
+);
+
 router.get("/watch/:id", async (req, res, next) => {
   try {
     // clicked video
     let video = await videoModel
       .findOne({ _id: req.params.id })
-      .populate("comment")
+      .populate({path:"comment",populate:{path:"userId",populate:{path:"channel"}}})
       .populate({ path: "userId", populate: { path: "channel" } });
 
     // all videos
@@ -324,7 +357,8 @@ router.get("/watch/:id", async (req, res, next) => {
         .populate({
           path: "notifications",
           populate: { path: "userId channelId videoId" },
-        });
+        })
+        .populate("channel");
 
       LoggedInUser.history.unshift(video._id);
       await LoggedInUser.save();
@@ -663,7 +697,7 @@ router.get("/category/:plc", async (req, res) => {
         $or: [
           { title: { $regex: req.params.plc, $options: "i" } },
           { description: { $regex: req.params.plc, $options: "i" } },
-          { category: { $regex: req.params.plc, $options: "i" } },
+          { categorySearch: { $regex: req.params.plc, $options: "i" } },
         ],
       })
       .populate({ path: "userId", populate: { path: "channel" } });
@@ -672,6 +706,7 @@ router.get("/category/:plc", async (req, res) => {
       user: req.session.passport?.user,
       mixedArray,
       moment,
+      type: "tags",
     });
   } catch (err) {
     res.send(err);
