@@ -226,3 +226,7 @@ body {
     display: none !important;
   }
 }
+.sm-video-stats > small {
+  font-size: 0.8rem;
+  line-height: 0.8rem;
+}

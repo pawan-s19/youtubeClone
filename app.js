@@ -8,7 +8,6 @@ const cloudinary = require("cloudinary");
 
 var expressSession = require("express-session");
 
-
 var indexRouter = require("./routes/index");
 var usersRouter = require("./models/userModel");
 const passport = require("passport");
@@ -65,6 +64,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     secret: "humara app",
+   
   })
 );
 app.use(passport.initialize());

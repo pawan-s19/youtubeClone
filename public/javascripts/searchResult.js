@@ -26,7 +26,7 @@ allVideosSec.forEach((wrapper) => {
     }
   });
   wrapper.addEventListener("click", function (e) {
-    if (!e.target.classList.contains("ri-more-2-line")) {
+    if (!e.target.classList.contains("ri-more-2-line") && !e.target.classList.contains('notOpen')) {
       if (this.hasAttribute("videoId")) {
         let id = this.getAttribute("videoId");
         window.location = `/watch/${id}`;
@@ -44,3 +44,20 @@ allVideosSec.forEach((wrapper) => {
     }
   });
 });
+
+
+
+let shareVideo = document.querySelectorAll('.shareVideo')
+let inputVideoId = document.querySelector('.inputVideoId')
+
+console.log(shareVideo)
+console.log(inputVideoId)
+
+shareVideo.forEach(function(elem){
+  elem.addEventListener('click', function(e){
+    console.log(e.target)
+    let vid = e.target.getAttribute('data-bs-whatever')
+    inputVideoId.value = `http://localhost:3000/watch/${vid}`
+  })
+})
+
