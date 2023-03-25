@@ -123,3 +123,16 @@ async function getVideoStream(videoId, video) {
     video.src = `/play/${videoId}`;
   }
 }
+
+
+let shareVideo = document.querySelectorAll('.shareVideo')
+inputVideoId = document.querySelector('.inputVideoId')
+
+
+shareVideo.forEach(function(elem){
+  elem.addEventListener('click', function(e){
+    console.log(e.target)
+    let vid = e.target.getAttribute('data-bs-whatever')
+    inputVideoId.value = `http://localhost:3000/watch/${vid}`
+  })
+})

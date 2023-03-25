@@ -44,3 +44,20 @@ allVideosSec.forEach((wrapper) => {
     }
   });
 });
+
+
+
+let shareVideo = document.querySelectorAll('.shareVideo')
+let inputVideoId = document.querySelector('.inputVideoId')
+
+console.log(shareVideo)
+console.log(inputVideoId)
+
+shareVideo.forEach(function(elem){
+  elem.addEventListener('click', function(e){
+    console.log(e.target)
+    let vid = e.target.getAttribute('data-bs-whatever')
+    inputVideoId.value = `http://localhost:3000/watch/${vid}`
+  })
+})
+

@@ -91,9 +91,9 @@
                       </div>
                     </a>
                   </div>
-                  <div class="fadedBtnWrap">
-                    <a class="anchorWrap text-white" title="Share" data-bs-toggle="modal"
-                      data-bs-target="#shareVideoModal" href="">
+                  <div class="fadedBtnWrap ">
+                    <a class="anchorWrap text-white " title="Share" data-bs-toggle="modal"
+                      data-bs-target="#shareVideoModal2" href="" >
                       <div title="Share" class="shareWrap d-flex align-items-center gap-2">
                         <i class="ri-share-forward-line"></i>
                         <small class="m-0">Share</small>
@@ -276,9 +276,9 @@
                           <p class="m-0 notOpen">Save to Playlist</p>
                         </a>
                       </li>
-                      <li class="notOpen">
+                      <li class="notOpen shareVideo">
                         <a class="dropdown-item d-flex align-items-center gap-2 notOpen" data-bs-toggle="modal"
-                          data-bs-target="#shareVideoModal" href="">
+                          data-bs-target="#shareVideoModal" href="" data-bs-whatever="<%=elem._id%>">
                           <i class="ri-share-forward-line notOpen"></i>
                           <p class="m-0 notOpen">Share</p>
                         </a>
@@ -294,7 +294,7 @@
       </div>
 
       <!-- Modal -->
-      <div class="modal fade" id="shareVideoModal" tabindex="-1" aria-labelledby="shareVideoModalLabel"
+      <div class="modal fade " id="shareVideoModal2" tabindex="-1" aria-labelledby="shareVideoModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -307,7 +307,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary copyLinkButton">Copy URL</button>
+              <button type="button" class="btn btn-primary copyLinkButton2">Copy URL</button>
             </div>
           </div>
         </div>

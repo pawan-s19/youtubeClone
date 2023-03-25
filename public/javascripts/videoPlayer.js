@@ -17,7 +17,7 @@ let showMore = document.querySelector(".showMore");
 let editcomment = document.querySelectorAll('.comment-edit');
 let commentform = document.querySelector('.comment-form');
 
-var copyLinkButton = document.querySelector('.copyLinkButton')
+var copyLinkButton2 = document.querySelector('.copyLinkButton2')
 
 
 // console.log(dropdownmenu)
@@ -86,7 +86,7 @@ allVideosSec.forEach((wrapper) => {
   });
 });
 
-copyLinkButton.addEventListener("click", async (e) => {
+copyLinkButton2.addEventListener("click", async (e) => {
     await navigator.clipboard.writeText(window.location.href);
     console.log(window.location.href)
 });
@@ -108,3 +108,15 @@ copyLinkButton.addEventListener("click", async (e) => {
 //     descriptionBox.style.setProperty('--displayNot', "block");
 //     console.log('first')
 // });
+
+let shareVideo = document.querySelectorAll('.shareVideo')
+inputVideoId = document.querySelector('.inputVideoId')
+
+
+shareVideo.forEach(function(elem){
+  elem.addEventListener('click', function(e){
+    console.log(e.target)
+    let vid = e.target.getAttribute('data-bs-whatever')
+    inputVideoId.value = `http://localhost:3000/watch/${vid}`
+  })
+})
