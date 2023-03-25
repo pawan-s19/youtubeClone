@@ -11,13 +11,13 @@
 
 <body>
   <div>
-    <%-include('bottomMenu.ejs') %>
-      <%-include('videoUploadModal.ejs') %>
-        <%-include('createChannelModal.ejs') %>
-          <%-include('playlistModal.ejs') %>
-            <%-include('signinModal.ejs') %>
-              <%-include('sideMenumodal.ejs') %>
-                <%-include('notificationModal.ejs') %>
+    <%- include('bottomMenu') %>
+      <%- include('videoUploadModal') %>
+        <%- include('createChannelModal') %>
+          <%- include('playlistModal') %>
+            <%- include('signinModal') %>
+              <%- include('sideMenumodal') %>
+                <%- include('notificationModal') %>
                   <div
                     class="nav small-screen-search d-flex align-items-center justify-content-between px-2 flex-nowrap">
                     <div class="sm-nav-left me-2">
