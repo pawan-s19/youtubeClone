@@ -38,6 +38,12 @@
     copyLinkButton.addEventListener("click", async (e) => {
       navigator.clipboard.writeText(`${inputVideoId.value}`);
     });
+
+    const shareVideoModal = document.getElementById('shareVideoModal');
+  playlistModal.addEventListener('show.bs.modal', event => {
+    const button = event.relatedTarget
+    const recipient = button.getAttribute('data-bs-whatever')
+  })
   </script>
 </body>
 

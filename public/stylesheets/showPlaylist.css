@@ -209,6 +209,10 @@ ol a{
   content: "";
 }
 
+.morePlaylistOptions:hover{
+    color: white;
+}
+
 .custom-tooltip{
     --bs-tooltip-bg: white !important;
     --bs-tooltip-color: rgb(0, 0, 0) !important;

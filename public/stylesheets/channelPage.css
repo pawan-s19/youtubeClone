@@ -26,6 +26,7 @@ body {
 .bannerWrapper {
     width: 100%;
     height: 15vmax;
+    position: relative;
 }
 
 .bannerWrapper>img,.profileWrapper>img {
@@ -97,6 +98,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .infoInnerWrapper {
@@ -176,9 +178,53 @@ a{
     padding: 1.5rem 3rem;
 }
 
+.mngChannelBtn{
+    position: absolute;
+    bottom: 5%;
+    right: 2%;
+    background-color: white;
+    display: flex;
+    gap: .3rem;
+    align-items: center;
+    width: 30px;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: all 10s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.mngChannelBtn:hover{
+    width: fit-content;
+}
+
+.profileWrapper:hover .profileOverlay{
+    opacity: 1;
+}
+
+.profileOverlay{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.251);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+}
+
+.profileOverlay>i{
+    color: white;
+    font-size: 3vmax;
+}
+
 @media only screen and (max-width: 1016px) {
+    .infoChannelName{
+        text-align: left;
+    }
     .infoUsername {
         font-size: .7rem;
+        text-align: left;
     }
 }
 
@@ -198,6 +244,10 @@ a{
     
     .infoChannelName{
         font-size: 1.2rem;
+        text-align: center;
+    }
+    .infoUsername{
+        text-align: center;
     }
     .infoTextWrapper{
         text-align: center;
@@ -207,9 +257,9 @@ a{
         padding: 0.1rem .6rem;
         margin-top: .3rem;
     } */
-    /* .aboutLink{
+    .aboutLink{
         justify-content: center;
-    } */
+    }
     .aboutLink>small{
         max-width: 100%;
     }

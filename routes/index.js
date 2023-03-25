@@ -343,6 +343,17 @@ router.get("/watch/:id", async (req, res, next) => {
       })
       .populate({ path: "userId", populate: { path: "channel" } });
 
+      let hasLiked = false;
+      let hasDisliked = false;
+      if(video.likes.indexOf(req?.session?.passport?.user?._id) !== -1){
+        hasLiked = true;
+        hasDisliked = false;
+      }
+      if(video.disLikes.indexOf(req?.session?.passport?.user?._id) !== -1){
+        hasDisliked = true;
+        hasLiked = false;
+      }
+
     // all videos
     const videos = await videoModel
       .find({ status: "public" })
@@ -392,7 +403,7 @@ router.get("/watch/:id", async (req, res, next) => {
     }
     await video.save();
 
-    res.render("videoPlayer", { video, videos, user: LoggedInUser, moment });
+    res.render("videoPlayer", { video, videos, user: LoggedInUser, moment, hasLiked, hasDisliked });
   } catch (err) {
     res.send(err);
   }
@@ -534,7 +545,7 @@ router.get("/comment/dislike/:id", isLoggedIn, async function (req, res) {
   }
 });
 
-router.post("/createChannel", async function (req, res) {
+router.post("/createChannel", isLoggedIn, async function (req, res) {
   try {
     let user = await userModel.findOne({ _id: req.session.passport.user._id });
     if (!user.channel) {
@@ -705,7 +716,7 @@ router.get("/channel/:id/:section", async function (req, res) {
       user: LoggedInUser,
       ChannelOwner,
       videos,
-      popularVideos: ChannelOwnerWithPopularVideos?.channel.video,
+      popularVideos: ChannelOwnerWithPopularVideos?.channel?.video,
       moment,
       section: section,
       isOwner
@@ -1027,10 +1038,12 @@ router.get("/feed/library", isLoggedIn, async (req, res) => {
         .populate({
           path: "likedVideos",
           options: { limit: 8 },
+          populate: { path: "userId", populate: { path: "channel" } },
         })
         .populate({
           path: "watchLater",
           options: { limit: 8 },
+          populate: { path: "userId", populate: { path: "channel" } },
         })
         .populate({
           path: "channelSubscribeByUser",
@@ -1080,10 +1093,9 @@ router.get("/feed/playlist", async (req, res) => {
 
 // show single playlist of user
 router.get("/view/playlist/:plId", async (req, res) => {
-  try {
     let LoggedInUser = await userModel
       .findOne({
-        _id: req.session.passport.user._id,
+        _id: req?.session?.passport?.user?._id,
       })
       .populate({
         path: "notifications",
@@ -1114,9 +1126,6 @@ router.get("/view/playlist/:plId", async (req, res) => {
       moment,
       playlist,
     });
-  } catch (error) {
-    res.send(error);
-  }
 });
 
 // show playlist and play it's first video

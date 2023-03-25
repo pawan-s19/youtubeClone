@@ -16,6 +16,7 @@
             <% if(ChannelOwner?.channel?.channelBanner?.url?.length > 0){ %>
                 <div class="bannerWrapper">
                     <img src="<%=ChannelOwner?.channel?.channelBanner?.url%>" alt="">
+                    <a class="rounded-pill px-2 py-1 mngChannelBtn" href="/user/manage/channel"><i class="ri-pencil-fill"></i>Manage Channel</a>
                 </div>
             <% } %>
             <div class="channelOwnerInfoWrapper">
@@ -24,6 +25,7 @@
                         <div class="profileWrapper">
                             <% if(ChannelOwner?.channel?.channelProfile?.url?.length > 0){ %>
                                 <img src="<%=ChannelOwner?.channel?.channelProfile?.url%>" alt="">
+                                <a class="profileOverlay" href="/user/manage/channel"><i class="ri-pencil-fill"></i></a>
                             <% }else{ %>
                                 <h3 class="m-0 text-white"><%=ChannelOwner?.username?.charAt(0)?.toUpperCase()%></h3>
                             <% } %>

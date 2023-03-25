@@ -6,11 +6,12 @@
   grid-template-columns: repeat(auto-fill, 18vmax);
   justify-content: space-between;
   height: calc(100% - 2.5rem);
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 }
 
 .all-videos-ctn::-webkit-scrollbar {
   width: 10px;
+  display: none;
 }
 
 .all-videos-ctn::-webkit-scrollbar-thumb {
@@ -62,13 +63,13 @@
 }
 
 .videoTextCtn {
-  flex-basis: 100%;
+  width: 100%;
 }
 
 .videoTextCtn p {
   text-overflow: ellipsis;
   overflow: hidden;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 14px;
   font-weight: 500 !important;
   display: -webkit-box;
