@@ -15,7 +15,7 @@
         <div class="right-section padbtm">
             <% if(ChannelOwner?.channel?.channelBanner?.url?.length > 0){ %>
                 <div class="bannerWrapper">
-                    <img src="/Sample_Images/banner1.png" alt="">
+                    <img src="<%=ChannelOwner?.channel?.channelBanner?.url%>" alt="">
                 </div>
             <% } %>
             <div class="channelOwnerInfoWrapper">
@@ -25,7 +25,7 @@
                             <% if(ChannelOwner?.channel?.channelProfile?.url?.length > 0){ %>
                                 <img src="<%=ChannelOwner?.channel?.channelProfile?.url%>" alt="">
                             <% }else{ %>
-                                <img src="/Sample_Profile/pf3.jpg" alt="">
+                                <h3 class="m-0 text-white"><%=ChannelOwner?.username?.charAt(0)?.toUpperCase()%></h3>
                             <% } %>
                         </div>
                         <div class="infoTextWrapper">

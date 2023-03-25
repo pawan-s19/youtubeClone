@@ -124,7 +124,7 @@
                         <a class="text-decoration-none" href="/view/playlist/<%=elem._id%>">
                             <small class="viewPl">View Full Playlist</small>
                         </a>
-                        <%if(JSON.stringify(elem.creater) === JSON.stringify(user?._id)){ %>
+                        <%if(isOwner){ %>
                             <div class="dropdown">
                                 <i class="ri-more-2-fill plMenu" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"></i>
                                 

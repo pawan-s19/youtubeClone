@@ -628,6 +628,7 @@ router.get("/channel/:id/:section", async function (req, res) {
   // let user = await userModel.findOne({_id:req.session.passport.user._id})
   // res.render("index",{user:user});
   let section = req.params.section;
+  let isOwner = false;
 
   if (
     section === "home" ||
@@ -673,6 +674,10 @@ router.get("/channel/:id/:section", async function (req, res) {
       });
     // }
 
+    if(req?.session?.passport?.user?._id === ChannelOwner?._id){
+      isOwner = true;
+    }
+
     let ChannelOwnerWithPopularVideos = await userModel
       .findOne({
         _id: req.params.id,
@@ -703,6 +708,7 @@ router.get("/channel/:id/:section", async function (req, res) {
       popularVideos: ChannelOwnerWithPopularVideos?.channel.video,
       moment,
       section: section,
+      isOwner
     });
   } else {
     return res.status(404).send("Sorry, cant find that");
@@ -716,7 +722,7 @@ router.get("/addToWatchLater/:id", isLoggedIn, async function (req, res) {
       user.watchLater.push(req.params.id);
       user.save();
     }
-    res.redirect(req.header.referer);
+    res.redirect(req.headers.referer);
   } catch (error) {
     res.send(error);
   }

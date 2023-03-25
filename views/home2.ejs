@@ -77,7 +77,7 @@
                                         </a>
                                     </div>
                                     <div class="iconTextWrapper mt-2 d-flex flex-nowrap align-items-start gap-3">
-                                        <a class="linkTo text-light" href="/channel/<%=elem.userId.channel._id%>/home">
+                                        <a class="linkTo text-light" href="/channel/<%=elem?.userId?._id%>/home">
                                             <%if(elem.userId.channel.channelProfile.url){%>
                                                 <div class="profileIconCtn">
                                                     <img src="<%=elem.userId.channel?.channelProfile.url%>" alt="">
@@ -104,7 +104,7 @@
                                                 </p>
                                             </a>
                                             <div class="text-secondary">
-                                                <a class="linkTo text-secondary" href="#">
+                                                <a class="linkTo text-secondary" href="/channel/<%=elem?.userId?._id%>/home">
                                                     <small class="m-0 channelName">
                                                         <%=elem.userId?.channel.channelName%>
                                                     </small>

@@ -36,23 +36,14 @@
             <hr>
         </div>
         <div class="statsWrapper">
-            <!-- <div class="sectionTitleWrapper">
-                <i class="ri-line-chart-fill"></i>
-                <p class="sectionTitle">Stats</p>
-            </div>
-            <hr>
-            <small>Joined Sep, 12 2016</small>
-            <hr>
-            <small>433,232 views</small>
-            <hr> -->
             <div class="statCard card bg-transparent border-light text-white mb-3" style="max-width: 18rem;">
                 <div class="card-header sectionTitleWrapper">
                     <i class="ri-line-chart-fill"></i>
                     <p class="sectionTitle">Stats</p>
                 </div>
                 <div class="card-body text-light ms-3">
-                  <p class="card-text singleStat">Joined Sep, 12 2016</p>
-                  <p class="card-text singleStat">433,232 views</p>
+                  <p class="card-text singleStat">Joined <%=ChannelOwner?.createdAt?.toLocaleDateString()%></p>
+                  <!-- <p class="card-text singleStat">433,232 views</p> -->
                 </div>
               </div>
         </div>

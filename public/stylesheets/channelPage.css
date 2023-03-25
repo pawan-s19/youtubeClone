@@ -91,9 +91,12 @@ body {
     height: 10vmax;
     width: 10vmax;
     flex-shrink: 0;
-    background-color: pink;
+    background-color: rgb(255, 49, 83);
     border-radius: 50%;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .infoInnerWrapper {
