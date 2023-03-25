@@ -648,7 +648,6 @@ router.get("/channel/:id/:section", async function (req, res) {
       .populate({
         path: "channel",
       });
-
     let ChannelOwner;
     // if (req.session.passport?.user) {
     ChannelOwner = await userModel
@@ -672,7 +671,7 @@ router.get("/channel/:id/:section", async function (req, res) {
         path: "channelSubscribeByUser",
       });
     // }
-
+ 
     let ChannelOwnerWithPopularVideos = await userModel
       .findOne({
         _id: req.params.id,
