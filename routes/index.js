@@ -15,6 +15,7 @@ const { json } = require("express");
 const commentModel = require("../models/commentModel");
 const userplaylistModel = require("../models/userPlayListModel");
 const notificationModel = require("../models/notificationModel");
+const userPlayListModel = require("../models/userPlayListModel");
 passport.use(new localStrategy(userModel.authenticate()));
 
 //initializing bucket for gridfs
@@ -266,7 +267,7 @@ router.post(
             title,
             description,
             status,
-            category: category.split(" "),
+            category: category.trim().split(" "),
             categorySearch: category.split(" ").join(""),
             thumbnail: { secure_url, public_id },
           }
@@ -343,16 +344,16 @@ router.get("/watch/:id", async (req, res, next) => {
       })
       .populate({ path: "userId", populate: { path: "channel" } });
 
-      let hasLiked = false;
-      let hasDisliked = false;
-      if(video.likes.indexOf(req?.session?.passport?.user?._id) !== -1){
-        hasLiked = true;
-        hasDisliked = false;
-      }
-      if(video.disLikes.indexOf(req?.session?.passport?.user?._id) !== -1){
-        hasDisliked = true;
-        hasLiked = false;
-      }
+    let hasLiked = false;
+    let hasDisliked = false;
+    if (video.likes.indexOf(req?.session?.passport?.user?._id) !== -1) {
+      hasLiked = true;
+      hasDisliked = false;
+    }
+    if (video.disLikes.indexOf(req?.session?.passport?.user?._id) !== -1) {
+      hasDisliked = true;
+      hasLiked = false;
+    }
 
     // all videos
     const videos = await videoModel
@@ -403,7 +404,14 @@ router.get("/watch/:id", async (req, res, next) => {
     }
     await video.save();
 
-    res.render("videoPlayer", { video, videos, user: LoggedInUser, moment, hasLiked, hasDisliked });
+    res.render("videoPlayer", {
+      video,
+      videos,
+      user: LoggedInUser,
+      moment,
+      hasLiked,
+      hasDisliked,
+    });
   } catch (err) {
     res.send(err);
   }
@@ -684,7 +692,7 @@ router.get("/channel/:id/:section", async function (req, res) {
       });
     // }
 
-    if(req?.session?.passport?.user?._id === ChannelOwner?._id){
+    if (req?.session?.passport?.user?._id === ChannelOwner?._id) {
       isOwner = true;
     }
 
@@ -718,7 +726,7 @@ router.get("/channel/:id/:section", async function (req, res) {
       popularVideos: ChannelOwnerWithPopularVideos?.channel?.video,
       moment,
       section: section,
-      isOwner
+      isOwner,
     });
   } else {
     return res.status(404).send("Sorry, cant find that");
@@ -766,10 +774,9 @@ router.get("/watchLaterVideos", async function (req, res) {
 router.get("/category/:plc", async (req, res) => {
   let LoggedInUser;
   if (req.session.passport?.user) {
-    LoggedInUser = await userModel
-      .findOne({
-        _id: req.session.passport.user._id,
-      })
+    LoggedInUser = await userModel.findOne({
+      _id: req.session.passport.user._id,
+    });
   }
   const videos = await videoModel
     .find({
@@ -902,7 +909,13 @@ router.get("/clear/history", async (req, res) => {
     res.send(err);
   }
 });
-
+router.get("/clear/history/:videoId", async (req, res) => {
+  await userModel.updateOne(
+    { _id: req.session?.passport?.user._id },
+    { $pull: { history: { $eq: req.params.videoId } } }
+  );
+  res.redirect(req.headers.referer);
+});
 router.get("/signInPage", async (req, res) => {
   try {
     const videos = await videoModel
@@ -1092,39 +1105,39 @@ router.get("/feed/playlist", async (req, res) => {
 
 // show single playlist of user
 router.get("/view/playlist/:plId", async (req, res) => {
-    let LoggedInUser = await userModel
-      .findOne({
-        _id: req?.session?.passport?.user?._id,
-      })
-      .populate({
-        path: "notifications",
-        populate: { path: "userId channelId videoId" },
-      })
-      .populate("userPlaylist")
-      .populate("channelSubscribeByUser");
+  let LoggedInUser = await userModel
+    .findOne({
+      _id: req?.session?.passport?.user?._id,
+    })
+    .populate({
+      path: "notifications",
+      populate: { path: "userId channelId videoId" },
+    })
+    .populate("userPlaylist")
+    .populate("channelSubscribeByUser");
 
-    let playlist = await userplaylistModel
-      .findById(req.params.plId)
-      .populate({
-        path: "videos",
-        options: { sort: { _id: -1 } },
-        populate: {
-          path: "userId",
-          populate: "channel",
-        },
-      })
-      .populate({
-        path: "creater",
-        populate: { path: "channel" },
-      });
-
-    // return res.send(playlist)
-
-    res.render("showPlaylist", {
-      user: LoggedInUser,
-      moment,
-      playlist,
+  let playlist = await userplaylistModel
+    .findById(req.params.plId)
+    .populate({
+      path: "videos",
+      options: { sort: { _id: -1 } },
+      populate: {
+        path: "userId",
+        populate: "channel",
+      },
+    })
+    .populate({
+      path: "creater",
+      populate: { path: "channel" },
     });
+
+  // return res.send(playlist)
+
+  res.render("showPlaylist", {
+    user: LoggedInUser,
+    moment,
+    playlist,
+  });
 });
 
 // show playlist and play it's first video
@@ -1217,7 +1230,18 @@ router.get("/remove/playlist/:playlistId", async (req, res) => {
     res.send(error);
   }
 });
-
+router.get("/remove/video/playlist/:videoId", async (req, res) => {
+  console.log("chala");
+  try {
+    await userPlayListModel.updateOne(
+      { creater: req.session.passport?.user?._id },
+      { $pull: { videos: { $eq: req.params.videoId } } }
+    );
+    res.redirect(req.headers.referer);
+  } catch (err) {
+    res.send(err);
+  }
+});
 router.post("/update/name/playlist/:playlistId", async (req, res) => {
   try {
     let plid = req.params.playlistId;

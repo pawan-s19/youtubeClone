@@ -3,10 +3,6 @@ const mongoose = require("mongoose");
 var channelSchema= mongoose.Schema({
   channelName:String,
   channelDiscription:String,
-  channelPlaylist: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref : 'playlistModel'
-  }],
   video:[{
     type: mongoose.Schema.Types.ObjectId,
     ref : 'videoModel'
