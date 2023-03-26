@@ -767,7 +767,7 @@ router.get("/watchLaterVideos", async function (req, res) {
       .populate("watchLater");
     res.render("watchlater", { user });
   } catch (error) {
-    res.send("kmlmlk");
+    res.send(error);
   }
 });
 
@@ -897,7 +897,7 @@ router.get("/search", async (req, res) => {
   }
 });
 
-router.get("/clear/history", async (req, res) => {
+router.get("/clear/history",isLoggedIn, async (req, res) => {
   try {
     let loggedInUser = await userModel.findOne({
       _id: req.session.passport?.user._id,
@@ -909,12 +909,17 @@ router.get("/clear/history", async (req, res) => {
     res.send(err);
   }
 });
-router.get("/clear/history/:videoId", async (req, res) => {
+router.get("/clear/history/:videoId",isLoggedIn, async (req, res) => {
+try{
   await userModel.updateOne(
     { _id: req.session?.passport?.user._id },
     { $pull: { history: { $eq: req.params.videoId } } }
   );
   res.redirect(req.headers.referer);
+}
+catch(err){
+  res.send(err);
+}
 });
 router.get("/signInPage", async (req, res) => {
   try {
