@@ -71,9 +71,16 @@
                                         </div>
                                     </a>
                                     <div>
-                                            <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown"
+                                            <i class="ri-more-2-line fw-semibold morePlaylistOptions" data-bs-toggle="dropdown"
                                                 aria-expanded="false"></i>
                                             <ul class="dropdown-menu">
+                                                <li>
+                                                    <a class="dropdown-item d-flex align-items-center gap-2"
+                                                        href="/addToWatchLater/<%=elem._id%>">
+                                                        <i class="ri-delete-bin-line"></i>
+                                                        <p class="m-0">Remove video from playlist</p>
+                                                    </a>
+                                                </li>
                                                 <li>
                                                     <a class="dropdown-item d-flex align-items-center gap-2"
                                                         href="/addToWatchLater/<%=elem._id%>">

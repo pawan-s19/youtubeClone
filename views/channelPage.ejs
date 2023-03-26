@@ -15,7 +15,8 @@
         <div class="right-section padbtm">
             <% if(ChannelOwner?.channel?.channelBanner?.url?.length > 0){ %>
                 <div class="bannerWrapper">
-                    <img src="/Sample_Images/banner1.png" alt="">
+                    <img src="<%=ChannelOwner?.channel?.channelBanner?.url%>" alt="">
+                    <a class="rounded-pill px-2 py-1 mngChannelBtn" href="/user/manage/channel"><i class="ri-pencil-fill"></i>Manage Channel</a>
                 </div>
             <% } %>
             <div class="channelOwnerInfoWrapper">
@@ -24,8 +25,9 @@
                         <div class="profileWrapper">
                             <% if(ChannelOwner?.channel?.channelProfile?.url?.length > 0){ %>
                                 <img src="<%=ChannelOwner?.channel?.channelProfile?.url%>" alt="">
+                                <a class="profileOverlay" href="/user/manage/channel"><i class="ri-pencil-fill"></i></a>
                             <% }else{ %>
-                                <img src="/Sample_Profile/pf3.jpg" alt="">
+                                <h3 class="m-0 text-white"><%=ChannelOwner?.username?.charAt(0)?.toUpperCase()%></h3>
                             <% } %>
                         </div>
                         <div class="infoTextWrapper">

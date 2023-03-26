@@ -84,6 +84,10 @@
     color: var(--themeTextGrey);
 }
 
+.viewPl:hover{
+    color: white;
+}
+
 .plMenu{
     cursor: pointer;
     position: absolute;
@@ -120,6 +124,7 @@
 
 .all-videos-ctn::-webkit-scrollbar {
     width: 10px;
+    display: none;
 }
 
 .all-videos-ctn::-webkit-scrollbar-thumb {
@@ -168,39 +173,39 @@
 
 .iconTextWrapper {
     width: 100%;
-    gap: 0rem !important;
+    gap: 0.3rem !important;
 }
 
-
-.profileIconCtn {
+.profileIconCtnForVIdeo {
     width: 30px !important;
     height: 30px !important;
     border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;
+    margin-right: 0 !important;
   }
-  .profileIconCtn img {
+  .profileIconCtnForVIdeo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
   }
 
-.videoTextCtn {
-    flex-basis: 100%;
-}
+  .videoTextCtn{
+    width: 70%;
+  }
 
 .videoTextCtn p {
+    font-size: 13px !important;
+    /* width: 50%; */
+    overflow: hidden !important;
     text-overflow: ellipsis;
-    overflow: hidden;
-    font-size: 12px !important;
     line-height: 14px;
     font-weight: 500 !important;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    /* number of lines to show */
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
+    display: block !important;
+    -webkit-line-clamp: 2 !important;
+    line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
     color: rgb(219, 219, 219);
 }
 
@@ -233,7 +238,7 @@
 /* Specifically for mobile to adjust video css */
 @media only screen and (max-width: 376px) {
     .all-videos-ctn {
-        grid-template-columns: repeat(auto-fill, 100%);
+        grid-template-columns: repeat(auto-fill, 100%) !important;
     }
 
     .video-container video {

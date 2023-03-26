@@ -56,6 +56,8 @@ const UserSchema = new Schema({
     },
   ],
   history: [{ type: mongoose.Schema.Types.ObjectId, ref: "videoModel" }],
+},{
+  timestamps: true
 });
 
 UserSchema.plugin(plm);

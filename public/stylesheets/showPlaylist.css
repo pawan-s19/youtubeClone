@@ -13,8 +13,8 @@
     border-radius: .375rem;
     color: white;
     padding: 1.5rem 1.5rem 0rem 1.5rem;
-    /* background-color: yellow; */
-    background-image: url(/Sample_Images/thumb4.jpg);
+    background-color: rgba(0, 0, 0, 0.76);
+    /* background-image: url(/Sample_Images/thumb4.jpg); */
 }   
 
 .playlist-details-wrapper{
@@ -207,6 +207,10 @@ ol a{
 
 .statsSection>small.lastDot::after {
   content: "";
+}
+
+.morePlaylistOptions:hover{
+    color: white;
 }
 
 .custom-tooltip{

@@ -30,25 +30,27 @@
                     <a class="text-decoration-none" href="/view/playlist/<%=elem._id%>">
                         <small class="viewPl">View Full Playlist</small>
                     </a>
-                    <div class="dropdown">
-                        <i class="ri-more-2-fill plMenu" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"></i>
-                        
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" data-bs-toggle="collapse" href="#PlNameCollapse" role="button" aria-expanded="false" aria-controls="PlNameCollapse"><i class="ri-pencil-fill"></i> Modify Name</a></li>
-                          <div class="collapse" id="PlNameCollapse">
-                              <div class="card card-body">
-                                <form method="POST" action="/update/name/playlist/<%=elem?._id%>">
-                                    <div class="mb-3">
-                                      <label for="exampleInputEmail1" class="form-label">New Name</label>
-                                      <input name="newname" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                  </form>
+                    <% if(isOwner){ %>
+                        <div class="dropdown">
+                            <i class="ri-more-2-fill plMenu" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"></i>
+                            
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" data-bs-toggle="collapse" href="#PlNameCollapse" role="button" aria-expanded="false" aria-controls="PlNameCollapse"><i class="ri-pencil-fill"></i> Modify Name</a></li>
+                              <div class="collapse" id="PlNameCollapse">
+                                  <div class="card card-body">
+                                    <form method="POST" action="/update/name/playlist/<%=elem?._id%>">
+                                        <div class="mb-3">
+                                          <label for="exampleInputEmail1" class="form-label">New Name</label>
+                                          <input name="newname" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                      </form>
+                                  </div>
                               </div>
-                          </div>
-                          <li><a class="dropdown-item" href="/remove/playlist/<%=elem?._id%>"><i class="ri-delete-bin-3-fill"></i> Delete Playlist</a></li>
-                        </ul>
-                    </div>
+                              <li><a class="dropdown-item" href="/remove/playlist/<%=elem?._id%>"><i class="ri-delete-bin-3-fill"></i> Delete Playlist</a></li>
+                            </ul>
+                        </div>
+                    <% } %>
                 </div>
             <% }) %>
         </div>
