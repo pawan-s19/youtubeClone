@@ -14,9 +14,9 @@
 
 <body>
     <div>
-        <%- include('navbar') %>
+        <%- include('./navbar'); %>
             <div class="menu-vid-parent d-flex flex-fill">
-                <%- include('sideMenu') %>
+                <%- include('./sideMenu'); %>
                     <div class="right-section p-3">
                         <div class="tags-ctn d-flex align-items-center gap-3">
                             <div class="explore tags-wrapper rounded-3" data-bs-toggle="offcanvas"
@@ -105,7 +105,8 @@
                                                 </p>
                                             </a>
                                             <div class="text-secondary">
-                                                <a class="linkTo text-secondary" href="/channel/<%=elem?.userId?._id%>/home">
+                                                <a class="linkTo text-secondary"
+                                                    href="/channel/<%=elem?.userId?._id%>/home">
                                                     <small class="m-0 channelName">
                                                         <%=elem.userId?.channel.channelName%>
                                                     </small>
@@ -150,8 +151,9 @@
                                                     </a>
                                                 </li>
                                                 <li class="shareVideo">
-                                                    <a class="dropdown-item d-flex align-items-center gap-2" data-bs-toggle="modal"
-                                                    data-bs-target="#shareVideoModal" href="" data-bs-whatever="<%=elem._id%>">
+                                                    <a class="dropdown-item d-flex align-items-center gap-2"
+                                                        data-bs-toggle="modal" data-bs-target="#shareVideoModal" href=""
+                                                        data-bs-whatever="<%=elem._id%>">
                                                         <i class="ri-share-forward-line"></i>
                                                         <p class="m-0">Share</p>
                                                     </a>

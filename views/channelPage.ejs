@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,31 +9,39 @@
     <link rel="stylesheet" href="/stylesheets/channelPage.css">
     <title>Document</title>
 </head>
+
 <body>
     <%-include('navbar') %>
-    <div class="menu-vid-parent d-flex flex-fill">
-    <%-include('sideMenu') %>
-        <div class="right-section padbtm">
-            <% if(ChannelOwner?.channel?.channelBanner?.url?.length > 0){ %>
-                <div class="bannerWrapper">
-                    <img src="<%=ChannelOwner?.channel?.channelBanner?.url%>" alt="">
-                    <a class="rounded-pill px-2 py-1 mngChannelBtn" href="/user/manage/channel"><i class="ri-pencil-fill"></i>Manage Channel</a>
-                </div>
-            <% } %>
-            <div class="channelOwnerInfoWrapper">
-                <div class="infoInnerWrapper">
-                    <div class="leftInfoWrapper">
-                        <div class="profileWrapper">
-                            <% if(ChannelOwner?.channel?.channelProfile?.url?.length > 0){ %>
-                                <img src="<%=ChannelOwner?.channel?.channelProfile?.url%>" alt="">
-                                <a class="profileOverlay" href="/user/manage/channel"><i class="ri-pencil-fill"></i></a>
-                            <% }else{ %>
-                                <h3 class="m-0 text-white"><%=ChannelOwner?.username?.charAt(0)?.toUpperCase()%></h3>
-                            <% } %>
+        <div class="menu-vid-parent d-flex flex-fill">
+            <%-include('sideMenu') %>
+                <div class="right-section padbtm">
+                    <% if(ChannelOwner?.channel?.channelBanner?.url?.length> 0){ %>
+                        <div class="bannerWrapper">
+                            <img src="<%=ChannelOwner?.channel?.channelBanner?.url%>" alt="">
+                            <a class="rounded-pill px-2 py-1 mngChannelBtn" href="/user/manage/channel"><i
+                                    class="ri-pencil-fill"></i>Manage Channel</a>
                         </div>
-                        <div class="infoTextWrapper">
-                            <h3 class="infoChannelName m-0 text-white"><%=ChannelOwner?.channel?.channelName%></h3>
-                            <small class="infoUsername gtxt text-wrap"><span>@<%=ChannelOwner?.channel?.channelName.split(' ').join('').toLowerCase()%></span> <span><%=ChannelOwner?.channel?.channelSubscription?.length%> subscribers</span> <span><%=ChannelOwner?.channel?.video?.length%> videos</span></small>
+                        <% } %>
+                            <div class="channelOwnerInfoWrapper">
+                                <div class="infoInnerWrapper">
+                                    <div class="leftInfoWrapper">
+                                        <div class="profileWrapper">
+                                            <% if(ChannelOwner?.channel?.channelProfile?.url?.length> 0){ %>
+                                                <img src="<%=ChannelOwner?.channel?.channelProfile?.url%>" alt="">
+                                                <a class="profileOverlay" href="/user/manage/channel"><i
+                                                        class="ri-pencil-fill"></i></a>
+                                                <% }else{ %>
+                                                    <h3 class="m-0 text-white">
+                                                        <%=ChannelOwner?.username?.charAt(0)?.toUpperCase()%>
+                                                    </h3>
+                                                    <% } %>
+                                        </div>
+                                        <div class="infoTextWrapper">
+                                            <h3 class="infoChannelName m-0 text-white">
+                                                <%=ChannelOwner?.channel?.channelName%>
+                                            </h3>
+                                            <small class="infoUsername gtxt text-wrap"><span>@
+                                                    <%=ChannelOwner?.channel?.channelName.split(' ').join('').toLowerCase()%></span> <span><%=ChannelOwner?.channel?.channelSubscription?.length%> subscribers</span> <span><%=ChannelOwner?.channel?.video?.length%> videos</span></small>
                             <a class="aboutLink gtxt" href="/channel/<%=ChannelOwner?._id%>/about">
                                 <small class="infoAboutText">
                                     <% if(ChannelOwner?.channel?.channelDiscription?.length > 0){ %>
@@ -47,9 +56,9 @@
                     </div>
                     <% if(JSON.stringify(ChannelOwner?._id) !== JSON.stringify(user?._id)){ %>
                         <div class="rightInfoWrapper">
-                            <a class="anchorWrap text-light" href="">
+                            <a class="anchorWrap text-light" href="/subscribe/<%=ChannelOwner.channel._id%>">
                                 <div class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
-                                  <small>Subscribe</small>
+                                    <small>Subscribe</small>
                                 </div>
                             </a>
                         </div>
@@ -84,23 +93,27 @@
                 </a>
             </div>
             <div class="content text-white">
-                <% if(section === 'home'){ %>
-                  <%-include('./channelpages/home') %>
-                <% }else if(section === 'videos'){ %>
-                  <%-include('./channelpages/videos') %>
-                <% }else if(section === 'playlists'){ %>
-                  <%-include('./channelpages/playlists') %>
-                <% }else if(section === 'channels'){ %>
-                  <%-include('./channelpages/channels') %>
-                <% }else{ %>
-                  <%-include('./channelpages/about') %>
-                <% } %>
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
-        crossorigin="anonymous"></script>
-    <script src="/javascripts/channelPage.js"></script>
+                <% if(section === ' home'){ %>
+                                                        <%-include('. /channelpages/home') %>
+                                                            <% }else if(section==='videos' ){ %>
+                                                                <%-include('. /channelpages/videos') %>
+                                                                    <% }else if(section==='playlists' ){ %>
+                                                                        <%-include('. /channelpages/playlists') %>
+                                                                            <% }else if(section==='channels' ){ %>
+                                                                                <%-include('. /channelpages/channels')
+                                                                                    %>
+                                                                                    <% }else{ %>
+                                                                                        <%-include('.
+                                                                                            /channelpages/about') %>
+                                                                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script
+                                    src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+                                    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+                                    crossorigin="anonymous"></script>
+                                <script src="/javascripts/channelPage.js"></script>
 </body>
+
 </html>
