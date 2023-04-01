@@ -42,13 +42,15 @@ optionsMenu.forEach((e) => {
     e.style.visibility = "hidden";
   });
 });
-
+let DelayToStartVideo;
 allVideoWrapper.forEach((wrapper) => {
   wrapper.addEventListener("mouseover", function () {
     // target optionsMenu icon
     this.lastElementChild.lastElementChild.style.visibility = "initial";
 
     // target video to play and pause
+ DelayToStartVideo = setTimeout(() => {
+  console.log('chala')
     getVideoStream(
       this.firstElementChild.firstElementChild.firstElementChild.getAttribute(
         "data-bs-videoId"
@@ -58,11 +60,14 @@ allVideoWrapper.forEach((wrapper) => {
     this.firstElementChild.firstElementChild.firstElementChild.muted = true;
     this.firstElementChild.firstElementChild.firstElementChild.play();
     this.firstElementChild.firstElementChild.firstElementChild.controls = true;
-
     // target img to hide and show
     this.firstElementChild.firstElementChild.children[1].style.display = "none";
+   }, 2000);
+
+    
   });
   wrapper.addEventListener("mouseout", function () {
+    clearTimeout(DelayToStartVideo)
     if (!isOptionsBoxOpen) {
       this.lastElementChild.lastElementChild.style.visibility = "hidden";
     }

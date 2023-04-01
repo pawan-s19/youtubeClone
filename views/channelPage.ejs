@@ -11,9 +11,9 @@
 </head>
 
 <body>
-    <%-include('navbar') %>
+    <%- include("navbar.ejs") %>
         <div class="menu-vid-parent d-flex flex-fill">
-            <%-include('sideMenu') %>
+            <%- include("sideMenu.ejs") %>
                 <div class="right-section padbtm">
                     <% if(ChannelOwner?.channel?.channelBanner?.url?.length> 0){ %>
                         <div class="bannerWrapper">
@@ -100,11 +100,13 @@
                                                                     <% }else if(section==='playlists' ){ %>
                                                                         <%-include('. /channelpages/playlists') %>
                                                                             <% }else if(section==='channels' ){ %>
-                                                                                <%-include('. /channelpages/channels')
-                                                                                    %>
+                                                                                <%-include('. /channelpages/channels')%>
+                                                                                    
+
                                                                                     <% }else{ %>
-                                                                                        <%-include('.
-                                                                                            /channelpages/about') %>
+                                                                                        <%-include('./channelpages/about') %>
+                                                                                            
+
                                                                                             <% } %>
                                         </div>
                                     </div>
