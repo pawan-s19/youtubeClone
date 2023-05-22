@@ -14,9 +14,9 @@
 
 <body>
     <div>
-        <%-include('navbar') %>
+        <%- include('navbar') %>
             <div class="menu-vid-parent d-flex flex-fill">
-                <%-include('sideMenu') %>
+                <%- include('sideMenu') %>
                     <div class="right-section p-3">
                         <div class="tags-ctn d-flex align-items-center gap-3">
                             <div class="explore tags-wrapper rounded-3" data-bs-toggle="offcanvas"
@@ -32,84 +32,32 @@
                                     <small>All</small>
                                 </a>
                             </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Music</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Mixes</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Ravindra Jain</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Live</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Bhajan Music</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Javascript</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Comedy</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Computer Science</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Wildlife</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Television</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Web Development</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>Recently Uploaded</small>
-                                </a>
-                            </div>
-                            <div class="tags-wrapper rounded-3">
-                                <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
-                                    href="#">
-                                    <small>New to you</small>
-                                </a>
-                            </div>
+                            <%videos?.forEach(function(elem){%>
+                                <%elem?.category.forEach(function(category){%>
+                                    <div class="tags-wrapper tags-wrapper rounded-3">
+                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                            href="/category/<%=category%>">
+                                            <small>
+                                                <%=category%>
+                                            </small>
+                                        </a>
+                                    </div>
+                                    <%})%>
+                                        <%})%>
+
+
+                                            <!-- <div class="tags-wrapper rounded-3">
+                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                            href="#">
+                                            <small>Recently Uploaded</small>
+                                        </a>
+                                    </div>
+                                    <div class="tags-wrapper rounded-3">
+                                        <a class="text-decoration-none text-light m-0 d-flex align-items-center justify-content-center"
+                                            href="#">
+                                            <small>New to you</small>
+                                        </a>
+                                    </div> -->
 
                         </div>
                         <div class="all-videos-ctn mt-3">
@@ -122,15 +70,33 @@
                                                 controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"
                                                 data-bs-videoId="<%=elem.video_id%>" src=""></video>
                                             <img src="<%=elem.thumbnail.secure_url%>" alt="">
-                                            <small style="pointer-events: none;"
-                                                class="m-0 p-1 badge bg-dark">8:20</small>
+
+                                            <small style="pointer-events: none;" class="m-0 p-1 badge bg-dark">
+                                                <%=elem?.duration%>
+                                            </small>
+
                                         </a>
                                     </div>
                                     <div class="iconTextWrapper mt-2 d-flex flex-nowrap align-items-start gap-3">
-                                        <a class="linkTo text-light" href="#">
-                                            <div class="profileIconCtn">
-                                                <img src="/Sample_Profile/pf1.jpg" alt="">
-                                            </div>
+                                        <a class="linkTo text-light" href="/channel/<%=elem?.userId?._id%>/home">
+                                            <%if(elem.userId.channel.channelProfile.url){%>
+                                                <div class="profileIconCtn">
+                                                    <img src="<%=elem.userId.channel?.channelProfile.url%>" alt="">
+                                                </div>
+                                                <%}else{%>
+                                                    <div style=" color: white;
+                                                    display: flex;
+                                                    align-items: center;
+                                                    justify-content: center;
+                                                    border-radius: 50%;
+                                                    width: 40px;
+                                                    height: 40px;
+                                                    font-size: 20px;
+                                                    background-color: #3b3b3b;">
+                                                        <%=elem.userId.channel.channelName.charAt(0).toUpperCase()%>
+                                                    </div>
+                                                    <%}%>
+
                                         </a>
                                         <div class="videoTextCtn">
                                             <a class="linkTo text-light" href="#">
@@ -139,7 +105,7 @@
                                                 </p>
                                             </a>
                                             <div class="text-secondary">
-                                                <a class="linkTo text-secondary" href="#">
+                                                <a class="linkTo text-secondary" href="/channel/<%=elem?.userId?._id%>/home">
                                                     <small class="m-0 channelName">
                                                         <%=elem.userId?.channel.channelName%>
                                                     </small>
@@ -183,8 +149,9 @@
                                                         <p class="m-0">Save to Playlist</p>
                                                     </a>
                                                 </li>
-                                                <li>
-                                                    <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                                                <li class="shareVideo">
+                                                    <a class="dropdown-item d-flex align-items-center gap-2" data-bs-toggle="modal"
+                                                    data-bs-target="#shareVideoModal" href="" data-bs-whatever="<%=elem._id%>">
                                                         <i class="ri-share-forward-line"></i>
                                                         <p class="m-0">Share</p>
                                                     </a>

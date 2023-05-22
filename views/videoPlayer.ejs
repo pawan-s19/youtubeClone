@@ -24,7 +24,7 @@
           <div class="videoPlayerSection">
             <div class="videoDetsWrapper text-light">
               <div class="videoContainer">
-                <video oncontextmenu="return false;" disablepictureinpicture autoplay controls controlsList="nodownload"
+                <video autofocus oncontextmenu="return false;" disablepictureinpicture autoplay controls controlsList="nodownload"
                   src="/play/<%=video.video_id%>"></video>
                 <!-- <img src="https://img.freepik.com/premium-psd/vertical-modern-furniture-poster-a4-size_145156-526.jpg?w=2000"  alt=""> -->
               </div>
@@ -34,27 +34,44 @@
               <div class="btns-container d-flex align-items-center justify-content-between flex-wrap gap-2">
                 <div class="subscribeBtnWrapper d-flex align-items-center gap-2">
                   <div class="channelLinkWrapper d-flex align-items-center gap-2">
-                    <a class="anchorWrap text-light" href="">
+                    <a class="anchorWrap text-light" href="/channel/<%=video?.userId?._id%>/home">
                       <div title="Go To Channel" class="profile">
-                        <img src="/Sample_Profile/pf2.jpg" alt="">
+                        <% if(video.userId.channel.channelProfile.url){%>
+                          <img src="<%=video.userId?.channel?.channelProfile.url%>" alt="">
+
+                          <%}else{%>
+                            <%=video.userId.channel.channelName.charAt(0).toUpperCase()%>
+                              <%}%>
                       </div>
                     </a>
                     <div class="subscriberCount d-flex flex-column">
-                      <a class="anchorWrap text-light" href="">
+                      <a class="anchorWrap text-light" href="/channel/<%=video?.userId?._id%>/home">
                         <h6 title="Talent Recap" class="m-0">
                           <%=video.userId.channel.channelName%>
                         </h6>
                       </a>
                       <small class="m-0 text-secondary">
-                        <%=video.userId.channel.subscriberCount.length%> subscribers
+                        <%=video.userId.channel.channelSubscription.length%> subscribers
                       </small>
                     </div>
                   </div>
-                  <% if(video.userId._id !==user?._id){ %>
-                    <a class="anchorWrap text-light ms-3" href="">
-                      <div class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
-                        <small>Subscribe</small>
-                      </div>
+                  <% if(JSON.stringify(video?.userId?._id) !== JSON.stringify(user?._id)){ %>
+                    <a class="anchorWrap text-light ms-3" href="/subscribe/<%=video?.userId?._id%>">
+                      <%if(JSON.stringify(user?.channelSubscribeByUser)?.includes(video?.userId?.channel._id)){%>
+                        <div title="Unsubscribe this channel"
+                            class="subscribedBtn text-white rounded-pill text-nowrap text-dark fw-semibold">
+                            <small>
+                                Subscribed
+                            </small>
+                        </div>
+                      <%}else{%>
+                            <div title="Subscribe this channel"
+                                class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
+                                <small>
+                                    Subscribe
+                                </small>
+                            </div>
+                      <% }%>
                     </a>
                     <% } %>
                 </div>
@@ -62,7 +79,7 @@
                   <div class="fadedBtnWrap d-flex align-items-center flex-nowrap">
                     <a title="I Like this" class="anchorWrap text-white" href="/like/<%=video._id%>">
                       <div class="likeWrap d-flex align-items-center gap-2">
-                        <i class="ri-thumb-up-line"></i>
+                        <i class="<%=hasLiked ? 'ri-thumb-up-fill' : 'ri-thumb-up-line'%>"></i>
                         <small class="m-0">
                           <%=video.likes.length%>
                         </small>
@@ -70,13 +87,13 @@
                     </a>
                     <a title="I Dislike this" class="anchorWrap text-white" href="/dislike/<%=video._id%>">
                       <div class="dislikeWrap d-flex align-items-center gap-2">
-                        <i class="ri-thumb-down-line"></i>
+                        <i class="<%=hasDisliked ? 'ri-thumb-down-fill' : 'ri-thumb-down-line'%>"></i>
                       </div>
                     </a>
                   </div>
-                  <div class="fadedBtnWrap">
-                    <a class="anchorWrap text-white" title="Share" data-bs-toggle="modal"
-                      data-bs-target="#shareVideoModal" href="">
+                  <div class="fadedBtnWrap ">
+                    <a class="anchorWrap text-white " title="Share" data-bs-toggle="modal"
+                      data-bs-target="#shareVideoModal2" href="" >
                       <div title="Share" class="shareWrap d-flex align-items-center gap-2">
                         <i class="ri-share-forward-line"></i>
                         <small class="m-0">Share</small>
@@ -118,9 +135,19 @@
                 <%video.comment.length%> Comments
               </h6>
               <div class="commentBoxWrapper d-flex gap-3 align-items-center">
-                <a class="anchorWrap text-light" href="">
+                <% if(user?.channel){ %>
+                  <a class="anchorWrap text-light" href="/channel/<%=user?._id%>/home">
+                <% }else{ %>
+                  <a class="anchorWrap text-light" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                      data-bs-whatever="@fat">
+                <% } %>
                   <div title="Go To Channel" class="profile">
-                    <img src="/Sample_Profile/pf2.jpg" alt="">
+                    <%if(user?.channel?.channelProfile.url){%>
+
+                      <img src="<%=user?.channel?.channelProfile.url%>" alt="">
+                      <% }else{%>
+                        <%=user?.username?.charAt(0)?.toUpperCase()%>
+                    <%}%>
                   </div>
                 </a>
                 <form method="POST" class="commentForm" action="/comment/<%=video._id%>">
@@ -131,9 +158,18 @@
                 <% video.comment.forEach(function(elem){ %>
                   <div class="otherPeopleCommentWrapper mt-4 text-light">
                     <div class="peopleCommentWrap d-flex align-items-top gap-3 mb-3">
-                      <a class="anchorWrap text-light" href="">
+                      <% if(elem?.userId[0]?.channel){ %>
+                        <a class="anchorWrap text-light" href="/channel/<%=elem?.userId[0]?._id%>/home">
+                      <% }else{ %>
+                        <a class="anchorWrap text-light" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                      data-bs-whatever="@fat">
+                      <% } %>
                         <div title="Go To Channel" class="profile">
-                          <img src="/Sample_Profile/pf2.jpg" alt="">
+                          <%if(elem?.userId[0]?.channel?.channelProfile.url){%>
+                            <img src="<%=elem.userId[0].channel.channelProfile.url%>" alt="">
+                            <% }else{%>
+                              <%=elem?.userId[0]?.username?.charAt(0)?.toUpperCase()%>
+                          <% }%>
                         </div>
                       </a>
                       <div>
@@ -153,13 +189,13 @@
                         <div class="commentLikeIcon d-flex align-items-center gap-2 mt-2">
                           <a href="/comment/like/<%=elem._id%>"
                             class="d-flex align-items-center gap-1 anchorWrap text-light">
-                            <i class="commentDislikeIcon ri-thumb-up-line"></i>
+                            <i class="commentDislikeIcon <%=elem?.likes?.indexOf(user?._id) !== -1 ? 'ri-thumb-up-fill' : 'ri-thumb-up-line'%>"></i>
                             <small class="m-0 text-muted fw-semibold">
                               <%=elem.likes.length%>
                             </small>
                           </a>
                           <a href="/comment/dislike/<%=elem._id%>" class="anchorWrap text-light">
-                            <i class="commentDislikeIcon ri-thumb-down-line"></i>
+                            <i class="commentDislikeIcon <%=elem?.disLikes?.indexOf(user?._id) !== -1 ? 'ri-thumb-down-fill' : 'ri-thumb-down-line'%>"></i>
                           </a>
                           <i class="ri-more-2-fill" type="button" data-bs-toggle="dropdown" aria-expanded="false"
                             data-bs-auto-close="outside"></i>
@@ -231,23 +267,25 @@
                   <div class="optionsMenu text-light">
                     <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown" aria-expanded="false"></i>
                     <ul class="dropdown-menu">
-                      <li>
-                        <a class="dropdown-item d-flex align-items-center gap-2" href="/addToWatchLater/<%=elem._id%>">
+                      <li class="notOpen">
+                        <a class="dropdown-item d-flex align-items-center gap-2 notOpen"
+                          href="/addToWatchLater/<%=elem._id%>">
                           <i class="ri-time-line"></i>
                           <p class="m-0">Save to Watch Later</p>
                         </a>
                       </li>
-                      <li>
-                        <a class="dropdown-item d-flex align-items-center gap-2" data-bs-toggle="modal"
-                          data-bs-target="#playlistModal" data-bs-whatever="<%=elem._id%>" href="">
-                          <i class="ri-play-list-add-line"></i>
-                          <p class="m-0">Save to Playlist</p>
+                      <li class="notOpen">
+                        <a class="dropdown-item d-flex align-items-center gap-2 notOpen" data-bs-toggle="modal"
+                          data-bs-target="#playlistModal" data-bs-whatever="<%=elem._id%>">
+                          <i class="ri-play-list-add-line notOpen"></i>
+                          <p class="m-0 notOpen">Save to Playlist</p>
                         </a>
                       </li>
-                      <li>
-                        <a class="dropdown-item d-flex align-items-center gap-2" href="#">
-                          <i class="ri-share-forward-line"></i>
-                          <p class="m-0">Share</p>
+                      <li class="notOpen shareVideo">
+                        <a class="dropdown-item d-flex align-items-center gap-2 notOpen" data-bs-toggle="modal"
+                          data-bs-target="#shareVideoModal" href="" data-bs-whatever="<%=elem._id%>">
+                          <i class="ri-share-forward-line notOpen"></i>
+                          <p class="m-0 notOpen">Share</p>
                         </a>
                       </li>
 
@@ -261,7 +299,7 @@
       </div>
 
       <!-- Modal -->
-      <div class="modal fade" id="shareVideoModal" tabindex="-1" aria-labelledby="shareVideoModalLabel"
+      <div class="modal fade " id="shareVideoModal2" tabindex="-1" aria-labelledby="shareVideoModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -274,7 +312,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary copyLinkButton">Copy URL</button>
+              <button type="button" class="btn btn-primary copyLinkButton2">Copy URL</button>
             </div>
           </div>
         </div>

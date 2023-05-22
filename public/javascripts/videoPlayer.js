@@ -1,7 +1,3 @@
-// let vidCtn = document.querySelector('.videoContainer');
-// let video = document.querySelector('.videoContainer video');
-// let vidCtnPoster = document.querySelector('.videoContainer img');
-
 // vidCtn.addEventListener('mouseover', () => {
 //     vidCtnPoster.style.display = 'none'
 //     video.muted = true;
@@ -20,6 +16,9 @@ let showMore = document.querySelector(".showMore");
 
 let editcomment = document.querySelectorAll('.comment-edit');
 let commentform = document.querySelector('.comment-form');
+
+var copyLinkButton2 = document.querySelector('.copyLinkButton2')
+
 
 // console.log(dropdownmenu)
 
@@ -80,12 +79,18 @@ allVideosSec.forEach((wrapper) => {
     }
   });
   wrapper.addEventListener("click", function (e) {
-    if (!e.target.classList.contains("ri-more-2-line")) {
+    if (!e.target.classList.contains("ri-more-2-line") && !e.target.classList.contains('notOpen')) {
       let id = this.getAttribute("videoId");
       window.location = `/watch/${id}`;
     }
   });
 });
+
+copyLinkButton2.addEventListener("click", async (e) => {
+    await navigator.clipboard.writeText(window.location.href);
+    console.log(window.location.href)
+});
+
 
 // document.querySelector('.videoAndTextWrapper').addEventListener('mouseover', () => {
 //     document.querySelector('.optionsMenu').style.visibility = 'initial'
@@ -103,3 +108,15 @@ allVideosSec.forEach((wrapper) => {
 //     descriptionBox.style.setProperty('--displayNot', "block");
 //     console.log('first')
 // });
+
+let shareVideo = document.querySelectorAll('.shareVideo')
+inputVideoId = document.querySelector('.inputVideoId')
+
+
+shareVideo.forEach(function(elem){
+  elem.addEventListener('click', function(e){
+    console.log(e.target)
+    let vid = e.target.getAttribute('data-bs-whatever')
+    inputVideoId.value = `http://localhost:3000/watch/${vid}`
+  })
+})

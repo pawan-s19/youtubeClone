@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/channelpages/playlists.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="playlistSectionWrapper">
+        <div class="playlistWrapper d-flex flex-wrap gap-2 mt-3">
+            <% ChannelOwner?.userPlaylist?.forEach(function(elem){ %>
+                <div class="singlePlaylistWrapper text-white">
+                    <a class="text-white text-decoration-none" href="/play/playlist/<%=elem._id%>">
+                        <div class="playlistVideoWrapper">
+                            <img src="<%=elem?.videos[elem?.videos?.length - 1]?.thumbnail.secure_url%>" alt="">
+                            <div class="playlistVideoCountWrapper">
+                                <span><%=elem?.videos?.length%></span>
+                                <i class="ri-play-list-2-line"></i>
+                            </div>
+                            <div class="playAllOverlay">
+                                <i class="ri-play-fill me-2"></i>
+                                <span>Play All</span>
+                            </div>
+                        </div>
+                        <p class="playlistName mt-2 mb-1"><%=elem?.playListName%></p>
+                        
+                    </a>
+                    <a class="text-decoration-none" href="/view/playlist/<%=elem._id%>">
+                        <small class="viewPl">View Full Playlist</small>
+                    </a>
+                    <% if(isOwner){ %>
+                        <div class="dropdown">
+                            <i class="ri-more-2-fill plMenu" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"></i>
+                            
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" data-bs-toggle="collapse" href="#PlNameCollapse" role="button" aria-expanded="false" aria-controls="PlNameCollapse"><i class="ri-pencil-fill"></i> Modify Name</a></li>
+                              <div class="collapse" id="PlNameCollapse">
+                                  <div class="card card-body">
+                                    <form method="POST" action="/update/name/playlist/<%=elem?._id%>">
+                                        <div class="mb-3">
+                                          <label for="exampleInputEmail1" class="form-label">New Name</label>
+                                          <input name="newname" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                      </form>
+                                  </div>
+                              </div>
+                              <li><a class="dropdown-item" href="/remove/playlist/<%=elem?._id%>"><i class="ri-delete-bin-3-fill"></i> Delete Playlist</a></li>
+                            </ul>
+                        </div>
+                    <% } %>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+    <script src="/javascripts/channelpages/playlists.js"></script>
+</body>
+</html>

@@ -8,18 +8,16 @@ const playListModel = new mongoose.Schema({
     },
     videos:[{
         type: mongoose.Schema.Types.ObjectId,
-        ref : "videoModels"
+        ref : "videoModel"
     }],
     comment: [{ 
         type: mongoose.Schema.Types.ObjectId,
         ref: "commentModel" 
     }],
-    likedVideos: [{ 
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "videoModels" 
-    }]
+    isPrivate: {
+        type: Boolean,
+        default: true
+    }
 })
 
 module.exports = mongoose.model("userPlayListModel", playListModel);
-
-

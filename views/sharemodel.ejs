@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <!-- Modal -->
+  <div class="modal fade" id="shareVideoModal" tabindex="-1" aria-labelledby="shareVideoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="shareVideoModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" style="width: 100%; " class="inputVideoId">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary copyLinkButton">Copy URL</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let copyLinkButton = document.querySelector('.copyLinkButton')
+    let protocol = window.location.protocol;
+    let host = window.location.host;
+    inputVideoId = document.querySelector('.inputVideoId')
+
+    copyLinkButton.addEventListener("click", async (e) => {
+      navigator.clipboard.writeText(`${inputVideoId.value}`);
+    });
+
+    const shareVideoModal = document.getElementById('shareVideoModal');
+  playlistModal.addEventListener('show.bs.modal', event => {
+    const button = event.relatedTarget
+    const recipient = button.getAttribute('data-bs-whatever')
+  })
+  </script>
+</body>
+
+</html>

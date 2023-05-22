@@ -15,6 +15,8 @@ body {
   --themeBg: #212121;
   --iconHover: rgba(221, 160, 221, 0.484);
   --iconBackFaded: rgba(221, 160, 221, 0.194);
+  --elementActive: rgba(255, 192, 203, 0.1);
+  --themeTextGrey: #aaa;
 }
 
 .menu-vid-parent {
@@ -67,6 +69,8 @@ body {
 .tags-wrapper:hover {
   background-color: var(--iconHover);
 }
+
+/* // video grid styling start form here */
 
 .all-videos-ctn {
   display: grid;
@@ -127,6 +131,7 @@ body {
 
 .profileIconCtn {
   width: 45px;
+  height: 45px;
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
@@ -149,6 +154,7 @@ body {
   -webkit-line-clamp: 2; /* number of lines to show */
   line-clamp: 2;
   -webkit-box-orient: vertical;
+  color: rgb(219, 219, 219);
 }
 .videoTextCtn .listDot::after {
   content: "·";
@@ -173,6 +179,7 @@ body {
   visibility: hidden;
   cursor: pointer;
 }
+/* // video grid styling ends form here */
 
 .notification-parent {
   background-color: var(--themeBg) !important;
@@ -241,6 +248,7 @@ body {
     grid-template-columns: repeat(auto-fill, 100%);
   }
   .profileIconCtn {
+    height: 30px;
     width: 30px;
   }
   .video-container video {

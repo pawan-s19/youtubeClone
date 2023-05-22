@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/videoPlayer.css">
+    <link rel="stylesheet" href="/stylesheets/playlistPlayer.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <%- include('navbar') %>
+        <div class="menu-vid-parent d-flex flex-fill">
+            <!-- <%-include('sideMenu') %> -->
+            <div class="right-section flex-wrap padbtm">
+                <div class="videoPlayerSection">
+                    <div class="videoDetsWrapper text-light">
+                        <div class="videoContainer">
+                            <video autofocus oncontextmenu="return false;" disablepictureinpicture autoplay controls
+                                controlsList="nodownload" src="/play/<%=currentVideoId%>"></video>
+                            <div class="prevnextBtnWrapper">
+                                <a title="play previous video" class="text-white"
+                                    href="/play/playlist/<%=playlist?._id%>?index=<%=previousIndex%>">
+                                    <i class="ri-arrow-left-circle-fill"></i>
+                                </a>
+                                <a title="play next video" class="text-white"
+                                    href="/play/playlist/<%=playlist?._id%>?index=<%=nextIndex%>">
+                                    <i class="ri-arrow-right-circle-fill"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <h5>
+                            <%=currentVideo.title%>
+                        </h5>
+                        <div class="btns-container d-flex align-items-center justify-content-between flex-wrap gap-2">
+                            <div class="subscribeBtnWrapper d-flex align-items-center gap-2">
+                                <div class="channelLinkWrapper d-flex align-items-center gap-2">
+                                    <a class="anchorWrap text-light"
+                                        href="/channel/<%=currentVideo.userId.channel._id%>/home">
+                                        <div title="Go To Channel" class="profile">
+                                            <% if(currentVideo.userId.channel.channelProfile.url){%>
+                                                <img src="<%=currentVideo.userId.channel?.channelProfile.url%>" alt="">
+
+                                                <%}else{%>
+                                                    <%=currentVideo.userId.channel.channelName.charAt(0).toUpperCase()%>
+                                                        <%}%>
+                                        </div>
+                                    </a>
+                                    <div class="subscriberCount d-flex flex-column">
+                                        <a class="anchorWrap text-light" href="">
+                                            <h6 title="Talent Recap" class="m-0">
+                                                <%=currentVideo.userId.channel.channelName%>
+                                            </h6>
+                                        </a>
+                                        <small class="m-0 text-secondary">
+                                            <%=currentVideo.userId.channel.channelSubscription.length%> subscribers
+                                        </small>
+                                    </div>
+                                </div>
+                                <% if(JSON.stringify(currentVideo?.userId?._id) !==JSON.stringify(user?._id)){ %>
+                                    <a class="anchorWrap text-light ms-3"
+                                        href="/subscribe/<%=currentVideo?.userId?._id%>">
+                                        <%if(JSON.stringify(user?.channelSubscribeByUser)?.includes(currentVideo?.userId?.channel._id)){%>
+                                            <div title="Unsubscribe this channel"
+                                                class="subscribedBtn text-white rounded-pill text-nowrap text-dark fw-semibold">
+                                                <small>
+                                                    Subscribed
+                                                </small>
+                                            </div>
+                                            <%}else{%>
+                                                <div title="Subscribe this channel"
+                                                    class="subscribeBtn bg-white rounded-pill text-nowrap text-dark fw-semibold">
+                                                    <small>
+                                                        Subscribe
+                                                    </small>
+                                                </div>
+                                                <% }%>
+                                    </a>
+                                    <% } %>
+                            </div>
+                            <div class="likeDislikeShare">
+                                <div class="fadedBtnWrap d-flex align-items-center flex-nowrap">
+                                    <a title="I Like this" class="anchorWrap text-white"
+                                        href="/like/<%=currentVideo._id%>">
+                                        <div class="likeWrap d-flex align-items-center gap-2">
+                                            <i class="ri-thumb-up-line"></i>
+                                            <small class="m-0">
+                                                <%=currentVideo.likes.length%>
+                                            </small>
+                                        </div>
+                                    </a>
+                                    <a title="I Dislike this" class="anchorWrap text-white"
+                                        href="/dislike/<%=currentVideo._id%>">
+                                        <div class="dislikeWrap d-flex align-items-center gap-2">
+                                            <i class="ri-thumb-down-line"></i>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="fadedBtnWrap">
+                                    <a class="anchorWrap text-white" title="Share" data-bs-toggle="modal"
+                                        data-bs-target="#shareVideoModal" href="">
+                                        <div title="Share" class="shareWrap d-flex align-items-center gap-2">
+                                            <i class="ri-share-forward-line"></i>
+                                            <small class="m-0">Share</small>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="VideoViewsDes">
+                        <!-- <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                              data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                              Button with data-bs-target
+                            </button> -->
+                        <div class="description card text-white mt-3">
+                            <div class="card-body position-relative">
+                                <small class="fw-semibold me-2">
+                                    <%=currentVideo.views.length%> Views
+                                </small>
+                                <small class="fw-semibold">
+                                    <%=moment(currentVideo.createdAt).fromNow()%>
+                                </small>
+                                <br>
+                                <p class="desText card-text mb-0">
+                                    <%=currentVideo.description%>
+                                </p>
+                                <span class="showMore fw-semibold"> Show More</span>
+                            </div>
+                        </div>
+                        <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                                Some placeholder content for the collapse component. This panel is hidden by default
+                                but
+                                revealed when the user activates the relevant trigger.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="videoCommentSec text-light mt-3">
+                        <h6 class="mb-4">
+                            <%currentVideo.comment.length%> Comments
+                        </h6>
+                        <div class="commentBoxWrapper d-flex gap-3 align-items-center">
+                            <a class="anchorWrap text-light" href="">
+                                <div title="Go To Channel" class="profile">
+                                    <%if(user?.channel?.channelProfile.url){%>
+
+                                        <img src="<%=user?.channel?.channelProfile.url%>" alt="">
+                                        <% }else{%>
+                                            <img
+                                                src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAIYAhgMBIgACEQEDEQH/xAAbAAEAAgMBAQAAAAAAAAAAAAAABAUDBgcBAv/EADcQAAICAQICBwUHAwUAAAAAAAABAgMEBREhMQYSIkFRYXETMlKB0TNCcpGhscEjguEHFTRiY//EABYBAQEBAAAAAAAAAAAAAAAAAAABAv/EABYRAQEBAAAAAAAAAAAAAAAAAAABEf/aAAwDAQACEQMRAD8A7iAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHjkkt29kYMnKjQtuc3yX1Ku26dz3nLfy7kJBY2Z9Ufc3n6GCWozfuwivVkIGsTUv/AHC3wj+R9w1F/frXyZBAwW1OXVY0t+q33SJG5QmfHyrKWlv1o/CyYauAY6boXR60H6rwMhFAAAAAAAACNmZCphwfbfJfySJNRi2+S5lJfY7bHOXfy8kWD5bcm3J7t954AVkAIeoanh6dBPLuUG+MYLjJ/ICYDX4dLtMlPqyjkQXxOtNfo9y7xsmjLpjbjWxtrf3ovcDKAAMlNsqp9aL9V4lvTZG2tTi+DKQlYFzhb1G+zL9xYurUAGVAAAAAEPUbOrR1fjexWEzU3/VhHwjuQyxAAFRB1jUI6Zp9mTJdaS7MIv70nyRzbIvtyrp3ZE3Oyb3lJm2dPZy9lhVp9lylJ+qSX8s08oFhouqW6VmRtg26ZPa2vulHx9UV4COs1zjZXGcHvGSUovxTPoqujE5T0HDcnu1FxXom0i1IoEABd0T9pVGfijIRNNe+Pt4NolmWgAAAABV6l/yF+EiE7VI9quXlsQTUQAARrfTnGdmnU3wX2Nna8k19djSDq91Nd9M6boKdc4uMovvRpWpdE8yixywdsinmlvtNevc/kBroLGOharKXVWDcvNrZF/oPRadN0MnUuo3B7wpT34/9vogL7RcZ4mk4lE1tONa6y8G+L/cmgAAABZ6Z9jL8RMIunx6uNF+O7JRloAAAAARs6r2lD2W7jxRUl+ynzKfY28PdlxRYlYACn6Q63DSqlXWlZlTXZi+UV8T+hUT83OxcCr2mXdGuL5J836LvKDK6ZURbWLiWWeErGo/U1HJyLsq6V2RZKyyXOUn+np5GIDaV00u37WDVt5WP6Fhh9L8G6SjkV2Y7fe+1H9PoaMCjrFNtd9cbKbI2Ql7sovdM+zmWlapk6Zep48t4N9uqXuz9fPzOhaZqFGpYkcih8HwlFvjF+DIJZ7CLnJRiuLex4TtOo4+2kvKP1FVPrgoRUVyS2PoAyoAAAAAGO+pXQcJfJ+BkAGvalNadj3XZHuVxct/H0OWZmTbmZVuRe952S3fl5eiO06lgY+o4c8XKg5VT5pPZrzRznW+hWdgylZgJ5ePz2X2i9V3/AC/I1KlasD2UZQk4zi4yT2aa2a+R4aZAAALfoxqT0/UoKb/oXNQsTfBeD+T/AHZW4uLkZlypxKbLrH92Ed3/AIN10DoLJyjfrMtkuKx63z/E/wCF+ZKsjasXFlc93wgufn5FrFdWKSWyR5GKjFKK2SWyR9GLdaAAAAAAAAAAAAAEHP0rB1FbZuJTd5zjxXo+ZS5HQTRrW3XG+nf4Ld/33NoAGnr/AE90zfjk5b/uj9CZjdCdEoe8sadz/wDWxtfktkbIAYwYuLRiV+zxqK6ofDXFRX6GY9AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH/9k=" />
+                                            <%}%>
+                                </div>
+                            </a>
+                            <form method="POST" class="commentForm" action="/comment/<%=currentVideo._id%>">
+                                <input placeholder="Comment Here..." name="comment" class="commentInp" type="text">
+                            </form>
+                        </div>
+                        <% if(currentVideo.comment.length>0){ %>
+                            <% currentVideo.comment.forEach(function(elem){ %>
+                                <div class="otherPeopleCommentWrapper mt-4 text-light">
+                                    <div class="peopleCommentWrap d-flex align-items-top gap-3 mb-3">
+                                        <a class="anchorWrap text-light" href="">
+                                            <div title="Go To Channel" class="profile">
+                                                <%if(elem?.userId[0]?.channel?.channelProfile.url){%>
+
+                                                    <img src="<%=elem.userId[0].channel.channelProfile.url%>" alt="">
+                                                    <% }else{%>
+                                                        <img
+                                                            src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAIYAhgMBIgACEQEDEQH/xAAbAAEAAgMBAQAAAAAAAAAAAAAABAUDBgcBAv/EADcQAAICAQICBwUHAwUAAAAAAAABAgMEBREhMQYSIkFRYXETMlKB0TNCcpGhscEjguEHFTRiY//EABYBAQEBAAAAAAAAAAAAAAAAAAABAv/EABYRAQEBAAAAAAAAAAAAAAAAAAABEf/aAAwDAQACEQMRAD8A7iAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHjkkt29kYMnKjQtuc3yX1Ku26dz3nLfy7kJBY2Z9Ufc3n6GCWozfuwivVkIGsTUv/AHC3wj+R9w1F/frXyZBAwW1OXVY0t+q33SJG5QmfHyrKWlv1o/CyYauAY6boXR60H6rwMhFAAAAAAAACNmZCphwfbfJfySJNRi2+S5lJfY7bHOXfy8kWD5bcm3J7t954AVkAIeoanh6dBPLuUG+MYLjJ/ICYDX4dLtMlPqyjkQXxOtNfo9y7xsmjLpjbjWxtrf3ovcDKAAMlNsqp9aL9V4lvTZG2tTi+DKQlYFzhb1G+zL9xYurUAGVAAAAAEPUbOrR1fjexWEzU3/VhHwjuQyxAAFRB1jUI6Zp9mTJdaS7MIv70nyRzbIvtyrp3ZE3Oyb3lJm2dPZy9lhVp9lylJ+qSX8s08oFhouqW6VmRtg26ZPa2vulHx9UV4COs1zjZXGcHvGSUovxTPoqujE5T0HDcnu1FxXom0i1IoEABd0T9pVGfijIRNNe+Pt4NolmWgAAAABV6l/yF+EiE7VI9quXlsQTUQAARrfTnGdmnU3wX2Nna8k19djSDq91Nd9M6boKdc4uMovvRpWpdE8yixywdsinmlvtNevc/kBroLGOharKXVWDcvNrZF/oPRadN0MnUuo3B7wpT34/9vogL7RcZ4mk4lE1tONa6y8G+L/cmgAAABZ6Z9jL8RMIunx6uNF+O7JRloAAAAARs6r2lD2W7jxRUl+ynzKfY28PdlxRYlYACn6Q63DSqlXWlZlTXZi+UV8T+hUT83OxcCr2mXdGuL5J836LvKDK6ZURbWLiWWeErGo/U1HJyLsq6V2RZKyyXOUn+np5GIDaV00u37WDVt5WP6Fhh9L8G6SjkV2Y7fe+1H9PoaMCjrFNtd9cbKbI2Ql7sovdM+zmWlapk6Zep48t4N9uqXuz9fPzOhaZqFGpYkcih8HwlFvjF+DIJZ7CLnJRiuLex4TtOo4+2kvKP1FVPrgoRUVyS2PoAyoAAAAAGO+pXQcJfJ+BkAGvalNadj3XZHuVxct/H0OWZmTbmZVuRe952S3fl5eiO06lgY+o4c8XKg5VT5pPZrzRznW+hWdgylZgJ5ePz2X2i9V3/AC/I1KlasD2UZQk4zi4yT2aa2a+R4aZAAALfoxqT0/UoKb/oXNQsTfBeD+T/AHZW4uLkZlypxKbLrH92Ed3/AIN10DoLJyjfrMtkuKx63z/E/wCF+ZKsjasXFlc93wgufn5FrFdWKSWyR5GKjFKK2SWyR9GLdaAAAAAAAAAAAAAEHP0rB1FbZuJTd5zjxXo+ZS5HQTRrW3XG+nf4Ld/33NoAGnr/AE90zfjk5b/uj9CZjdCdEoe8sadz/wDWxtfktkbIAYwYuLRiV+zxqK6ofDXFRX6GY9AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH/9k=" />
+                                                        <% }%>
+                                            </div>
+                                        </a>
+                                        <div>
+                                            <div class="nameWrapper">
+                                                <a class="anchorWrap text-light" href="">
+                                                    <small class="fw-semibold me-1">
+                                                        <%=elem.name%>
+                                                    </small>
+                                                </a>
+                                                <small class="text-muted fw-semibold">
+                                                    <%=moment(elem.createdAt).fromNow()%>
+                                                </small>
+                                            </div>
+                                            <div class="commentTextWrapper">
+                                                <small>
+                                                    <%=elem.comment%>
+                                                </small>
+                                            </div>
+                                            <div class="commentLikeIcon d-flex align-items-center gap-2 mt-2">
+                                                <a href="/comment/like/<%=elem._id%>"
+                                                    class="d-flex align-items-center gap-1 anchorWrap text-light">
+                                                    <i class="commentDislikeIcon ri-thumb-up-line"></i>
+                                                    <small class="m-0 text-muted fw-semibold">
+                                                        <%=elem.likes?.length%>
+                                                    </small>
+                                                </a>
+                                                <a href="/comment/dislike/<%=elem._id%>" class="anchorWrap text-light">
+                                                    <i class="commentDislikeIcon ri-thumb-down-line"></i>
+                                                </a>
+                                                <i class="ri-more-2-fill" type="button" data-bs-toggle="dropdown"
+                                                    aria-expanded="false" data-bs-auto-close="outside"></i>
+                                                <div class="dropdownParent">
+                                                    <ul class="dropdown-menu">
+                                                        <% if(user){ %>
+                                                            <li style="cursor: pointer;" class="comment-edit">
+                                                                <h6 class="dropdown-item">Edit Comment</h6>
+                                                            </li>
+                                                            <% }else{ %>
+                                                                <li style="cursor: pointer;"><a class="dropdown-item"
+                                                                        href="/signInPage">Edit
+                                                                        Comment</a></li>
+                                                                <% } %>
+                                                                    <li>
+                                                                        <form action="/comment/edit/<%=elem._id%>"
+                                                                            class="comment-form" style="display: none;"
+                                                                            method="post">
+                                                                            <div class="mx-3">
+                                                                                <input type="text" class="form-control"
+                                                                                    id="exampleInputPassword1"
+                                                                                    value="<%=elem.comment%>"
+                                                                                    name="comment">
+                                                                            </div>
+                                                                            <button type="submit"
+                                                                                class="btn btn-primary mx-3 mt-2">Submit</button>
+                                                                        </form>
+                                                                    </li>
+                                                                    <li><a class="dropdown-item"
+                                                                            href="/comment/delete/<%=elem._id%>">Delete
+                                                                            Comment</a>
+                                                                    </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }) %>
+                                    <% } %>
+                    </div>
+                </div>
+                <div class="relatedVideoSection text-white">
+                    <div class="accordion mb-3" id="accordionExample">
+                        <div class="accordion-item myplaylistAccordian">
+                            <div class="accordion-header" id="headingOne">
+                                <button
+                                    class="accordion-button text-white fw-bold fs-5 p-3 py-2 shadow-none bg-transparent border-0"
+                                    type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                    aria-expanded="true" aria-controls="collapseOne">
+                                    <%=playlist?.playListName%>
+                                </button>
+                            </div>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                                data-bs-parent="#accordionExample">
+                                <div class="morePlaylistStats px-3 pb-3">
+                                    <div class="plStatsTop d-flex gap-3 align-items-end">
+                                        <% if(playlist.isPrivate){ %>
+                                            <div style="width: fit-content" class="badge bg-dark d-flex gap-2 p-2">
+                                                <i class="ri-lock-2-fill"></i>
+                                                Private
+                                            </div>
+                                            <% } %>
+                                                <div>
+                                                    <p class="m-0">
+                                                        <%=index+1%>/<%=playlist?.videos?.length%>
+                                                    </p>
+                                                </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-body p-0">
+                                    <div class="playlistParentWrap p-1 card bg-transparent border-0 text-white mt-3">
+                                        <% if(playlist.videos.length> 0){ %>
+                                            <% playlist?.videos?.forEach(function(elem, videoIndex){ %>
+                                                <div id="id<%=videoIndex%>" class="singleVideoLongCtn py-2 rounded-2">
+                                                    <a class="singlePlaylistAnchor text-white text-decoration-none"
+                                                        href="?index=<%=videoIndex%>">
+                                                        <div class="singlePlaylistVidThumbnail">
+                                                            <img src="<%=elem?.thumbnail.secure_url%>" alt="">
+                                                            <% if(videoIndex==index){ %>
+                                                                <span class="videoNumber"><i
+                                                                        class="ri-play-fill"></i></span>
+                                                                <lottie-player
+                                                                    src="https://assets8.lottiefiles.com/packages/lf20_jJJl6i.json"
+                                                                    background="transparent" speed="1" loop
+                                                                    autoplay></lottie-player>
+                                                                <% }else{ %>
+                                                                    <span class="videoNumber p-1">
+                                                                        <%=videoIndex+1%>
+                                                                    </span>
+                                                                    <% } %>
+                                                        </div>
+                                                        <div class="videoStatsAndText">
+                                                            <h6 class="fw-semibold">
+                                                                <%=elem?.title%>
+                                                            </h6>
+                                                            <div class="statsSection">
+                                                                <small class="text-wrap">MJ MIX ART</small>
+                                                                <small>
+                                                                    <%=moment(elem?.createdAt).fromNow()%>
+                                                                </small>
+                                                                <small>313k views</small>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <div>
+                                                        <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown"
+                                                            aria-expanded="false"></i>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a class="dropdown-item d-flex align-items-center gap-2"
+                                                                    href="/addToWatchLater/<%=elem._id%>">
+                                                                    <i class="ri-time-line"></i>
+                                                                    <p class="m-0">Save to Watch Later</p>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item d-flex align-items-center gap-2"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#playlistModal"
+                                                                    data-bs-whatever="<%=elem._id%>"
+                                                                    data-bs-createdPls="<%=user?.userPlaylist%>">
+                                                                    <i class="ri-play-list-add-line"></i>
+                                                                    <p class="m-0">Save to Playlist</p>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item d-flex align-items-center gap-2"
+                                                                    href="#">
+                                                                    <i class="ri-share-forward-line"></i>
+                                                                    <p class="m-0">Share</p>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+                                                <% }) %>
+                                                    <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <% if(videos.length> 0){ %>
+                        <% videos.forEach(function(elem){ %>
+                            <div class="videoAndTextWrapper d-flex align-items-top gap-2 mb-2 " videoId="<%=elem._id%>">
+
+                                <div class="sm-video-wrapper rounded-2 overflow-hidden">
+                                    <video oncontextmenu="return false;" disablepictureinpicture muted
+                                        controlsList="nofullscreen nodownload noremoteplayback noplaybackrate"></video>
+                                    <img src="<%=elem.thumbnail.secure_url%>" alt="">
+                                </div>
+
+                                <div class="videoTitleAndStats">
+                                    <p class="m-0 fw-semibold ">
+                                        <%=elem.title%>
+                                    </p>
+                                    <div class="sm-video-stats text-muted mt-2">
+                                        <a class="anchorWrap text-light" href="/channel">
+                                            <small class="d-block">
+                                                <%=elem.userId?.channel.channelName%>
+                                            </small>
+                                        </a>
+                                        <small class="listDot">
+                                            <%if(elem.views.length==0){%>
+                                                No views
+                                                <% }else{%>
+                                                    <%=elem.views.length%> Views
+                                                        <% }%>
+                                        </small>
+                                        <small>
+                                            <%=moment(elem.createdAt).fromNow() %>
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="optionsMenu text-light">
+                                    <i class="ri-more-2-line fw-semibold" data-bs-toggle="dropdown"
+                                        aria-expanded="false"></i>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item d-flex align-items-center gap-2"
+                                                href="/addToWatchLater/<%=elem._id%>">
+                                                <i class="ri-time-line"></i>
+                                                <p class="m-0">Save to Watch Later</p>
+                                            </a>
+                                        </li>
+                                        <li class="notOpen">
+                                            <a class="dropdown-item d-flex align-items-center gap-2 notOpen"
+                                                data-bs-toggle="modal" data-bs-target="#playlistModal"
+                                                data-bs-whatever="<%=elem._id%>">
+                                                <i class="ri-play-list-add-line notOpen"></i>
+                                                <p class="m-0 notOpen">Save to Playlist</p>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item d-flex align-items-center gap-2" href="#">
+                                                <i class="ri-share-forward-line"></i>
+                                                <p class="m-0">Share</p>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <% }) %>
+                                <% } %>
+                </div>
+            </div>
+        </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+            crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+        <script src="/javascripts/videoPlayer.js"></script>
+        <script src="/javascripts/playlistPlayer.js"></script>
+</body>
+
+</html>

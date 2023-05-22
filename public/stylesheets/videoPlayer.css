@@ -27,7 +27,7 @@ body {
 }
 
 .right-section {
-  width: 100%;
+  width: 100% !important;
   height: 100%;
   background-color: var(--themeBg);
   overflow-y: scroll;
@@ -38,6 +38,16 @@ body {
 
 .right-section::-webkit-scrollbar {
   width: 10px;
+}
+
+.videoAndTextWrapper {
+  cursor: pointer;
+}
+
+.videoAndTextWrapper:active {
+  background-color: var(--elementActive);
+  border: 0.5px solid white;
+  border-radius: 0.375rem;
 }
 
 .right-section::-webkit-scrollbar-thumb {
@@ -77,6 +87,11 @@ body {
   object-fit: contain;
 }
 
+.videoContainer > video:focus{
+  outline-color: rgba(255, 255, 255, 0.491);
+  outline-style: groove;
+}
+
 /* this is the magic to add thumbnail like thing */
 .videoContainer > img,
 .sm-video-wrapper > img {
@@ -91,7 +106,7 @@ body {
 .profile {
   width: 45px;
   height: 45px;
-  background-color: rgb(0, 255, 208);
+  background-color: #3b3b3b;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -107,9 +122,21 @@ body {
 
 .subscribeBtn {
   padding: 0.4rem 1rem;
+  width: fit-content;
 }
 
 .subscribeBtn:hover {
+  background-color: var(--iconHover) !important;
+  color: white !important;
+}
+
+.subscribedBtn {
+  padding: .4rem 1rem;
+  background-color: var(--iconHover) !important;
+  color: white !important;
+}
+
+.subscribedBtn:hover {
   background-color: var(--iconHover) !important;
   color: white !important;
 }

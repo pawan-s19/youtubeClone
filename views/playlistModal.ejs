@@ -8,6 +8,19 @@
   <title>Document</title>
 </head>
 
+<style>
+.addToPl:hover{
+  background-color: rgb(192, 192, 192);
+  cursor: pointer;
+}
+
+.addToPl:hover ~ a{
+  background-color: rgba(212, 212, 212, 0.521);
+}
+
+
+</style>
+
 <body>
   <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#playlistModal" data-bs-whatever="@getbootstrap">Open modal for @getbootstrap</button> -->
 
@@ -15,26 +28,42 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
+          <h5 class="modal-title fs-3">Save to…</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <a class="mx-3 fs-5 text-black bg-white " id="watchlater" style="text-decoration: none;"  >Add To WatchLater</a>
+        <div class="mx-3 mt-2 addToPl">
+          <a class=" fs-4 text-black " id="watchlater" style="text-decoration: none;" >Add To WatchLater</a>
+        </div>
+        
         <label class="col-form-label mx-3 fs-4">Created Playlists</label>
         <%if(user){%>
           <ul class="playlistShowWrapper">
             <%user.userPlaylist.forEach(function(elem){%>
-            <a class="mx-3 fs-5 text-black bg-white" style="text-decoration: none;" data-bs-plname="<%=elem._id%>"  data-bs-prefix="/addToPlaylist/<%=elem._id%>/" >Add To <%=elem.playListName%></a>
+            <li class="mx-2"><a class=" fs-5 text-black " style="text-decoration: none; cursor: pointer;" data-bs-plname="<%=elem._id%>"  data-bs-prefix="/addToPlaylist/<%=elem._id%>/" >Add To <%=elem.playListName%></a></li>
             <%})%>
          </ul>
         <%}%>
-        <div class="mx-3">
+        <!-- <div class="mx-3">
           <small class="userPlaylists"></small>
-        </div>
+        </div> -->
         <div class="modal-body">
           <form method="post" class="playListForm">
             <div class="mb-3">
               <label for="recipient-name" class="col-form-label fs-4">PlayList Name:</label>
               <input type="text" class="plInp form-control" id="recipient-name" name="playListname"
                 placeholder="Enter PlayList Name">
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="false">
+              <label class="form-check-label" for="flexRadioDefault1">
+                Public
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked value="true">
+              <label class="form-check-label" for="flexRadioDefault2">
+                Private
+              </label>
             </div>
             <button type="submit" class="plsSubmitBtn btn btn-primary">Create</button>
           </form>
@@ -45,4 +74,4 @@
   <script src="/javascripts/playlistModal.js"></script>
 </body>
 
-</html>
+</html

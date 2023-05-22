@@ -1,43 +1,85 @@
+.anchorWrap {
+  text-decoration: none;
+}
+
 .profile {
-    width: 90px;
-    height: 90px;
-    background-color: rgb(0, 255, 208);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+  width: 90px;
+  height: 90px;
+  background-color: #3b3b3b;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
-.profile>img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.profile > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.channelsWrapper{
-    display: flex;
-    flex-wrap: wrap;
+.channelsWrapper {
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.channelBox{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-wrap: nowrap;
-    justify-content: center;
-    gap: .5rem;
-    padding: .2rem .8rem;
-    width: fit-content;
-    border: .5px solid transparent;
+.singleChannelWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
 }
 
-.channelBox:hover{
+.channelBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.2rem 0.8rem;
+  width: fit-content;
+  border: 0.5px solid transparent;
+}
+
+/* .channelBox:hover {
     background-color: var(--iconBackFaded);
+} */
+
+.channelBox:active {
+  background-color: rgba(255, 192, 203, 0.1);
+  border: 0.5px solid white;
+  border-radius: 0.375rem;
 }
 
-.channelBox:active{
-    background-color: rgba(255, 192, 203, 0.1);
-    border: .5px solid white;
-    border-radius: .375rem;
+.showSubscribers {
+  font-size: 0.7rem;
+  color: var(--themeTextGrey);
+}
+
+.subscribeBtn,
+.subscribedBtn {
+  padding: 0.2rem 0.8rem;
+  width: fit-content;
+}
+
+.subscribeBtn > small {
+  font-size: 0.75rem;
+}
+
+.subscribeBtn:hover {
+  background-color: var(--iconHover) !important;
+  color: white !important;
+}
+
+.subscribedBtn {
+  background-color: var(--iconHover) !important;
+  color: white !important;
+}
+
+.subscribedBtn:hover {
+  background-color: var(--iconHover) !important;
+  color: white !important;
 }
