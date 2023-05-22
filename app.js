@@ -7,7 +7,7 @@ var logger = require("morgan");
 const cloudinary = require("cloudinary");
 
 var expressSession = require("express-session");
-
+const MemoryStore = require("memorystore")(expressSession);
 var indexRouter = require("./routes/index");
 var usersRouter = require("./models/userModel");
 const passport = require("passport");
